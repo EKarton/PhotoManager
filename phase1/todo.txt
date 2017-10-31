@@ -1,0 +1,4 @@
+dengzhou : Think and implement a manager that incorporate everything
+(including the UI).
+dengzhou : Communicate with team members to have our own due date for specific
+quests.

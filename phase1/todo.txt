@@ -2,3 +2,5 @@ dengzhou : Think and implement a manager that incorporate everything(including t
 dengzhou : Communicate with team members to have our own due date for specific quests.
 smith244 : will learn javaFX and teach the rest of the team
 smith244 : think about the file structure used to store information
+kartonoe : will think about the possible constraints the program will face.
+kartonoe : will create a Business Requirements document that will outline specifically what the program will do and achieve. 

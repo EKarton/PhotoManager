@@ -1,4 +1,4 @@
-dengzhou : Think and implement a manager that incorporate everything
-(including the UI).
-dengzhou : Communicate with team members to have our own due date for specific
-quests.
+dengzhou : Think and implement a manager that incorporate everything(including the UI).
+dengzhou : Communicate with team members to have our own due date for specific quests.
+smith244 : will learn javaFX and teach the rest of the team
+smith244 : think about the file structure used to store information

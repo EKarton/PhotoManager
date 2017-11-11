@@ -31,8 +31,3 @@
 - Something to note that ^ will work given that the image has not moved to a different directory.
 - The user should be able to rename the file to the older sets of tags AND
   the user should be able to rename the file to its original file name.
-
-
-
-
-

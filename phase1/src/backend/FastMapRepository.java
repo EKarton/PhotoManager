@@ -25,6 +25,9 @@ public class FastMapRepository<K, V> extends Observable implements MapRepository
     public void addItem(K item) {
         if (!itemToTags.containsKey(item)){
             itemToTags.put(item, new ArrayList<V>());
+
+            super.setChanged();
+            super.notifyObservers(item);
         }
     }
 
@@ -70,6 +73,9 @@ public class FastMapRepository<K, V> extends Observable implements MapRepository
                 if (!tagToItems.containsKey(tag))
                     tagToItems.put(tag, new ArrayList<K>());
                 tagToItems.get(tag).add(item);
+
+                super.setChanged();
+                super.notifyObservers(item);
             }
         }
     }
@@ -80,7 +86,7 @@ public class FastMapRepository<K, V> extends Observable implements MapRepository
      * If the item already exist, it will not do anything.
      * If the tag already exist, it will use the pre-existing tag to tag it with the new item.
      * @param item The item to set the tag to
-     * @param tag  The tag
+     * @param tag  The tag to include
      */
     @Override
     public void addItemWithTag(K item, V tag) {
@@ -97,94 +103,186 @@ public class FastMapRepository<K, V> extends Observable implements MapRepository
             if (!tagToItems.containsKey(tag))
                 tagToItems.put(tag, new ArrayList<K>());
             tagToItems.get(tag).add(item);
+
+            super.setChanged();
+            super.notifyObservers(item);
         }
     }
 
     /**
      * Replaces a tag with another tag
-     *
-     * @param oldTag The old tag
-     * @param newTag The new tag
+     * If the original tag does not exist, it will not do anything.
+     * If the new tag already exist, it will not do anything.
+     * @param oldTag The old tag to remove
+     * @param newTag The new tag to replace the old tag
      */
     @Override
     public void replaceTag(V oldTag, V newTag) {
+        if (tagToItems.containsKey(oldTag)){
+            if (!tagToItems.containsKey(newTag)) {
+                // Update the tag key in the dictionary
+                List<K> items = tagToItems.get(oldTag);
+                tagToItems.remove(oldTag);
+                tagToItems.put(newTag, items);
 
+                // Update the items in the dictionary
+                for (K item : items) {
+                    List<V> curTags = itemToTags.get(item);
+                    curTags.remove(oldTag);
+                    curTags.add(newTag);
+                }
+
+                super.setChanged();
+                super.notifyObservers();
+            }
+        }
     }
 
     /**
      * Replaces an item with another item
-     *
-     * @param oldItem The old item
-     * @param newItem The new item
+     * If the old item does not exist it will not do anything.
+     * If the new item already exist, it will not do anything.
+     * @param oldItem The item to remove
+     * @param newItem The new item to replace the removed item
      */
     @Override
     public void replaceItem(K oldItem, K newItem) {
+        if (itemToTags.containsKey(oldItem)) {
+            if (!itemToTags.containsKey(newItem)) {
+                // Update the item in the items dictionary
+                List<V> curTags = itemToTags.get(oldItem);
+                itemToTags.remove(oldItem);
+                itemToTags.put(newItem, curTags);
 
+                // Update the tags in the tags dictionary
+                for (V tag : curTags) {
+                    List<K> curItems = tagToItems.get(tag);
+                    curItems.remove(oldItem);
+                    curItems.add(newItem);
+                }
+
+                super.setChanged();
+                super.notifyObservers();
+            }
+        }
     }
 
     /**
      * Deletes an item from the repository.
-     * If deleting an item cause a tag to be unassociated,
-     * it also deletes the tag in this repository too
-     *
+     * If the item to be deleted does not exist, it will not do anything.
+     * If deleting an item cause a tag to be untagged to any other item,
+     * it also deletes the tag in this repository too.
      * @param item The item to delete from the repository
      */
     @Override
     public void deleteItem(K item) {
+        if (itemToTags.containsKey(item)){
+            // Update the items dictionary
+            List<V> tags = itemToTags.get(item);
+            itemToTags.remove(item);
 
+            // Update the tags dictionary
+            List<V> tagsToDelete = new ArrayList<>();
+            for (V tag : tags){
+                List<K> items = tagToItems.get(tag);
+                if (items.size() == 1)
+                    tagsToDelete.add(tag);
+                items.remove(item);
+            }
+
+            // Remove any tags that are not tagged to any item
+            for (V tag : tagsToDelete)
+                tagToItems.remove(tag);
+
+            // Update the observers about the changes
+            super.setChanged();
+            super.notifyObservers();
+        }
     }
 
     /**
      * Deletes the tag from the repository
-     * It will remove all the tags any item is associated with.
-     *
+     * It will remove the tags from all items it is tagged with.
+     *  If the tag does not exist, it will not do anything.
      * @param tag The tag to delete from the repository
      */
     @Override
     public void deleteTag(V tag) {
+        if (tagToItems.containsKey(tag)){
+            // Delete the tag from the tags dictionary
+            List<K> items = tagToItems.get(tag);
+            tagToItems.remove(tag);
 
+            // Delete the tag from each item
+            for (K item : items)
+                itemToTags.get(item).remove(tag);
+
+            // Notify observers about the changes
+            super.setChanged();
+            super.notifyObservers();
+        }
     }
 
     /**
      * Deletes a tag from an item
-     *
+     * If the item and the tag does not exist, it will not do anything.
+     * If deleting the tag cause the tag to become untagged to any item,
+     * it will delete the tag.
      * @param item The item with the tag
      * @param tag  The tag to remove
      */
     @Override
     public void deleteTagFromItem(K item, V tag) {
+        if (tagToItems.containsKey(tag)){
+            if (itemToTags.containsKey(item)){
+                tagToItems.get(tag).remove(item);
+                itemToTags.get(item).remove(tag);
 
+                if (tagToItems.get(tag).size() == 0)
+                    tagToItems.remove(tag);
+
+                super.setChanged();
+                super.notifyObservers();
+            }
+        }
     }
 
     /**
-     * Deletes all items with that tag
-     *
-     * @param tag The tag
+     * Returns a copy of the mappings
+     * @return A copy of the mappings
      */
     @Override
-    public void deleteItemsWithTag(V tag) {
-
-    }
-
-    /**
-     * Merge two repositories together
-     *
-     * @param repository The repository to merge it with
-     */
-    @Override
-    public void mergeMappings(MapRepository repository) {
-
+    public Map<K, List<V>> getCopyOfMappings() {
+        Map<K, List<V>> mapCopies = new HashMap<>();
+        for (Map.Entry<K, List<V>> pair : itemToTags.entrySet()){
+            K item = pair.getKey();
+            List<V> copyOfTags = new ArrayList<>(pair.getValue());
+            mapCopies.put(item, copyOfTags);
+        }
+        return mapCopies;
     }
 
     @Override
     public String toString() {
-        String output = "";
+        String output = "Item to tags: \n";
         for (Map.Entry<K, List<V>> pair : itemToTags.entrySet()){
             K item = pair.getKey();
             List<V> tags = pair.getValue();
             String curText = item.toString() + " : {";
             for (V tag : tags)
                 curText += tag.toString() + ", ";
+            curText += "}";
+
+            output += curText + "\n";
+        }
+
+        output += "\n\nTag to items: \n";
+        for (Map.Entry<V, List<K>> pair : tagToItems.entrySet()){
+            V tag = pair.getKey();
+            List<K> items = pair.getValue();
+            String curText = tag.toString() + " : {";
+            for (K item : items)
+                curText += item.toString() + ", ";
             curText += "}";
 
             output += curText + "\n";

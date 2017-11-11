@@ -1,6 +1,7 @@
 package backend;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple generic class that stores the mappings between an item and its tags.
@@ -84,14 +85,8 @@ public interface MapRepository<K, V> {
     void deleteTagFromItem(K item, V tag);
 
     /**
-     * Deletes all items with that tag
-     * @param tag The tag
+     * Returns a copy of the mappings
+     * @return A copy of the mappings
      */
-    void deleteItemsWithTag(V tag);
-
-    /**
-     * Merge two repositories together
-     * @param repository The repository to merge it with
-     */
-    void mergeMappings(MapRepository repository);
+    Map<K, List<V>> getCopyOfMappings();
 }

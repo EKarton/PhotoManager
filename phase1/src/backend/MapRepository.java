@@ -2,7 +2,19 @@ package backend;
 
 import java.util.List;
 
+/**
+ * A simple generic class that stores the mappings between an item and its tags.
+ * Note that an item can have multiple tags, but a tag cannot have no item.
+ * @param <K> The item type
+ * @param <V> The tag type
+ */
 public interface MapRepository<K, V> {
+
+    /**
+     * Add an item with no tags
+     * @param item A new item
+     */
+    void addItem(K item);
 
     /**
      * Get a list of items that has a specific tag
@@ -19,23 +31,67 @@ public interface MapRepository<K, V> {
     List<V> getTagsFromItem(K item);
 
     /**
-     * Returns a list of the historical tags of that item
-     * @param item The item
-     * @return A list of all the historical tags of that item
-     */
-    List<V> getHistoricalTagsOfItem(K item);
-
-    /**
-     * Set the tag to a specific item
+     * Add a tag to a specific item
      * @param item The item to set the tag to
      * @param tag The tag
      */
-    void setTagToItem(K item, V tag);
+    void addTagToItem(K item, V tag);
 
     /**
-     * Set an item to a specific tag
+     * Adds an item with a tag
+     * If the tag does not exist, it will add the tag to the repository.
+     * If the item already exist, it will not do anything.
+     * If the tag already exist, it will use the pre-existing tag to tag it with the new item.
      * @param item The item to set the tag to
+     * @param tag  The tag
+     */
+    void addItemWithTag(K item, V tag);
+
+    /**
+     * Replaces a tag with another tag
+     * @param oldTag The old tag
+     * @param newTag The new tag
+     */
+    void replaceTag(V oldTag, V newTag);
+
+    /**
+     * Replaces an item with another item
+     * @param oldItem The old item
+     * @param newItem The new item
+     */
+    void replaceItem(K oldItem, K newItem);
+
+    /**
+     * Deletes an item from the repository.
+     * If deleting an item cause a tag to be unassociated,
+     * it also deletes the tag in this repository too
+     * @param item The item to delete from the repository
+     */
+    void deleteItem(K item);
+
+    /**
+     * Deletes the tag from the repository
+     * It will remove all the tags any item is associated with.
+     * @param tag The tag to delete from the repository
+     */
+    void deleteTag(V tag);
+
+    /**
+     * Deletes a tag from an item
+     * @param item The item with the tag
+     * @param tag The tag to remove
+     */
+    void deleteTagFromItem(K item, V tag);
+
+    /**
+     * Deletes all items with that tag
      * @param tag The tag
      */
-    void setItemToTag(K item, V tag);
+    void deleteItemsWithTag(V tag);
+
+    /**
+     * Merge two repositories together
+     * @param repository The repository to merge it with
+     */
+    void mergeMappings(MapRepository repository);
 }

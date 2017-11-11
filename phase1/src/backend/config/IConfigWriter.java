@@ -1,5 +1,7 @@
 package backend.config;
 
+import backend.MapRepository;
+
 public interface IConfigWriter {
-    public void write(IMap map);
+    public void write(MapRepository map);
 }

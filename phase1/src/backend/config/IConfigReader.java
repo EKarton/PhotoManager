@@ -1,5 +1,7 @@
 package backend.config;
 
+import backend.MapRepository;
+
 public interface IConfigReader {
-    public IMap getMappings();
+    public MapRepository getMappings();
 }

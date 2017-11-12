@@ -1,4 +1,6 @@
 phase1/.idea
 phase1/out
 phase1/*.iml
-/bin/
+phase1/bin/
+phase1/.project
+phase1/.classpath

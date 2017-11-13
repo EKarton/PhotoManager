@@ -16,7 +16,7 @@ public class FileManager {
    * @return the list of files
    * @throws IOException
    */
-  public List<File> getFileList(String directory) throws IOException{
+  public static List<File> getFileList(String directory) throws IOException{
 
     List<File> files = Files.find(Paths.get(directory), Integer.MAX_VALUE,
             (filePath, fileAttr) -> fileAttr.isRegularFile() && fileIsImage(filePath.getFileName().toString()))
@@ -31,7 +31,7 @@ public class FileManager {
    * @param fileName
    * @return
    */
-  private boolean fileIsImage(String fileName) {
+  private static boolean fileIsImage(String fileName) {
     return fileName.matches(".*\\.(png|jpe?g)");
   }
   
@@ -40,7 +40,7 @@ public class FileManager {
    * @param path the path to the image deleted
    * @return true if the image was deleted correctly, false otherwise
    */
-  public boolean deleteFile(String path) {
+  public static boolean deleteFile(String path) {
     File file = new File(path);
     
     if(file.isFile()) {
@@ -55,7 +55,7 @@ public class FileManager {
    * @param path the path of the file
    * @return the file extension of the file with the gien path
    */
-  private String getFileExtension(String path) {
+  private static String getFileExtension(String path) {
     return path.split("\\.")[1];
   }
   
@@ -65,7 +65,7 @@ public class FileManager {
    * @param newName the new name of the file
    * @return true if the name was changed, false otherwise
    */
-  public boolean renameFile(String path, String newName) {
+  public static boolean renameFile(String path, String newName) {
     File file = new File(path);
 
     if(file.isFile()) {
@@ -81,7 +81,7 @@ public class FileManager {
    * @param destination the path of the destination to move the file
    * @return true if the file was moved, false otherwise
    */
-  public boolean moveFile(String path, String destination) {
+  public static boolean moveFile(String path, String destination) {
     File file = new File(path);
     File dest = new File(destination);  // this is done to ensure the proper format of the destination path
     

@@ -1,6 +1,7 @@
-package backend.logger;
+package backend.logger.changeLogs;
 
 import backend.Tag;
+import backend.logger.Log;
 
 /**
  * This represents a change where a tag was added or deleted

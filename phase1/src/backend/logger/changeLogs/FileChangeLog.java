@@ -1,4 +1,6 @@
-package backend.logger;
+package backend.logger.changeLogs;
+
+import backend.logger.Log;
 
 /**
  *This represents a change where a file was renamed, moved or deleted

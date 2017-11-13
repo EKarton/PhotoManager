@@ -17,6 +17,14 @@ public class Picture extends Observable{
 
     /**
      * Creates a new instance of the Picture class
+     * @param fullFilePath The full file path
+     */
+    public Picture(String fullFilePath){
+
+    }
+
+    /**
+     * Creates a new instance of the Picture class
      * @param filePath The file path to this picture (does not include its file name!!)
      * @param name The name to this picture
      */

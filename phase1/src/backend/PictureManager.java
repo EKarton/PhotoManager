@@ -115,6 +115,12 @@ public class PictureManager implements Observer {
         }
     }
 
+    /**
+     * Generate a file name based on its picture
+     * @param picture The picture
+     * @param tags The tags with that picture
+     * @return A new file name for that picture (does not include its file path)
+     */
     private String generateFileName(Picture picture, List<Tag> tags){
         StringBuilder newFileNameBuilder = new StringBuilder(picture.getName());
 

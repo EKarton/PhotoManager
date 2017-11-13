@@ -8,9 +8,11 @@ import java.util.Observable;
 public class Picture extends Observable{
 
     // The file path to this picture (does not include its file name!!)
+    // Ex: C:\Users\Java\Pictures
     private String filePath;
 
-    // The name of the picture (does not include its tag names!!!!)
+    // The name of the picture (does not include its tag names or file extensions!!!!)
+    // Ex: Landscapes
     private String name;
 
     /**

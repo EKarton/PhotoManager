@@ -10,14 +10,14 @@ public class MainTester {
         Picture picture = new Picture("C:\\Users\\wasd.png");
         Tag tag1 = new Tag("Dog");
         Tag tag2 = new Tag("Cat");
-        repo.addItemWithTag(picture, tag1);
-        repo.addTagToItem(picture, tag2);
+        repo.addKeyWithValue(picture, tag1);
+        repo.addValueToKey(picture, tag2);
 
-        Picture picture2 = new Picture("")
+        Picture picture2 = new Picture("");
 
         System.out.println(repo);
 
-        repo.deleteItem(picture);
+        repo.deleteKey(picture);
         System.out.println(repo);
     }
 }

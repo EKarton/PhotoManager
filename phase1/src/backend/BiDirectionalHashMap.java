@@ -5,131 +5,153 @@ import java.util.*;
 /**
  * A fast mapping repository system, with O(1) lookups and O(n) additions / deletions,
  * but consumes a lot of memory.
- * @param <K> The item type
- * @param <V> The tag type
+ * @param <K> The key type
+ * @param <V> The value type
  */
 public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectionalMap<K, V> {
 
-    // Stores the items as keys and the tags as values
-    private Map<K, List<V>> itemToTags = new HashMap<>();
-
-    // Stores the tags as keys and the items as values
-    private Map<V, List<K>> tagToItems = new HashMap<>();
+    /**
+     * Stores the keys as keys and the values as values
+     */
+    private Map<K, List<V>> keysToValues = new HashMap<>();
 
     /**
-     * Add an item with no tags
-     * If the item already exist in the repo, it will not do anything.
-     * @param item A new item
+     * Stores the values as keys and the keys as values
+     */
+    private Map<V, List<K>> valuesToKeys = new HashMap<>();
+
+    /**
+     * Add an key with no value
+     * If the key already exist in the repo, it will not do anything.
+     * @param key A new key
      */
     @Override
-    public void addItem(K item) {
-        if (!itemToTags.containsKey(item)){
-            itemToTags.put(item, new ArrayList<V>());
+    public void addKey(K key) {
+        if (!keysToValues.containsKey(key)){
+            keysToValues.put(key, new ArrayList<V>());
 
             super.setChanged();
-            super.notifyObservers(item);
+            super.notifyObservers(key);
         }
     }
 
     /**
-     * Get a copy of the list of items that has a specific tag.
-     * If it cannot find the tag, it returns null.
-     * @param tag The tag to search for
-     * @return A list of items that has that tag
+     * Get a copy of the list of keys that has a specific value.
+     * If it cannot find the value, it returns null.
+     * @param value The value to search for
+     * @return A list of keys that has that value
      */
     @Override
-    public List<K> getItemsFromTag(V tag) {
-        if (tagToItems.containsKey(tag))
-            return new ArrayList<K>(tagToItems.get(tag));
+    public List<K> getKeysFromValue(V value) {
+        if (valuesToKeys.containsKey(value))
+            return new ArrayList<K>(valuesToKeys.get(value));
         return null;
     }
 
     /**
-     * Get a copy of the list of tags associated with that item
-     * If it cannot find the item, it will return null.
-     * @param item The item
-     * @return The tags with that item
+     * Get a copy of the list of values associated with that key
+     * If it cannot find the key, it will return null.
+     * @param key The key
+     * @return The values with that key
      */
     @Override
-    public List<V> getTagsFromItem(K item) {
-        if (itemToTags.containsKey(item))
-            return new ArrayList<>(itemToTags.get(item));
+    public List<V> getValuesFromKey(K key) {
+        if (keysToValues.containsKey(key))
+            return new ArrayList<>(keysToValues.get(key));
         return null;
     }
 
     /**
-     * Adds a tag to a specific item
-     * If the tag already exist with the item, that tag will not be added
-     * @param item The item to set the tag to
-     * @param tag  The tag
+     * Determines whether a key is in this mapping
+     * @param key A key
+     * @return True if it is in the map; else false
+     */
+    public boolean containsKey(K key){
+        return keysToValues.containsKey(key);
+    }
+
+    /**
+     * Determines whether a value is in this map.
+     * @param value A value
+     * @return True if it is in this map; else false.
+     */
+    public boolean containsValue(V value){
+        return valuesToKeys.containsKey(value);
+    }
+
+    /**
+     * Adds a value to a specific key
+     * If the value already exist with the key, that value will not be added
+     * @param key The key to set the value to
+     * @param value  The value
      */
     @Override
-    public void addTagToItem(K item, V tag) {
-        if (itemToTags.containsKey(item)){
-            List<V> tags = itemToTags.get(item);
-            if (!tags.contains(tag)) {
-                tags.add(tag);
+    public void addValueToKey(K key, V value) {
+        if (keysToValues.containsKey(key)){
+            List<V> values = keysToValues.get(key);
+            if (!values.contains(value)) {
+                values.add(value);
 
-                if (!tagToItems.containsKey(tag))
-                    tagToItems.put(tag, new ArrayList<K>());
-                tagToItems.get(tag).add(item);
+                if (!valuesToKeys.containsKey(value))
+                    valuesToKeys.put(value, new ArrayList<K>());
+                valuesToKeys.get(value).add(key);
 
                 super.setChanged();
-                super.notifyObservers(item);
+                super.notifyObservers(key);
             }
         }
     }
 
     /**
-     * Adds an item with a tag
-     * If the tag does not exist, it will add the tag to the repository.
-     * If the item already exist, it will not do anything.
-     * If the tag already exist, it will use the pre-existing tag to tag it with the new item.
-     * @param item The item to set the tag to
-     * @param tag  The tag to include
+     * Adds an key with a value
+     * If the value does not exist, it will add the value to the repository.
+     * If the key already exist, it will not do anything.
+     * If the value already exist, it will use the pre-existing value to value it with the new key.
+     * @param key The key to set the value to
+     * @param value  The value to include
      */
     @Override
-    public void addItemWithTag(K item, V tag) {
-        if (!itemToTags.containsKey(item)) {
-            itemToTags.put(item, new ArrayList<V>());
+    public void addKeyWithValue(K key, V value) {
+        if (!keysToValues.containsKey(key)) {
+            keysToValues.put(key, new ArrayList<V>());
 
-            // Check if the item already has the tag
-            if (tagToItems.containsKey(tag)){
-                if (tagToItems.get(tag).contains(item))
+            // Check if the key already has the value
+            if (valuesToKeys.containsKey(value)){
+                if (valuesToKeys.get(value).contains(key))
                     return;
             }
 
-            itemToTags.get(item).add(tag);
-            if (!tagToItems.containsKey(tag))
-                tagToItems.put(tag, new ArrayList<K>());
-            tagToItems.get(tag).add(item);
+            keysToValues.get(key).add(value);
+            if (!valuesToKeys.containsKey(value))
+                valuesToKeys.put(value, new ArrayList<K>());
+            valuesToKeys.get(value).add(key);
 
             super.setChanged();
-            super.notifyObservers(item);
+            super.notifyObservers(key);
         }
     }
 
     /**
-     * Replaces a tag with another tag
-     * If the original tag does not exist, it will not do anything.
-     * If the new tag already exist, it will not do anything.
-     * @param oldTag The old tag to remove
-     * @param newTag The new tag to replace the old tag
+     * Replaces a value with another value
+     * If the original value does not exist, it will not do anything.
+     * If the new value already exist, it will not do anything.
+     * @param oldValue The old value to remove
+     * @param newValue The new value to replace the old value
      */
     @Override
-    public void replaceTag(V oldTag, V newTag) {
-        if (tagToItems.containsKey(oldTag)){
-            if (!tagToItems.containsKey(newTag)) {
-                // Update the tag key in the dictionary
-                List<K> items = tagToItems.get(oldTag);
-                tagToItems.remove(oldTag);
-                tagToItems.put(newTag, items);
+    public void replaceValue(V oldValue, V newValue) {
+        if (valuesToKeys.containsKey(oldValue)){
+            if (!valuesToKeys.containsKey(newValue)) {
+                // Update the value key in the dictionary
+                List<K> keys = valuesToKeys.get(oldValue);
+                valuesToKeys.remove(oldValue);
+                valuesToKeys.put(newValue, keys);
 
-                // Update the items in the dictionary
-                for (K item : items) {
-                    List<V> curTags = itemToTags.get(item);
-                    curTags.remove(oldTag);
-                    curTags.add(newTag);
+                // Update the keys in the dictionary
+                for (K key : keys) {
+                    List<V> curvalues = keysToValues.get(key);
+                    curvalues.remove(oldValue);
+                    curvalues.add(newValue);
                 }
 
                 super.setChanged();
@@ -139,26 +161,26 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     }
 
     /**
-     * Replaces an item with another item
-     * If the old item does not exist it will not do anything.
-     * If the new item already exist, it will not do anything.
-     * @param oldItem The item to remove
-     * @param newItem The new item to replace the removed item
+     * Replaces an key with another key
+     * If the old key does not exist it will not do anything.
+     * If the new key already exist, it will not do anything.
+     * @param oldKey The key to remove
+     * @param newKey The new key to replace the removed key
      */
     @Override
-    public void replaceItem(K oldItem, K newItem) {
-        if (itemToTags.containsKey(oldItem)) {
-            if (!itemToTags.containsKey(newItem)) {
-                // Update the item in the items dictionary
-                List<V> curTags = itemToTags.get(oldItem);
-                itemToTags.remove(oldItem);
-                itemToTags.put(newItem, curTags);
+    public void replaceKey(K oldKey, K newKey) {
+        if (keysToValues.containsKey(oldKey)) {
+            if (!keysToValues.containsKey(newKey)) {
+                // Update the key in the keys dictionary
+                List<V> curvalues = keysToValues.get(oldKey);
+                keysToValues.remove(oldKey);
+                keysToValues.put(newKey, curvalues);
 
-                // Update the tags in the tags dictionary
-                for (V tag : curTags) {
-                    List<K> curItems = tagToItems.get(tag);
-                    curItems.remove(oldItem);
-                    curItems.add(newItem);
+                // Update the values in the values dictionary
+                for (V value : curvalues) {
+                    List<K> curkeys = valuesToKeys.get(value);
+                    curkeys.remove(oldKey);
+                    curkeys.add(newKey);
                 }
 
                 super.setChanged();
@@ -168,31 +190,31 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     }
 
     /**
-     * Deletes an item from the repository.
-     * If the item to be deleted does not exist, it will not do anything.
-     * If deleting an item cause a tag to be untagged to any other item,
-     * it also deletes the tag in this repository too.
-     * @param item The item to delete from the repository
+     * Deletes an key from the repository.
+     * If the key to be deleted does not exist, it will not do anything.
+     * If deleting an key cause a value to be unvalueged to any other key,
+     * it also deletes the value in this repository too.
+     * @param key The key to delete from the repository
      */
     @Override
-    public void deleteItem(K item) {
-        if (itemToTags.containsKey(item)){
-            // Update the items dictionary
-            List<V> tags = itemToTags.get(item);
-            itemToTags.remove(item);
+    public void deleteKey(K key) {
+        if (keysToValues.containsKey(key)){
+            // Update the keys dictionary
+            List<V> values = keysToValues.get(key);
+            keysToValues.remove(key);
 
-            // Update the tags dictionary
-            List<V> tagsToDelete = new ArrayList<>();
-            for (V tag : tags){
-                List<K> items = tagToItems.get(tag);
-                if (items.size() == 1)
-                    tagsToDelete.add(tag);
-                items.remove(item);
+            // Update the values dictionary
+            List<V> valuesToDelete = new ArrayList<>();
+            for (V value : values){
+                List<K> keys = valuesToKeys.get(value);
+                if (keys.size() == 1)
+                    valuesToDelete.add(value);
+                keys.remove(key);
             }
 
-            // Remove any tags that are not tagged to any item
-            for (V tag : tagsToDelete)
-                tagToItems.remove(tag);
+            // Remove any values that are not valueged to any key
+            for (V value : valuesToDelete)
+                valuesToKeys.remove(value);
 
             // Update the observers about the changes
             super.setChanged();
@@ -201,21 +223,21 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     }
 
     /**
-     * Deletes the tag from the repository
-     * It will remove the tags from all items it is tagged with.
-     *  If the tag does not exist, it will not do anything.
-     * @param tag The tag to delete from the repository
+     * Deletes the value from the repository
+     * It will remove the values from all keys it is valueged with.
+     *  If the value does not exist, it will not do anything.
+     * @param value The value to delete from the repository
      */
     @Override
-    public void deleteTag(V tag) {
-        if (tagToItems.containsKey(tag)){
-            // Delete the tag from the tags dictionary
-            List<K> items = tagToItems.get(tag);
-            tagToItems.remove(tag);
+    public void deleteValue(V value) {
+        if (valuesToKeys.containsKey(value)){
+            // Delete the value from the values dictionary
+            List<K> keys = valuesToKeys.get(value);
+            valuesToKeys.remove(value);
 
-            // Delete the tag from each item
-            for (K item : items)
-                itemToTags.get(item).remove(tag);
+            // Delete the value from each key
+            for (K key : keys)
+                keysToValues.get(key).remove(value);
 
             // Notify observers about the changes
             super.setChanged();
@@ -224,25 +246,25 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     }
 
     /**
-     * Deletes a tag from an item
-     * If the item and the tag does not exist, it will not do anything.
-     * If deleting the tag cause the tag to become untagged to any item,
-     * it will delete the tag.
-     * @param item The item with the tag
-     * @param tag  The tag to remove
+     * Deletes a value from an key
+     * If the key and the value does not exist, it will not do anything.
+     * If deleting the value cause the value to become unvalueged to any key,
+     * it will delete the value.
+     * @param key The key with the value
+     * @param value  The value to remove
      */
     @Override
-    public void deleteTagFromItem(K item, V tag) {
-        if (tagToItems.containsKey(tag)){
-            if (itemToTags.containsKey(item)){
-                tagToItems.get(tag).remove(item);
-                itemToTags.get(item).remove(tag);
+    public void deleteValueFromKey(K key, V value) {
+        if (valuesToKeys.containsKey(value)){
+            if (keysToValues.containsKey(key)){
+                valuesToKeys.get(value).remove(key);
+                keysToValues.get(key).remove(value);
 
-                if (tagToItems.get(tag).size() == 0)
-                    tagToItems.remove(tag);
+                if (valuesToKeys.get(value).size() == 0)
+                    valuesToKeys.remove(value);
 
                 super.setChanged();
-                super.notifyObservers();
+                super.notifyObservers(value);
             }
         }
     }
@@ -254,35 +276,35 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     @Override
     public Map<K, List<V>> getCopyOfMappings() {
         Map<K, List<V>> mapCopies = new HashMap<>();
-        for (Map.Entry<K, List<V>> pair : itemToTags.entrySet()){
-            K item = pair.getKey();
-            List<V> copyOfTags = new ArrayList<>(pair.getValue());
-            mapCopies.put(item, copyOfTags);
+        for (Map.Entry<K, List<V>> pair : keysToValues.entrySet()){
+            K key = pair.getKey();
+            List<V> copyOfvalues = new ArrayList<>(pair.getValue());
+            mapCopies.put(key, copyOfvalues);
         }
         return mapCopies;
     }
 
     @Override
     public String toString() {
-        String output = "Item to tags: \n";
-        for (Map.Entry<K, List<V>> pair : itemToTags.entrySet()){
-            K item = pair.getKey();
-            List<V> tags = pair.getValue();
-            String curText = item.toString() + " : {";
-            for (V tag : tags)
-                curText += tag.toString() + ", ";
+        String output = "key to values: \n";
+        for (Map.Entry<K, List<V>> pair : keysToValues.entrySet()){
+            K key = pair.getKey();
+            List<V> values = pair.getValue();
+            String curText = key.toString() + " : {";
+            for (V value : values)
+                curText += value.toString() + ", ";
             curText += "}";
 
             output += curText + "\n";
         }
 
-        output += "\n\nTag to items: \n";
-        for (Map.Entry<V, List<K>> pair : tagToItems.entrySet()){
-            V tag = pair.getKey();
-            List<K> items = pair.getValue();
-            String curText = tag.toString() + " : {";
-            for (K item : items)
-                curText += item.toString() + ", ";
+        output += "\n\nvalue to keys: \n";
+        for (Map.Entry<V, List<K>> pair : valuesToKeys.entrySet()){
+            V value = pair.getKey();
+            List<K> keys = pair.getValue();
+            String curText = value.toString() + " : {";
+            for (K key : keys)
+                curText += key.toString() + ", ";
             curText += "}";
 
             output += curText + "\n";

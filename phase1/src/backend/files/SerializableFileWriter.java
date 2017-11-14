@@ -22,10 +22,13 @@ public class SerializableFileWriter implements FileWriter {
    * @throws IOException
    */
   private ObjectOutput createObjectOutput(String path, boolean append) throws IOException {
-    path = new File(path).getCanonicalPath();  // gets the absolute path from the relative path
+    // temporary file object used to get relative path and see if file exists
+    File tempFile = new File(path);
+
+    path = tempFile.getCanonicalPath();  // gets the absolute path from the relative path
     
     // this is true when the file already exists and we want to append to it
-    boolean canAppend = new File(path).exists() && append;
+    boolean canAppend = tempFile.exists() && append;
     
     OutputStream file = new FileOutputStream(path, append);
     OutputStream buffer = new BufferedOutputStream(file);

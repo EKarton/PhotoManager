@@ -2,6 +2,7 @@ package backend.files;
 
 import java.io.BufferedInputStream;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,8 @@ public class SerializableFileReader implements FileReader{
 
   @Override
   public <T> ArrayList<T> readFile(String path) throws ClassNotFoundException, IOException {
+    
+    path = new File(path).getCanonicalPath();  // gets the absolute path from the relative path
 
     InputStream file = new FileInputStream(path);
     InputStream buffer = new BufferedInputStream(file);

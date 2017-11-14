@@ -10,7 +10,7 @@ public interface FileReader {
    * 
    * @param <T> the type of data stored in the file
    * 
-   * @param path the path to the file
+   * @param path the relative path to the file
    * @return list of all data in the file
    * @throws ClassNotFoundException
    * @throws IOException

@@ -16,12 +16,14 @@ public class SerializableFileWriter implements FileWriter {
    * file already exists and the function caller wants to append to it an
    * AppendingObjectOutputStream is returned. Otherwise an ObjectOutputStream is returned.
    * 
-   * @param path the path to the file
+   * @param path the relative path to the file
    * @param append true if you want to append to the file, false otherwise
    * @return the ObjectOutput to be used for writing serial data to the file
    * @throws IOException
    */
   private ObjectOutput createObjectOutput(String path, boolean append) throws IOException {
+    path = new File(path).getCanonicalPath();  // gets the absolute path from the relative path
+    
     // this is true when the file already exists and we want to append to it
     boolean canAppend = new File(path).exists() && append;
     

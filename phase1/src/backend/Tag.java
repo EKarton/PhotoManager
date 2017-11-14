@@ -1,8 +1,9 @@
 package backend;
 
+import java.io.Serializable;
 import java.util.Observable;
 
-public class Tag extends Observable {
+public class Tag extends Observable implements Serializable{
     private String label;
 
     public Tag (String label){

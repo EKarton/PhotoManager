@@ -1,5 +1,6 @@
 package backend;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import java.util.Map;
  * @param <K> The item type
  * @param <V> The tag type
  */
-public interface MapRepository<K, V> {
+public interface MapRepository<K, V> extends Serializable{
 
     /**
      * Add an item with no tags

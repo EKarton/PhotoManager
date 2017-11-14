@@ -1,11 +1,12 @@
 package backend;
 
+import java.io.Serializable;
 import java.util.Observable;
 
 /**
  * A class used to represent a picture
  */
-public class Picture extends Observable{
+public class Picture extends Observable implements Serializable{
 
     // The file path to this picture (does not include its file name!!)
     // Ex: C:\Users\Java\Pictures

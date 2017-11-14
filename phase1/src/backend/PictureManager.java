@@ -12,6 +12,7 @@ import java.util.Observer;
  */
 public class PictureManager implements Observer {
 
+    // Used to store the mappings of the pictures to the tags
     private MapRepository<Picture, Tag> mapRepository;
 
     /**
@@ -38,13 +39,7 @@ public class PictureManager implements Observer {
         // Parse the pictures by getting its names and tags
         for (File picture : pictures){
             String[] tokenizeFileName = picture.getName().split("@");
-            String filePath = picture.getCanonicalPath();
-
-            // Capture the file name and make a new item
-            String fileName = "";
-            if (tokenizeFileName.length > 0)
-                fileName = tokenizeFileName[0];
-            Picture newPic = new Picture(filePath, fileName);
+            Picture newPic = new Picture(picture.getAbsolutePath());
             mapRepository.addItem(newPic);
 
             // Track the item
@@ -84,14 +79,8 @@ public class PictureManager implements Observer {
             Picture oldPicture = (Picture) arg;
 
             // If the directory path changed
-            if (!oldPicture.getFilePath().equals(picture.getFilePath()))
-                manager.moveFile(oldPicture.getFilePath(), picture.getFilePath());
-
-            // If the name changed
-            if (!oldPicture.getName().equals(picture.getName())){
-                List<Tag> tags = mapRepository.getTagsFromItem(picture);
-                manager.renameFile(picture.getFilePath(), generateFileName(picture, tags));
-            }
+            if (!oldPicture.getAbsolutePath().equals(picture.getAbsolutePath()))
+                manager.moveFile(oldPicture.getAbsolutePath(), picture.getAbsolutePath());
         }
 
         // If there was a change with the tag
@@ -107,11 +96,10 @@ public class PictureManager implements Observer {
                 for (Picture pic : pictures){
                     List<Tag> tags = mapRepository.getTagsFromItem(pic);
 
-                    manager.renameFile(pic.getFilePath(), generateFileName(pic, tags));
+                    manager.renameFile(pic.getAbsolutePath(), generateAbsolutePath(pic, tags));
                 }
             }
         }
-        //update config files
     }
 
     /**
@@ -120,8 +108,9 @@ public class PictureManager implements Observer {
      * @param tags The tags with that picture
      * @return A new file name for that picture (does not include its file path)
      */
-    private String generateFileName(Picture picture, List<Tag> tags){
-        StringBuilder newFileNameBuilder = new StringBuilder(picture.getName());
+    private String generateAbsolutePath(Picture picture, List<Tag> tags){
+        StringBuilder newFileNameBuilder = new StringBuilder(picture.getDirectoryPath());
+        newFileNameBuilder.append(picture.getTaglessName());
 
         for (Tag tag : tags)
             newFileNameBuilder.append(" @").append(tag.getLabel());

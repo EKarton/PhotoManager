@@ -1,85 +1,132 @@
 package backend;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Observable;
 
 /**
- * A class used to represent a picture
+ * A class used to represent a picture in the IO level
  */
 public class Picture extends Observable implements Serializable{
 
-    // The file path to this picture (does not include its file name!!)
-    // Ex: C:\Users\Java\Pictures
-    private String filePath;
+    // The absolute path to the picture, i.e,
+    // contains the parent directory and the full file name
+    private String absolutePath;
 
-    // The name of the picture (does not include its tag names or file extensions!!!!)
-    // Ex: Landscapes
-    private String name;
+    // The directory path to the picture, i.e,
+    // it is the absolute path without the full file name.
+    private String directoryPath;
+
+    // The file name, with the tag names in them
+    private String fullFileName;
+
+    // The file name, without the tag names.
+    private String taglessName;
 
     /**
-     * Creates a new instance of the Picture class
-     * @param fullFilePath The full file path
+     * Creates an instance of Picture
+     * @param absolutePath The absolute path to the Picture
      */
-    public Picture(String fullFilePath){
-
+    public Picture(String absolutePath){
+        setObjectProperties(absolutePath);
     }
 
     /**
-     * Creates a new instance of the Picture class
-     * @param filePath The file path to this picture (does not include its file name!!)
-     * @param name The name to this picture
+     * Get the absolute path to the picture
+     * @return The absolute path to the picture
      */
-    public Picture(String filePath, String name){
-        this.filePath = filePath;
-        this.name = name;
+    public String getAbsolutePath(){
+        return this.absolutePath;
     }
 
     /**
-     * Returns the file path to this picture (does not include its file name!!)
-     * @return The file path to this picture
+     * Get the directory path to the picture
+     * @return The directory path to the picture
      */
-    public String getFilePath(){
-        return filePath;
+    public String getDirectoryPath(){
+        return this.directoryPath;
     }
 
     /**
-     * Returns the file name of this picture (does not include its tag names!!)
-     * @return The name of this picture
+     * Get the full file name of this picture, including its tags.
+     * @return The full file name of this picture.
      */
-    public String getName(){
-        return name;
+    public String getFullFileName(){
+        return this.fullFileName;
     }
 
     /**
-     * Set the file path of this picture
-     * Pre-condition: it should not contain its file name
-     * @param filePath The absolute path to this file
+     * Get the name of this picture without the tags
+     * @return The name of this picture without the tags
      */
-    public void setFilePath(String filePath){
-        String oldFilePath = this.filePath;
-        this.filePath = filePath;
-        this.setChanged();
-        this.notifyObservers(new Picture(oldFilePath, name));
+    public String getTaglessName(){
+        return this.taglessName;
     }
 
     /**
-     * Set the file name of this picture
-     * Pre-condition: it should not contain its file path
-     * @param name The name of this picture
+     * Set the absolute path, directory path, tagless name, and full file name
+     * of this object
+     * @param absolutePath The absolute path to this picture
      */
-    public void setImageName(String name){
-        String oldImageName = this.name;
-        this.name = name;
-        this.setChanged();
-        this.notifyObservers(new Picture(filePath, oldImageName));
+    private void setObjectProperties(String absolutePath){
+        this.absolutePath = absolutePath;
+        File file = new File(absolutePath);
+
+        this.directoryPath = file.getParent();
+        this.fullFileName = file.getName();
+
+        String[] nameParts = fullFileName.split("@");
+        this.taglessName = "";
+        if (nameParts.length >= 1)
+            this.taglessName = nameParts[0];
     }
 
     /**
-     * Returns a string representation of this picture
-     * @return The picture
+     * Set the absolute path of this picture
+     * It will notify all the observers that it has changed.
+     * It will send a copy of its old Picture instance to the observers.
+     * @param absolutePath The new absolute path to this picture
      */
-    @Override
-    public String toString(){
-        return "Path: " + filePath + " | Name: " + name;
+    public void setAbsolutePath(String absolutePath){
+        String oldAbsolutePath = this.absolutePath;
+        setObjectProperties(absolutePath);
+
+        super.setChanged();
+        super.notifyObservers(new Picture(oldAbsolutePath));
+    }
+
+    /**
+     * Set the directory path of this picture
+     * It will notify all the observers that it has changed.
+     * It will send a copy of its old Picture instance to the observers
+     * @param directoryPath The new directory path to this picture.
+     */
+    public void setDirectoryPath(String directoryPath){
+        String oldAbsolutePath = this.absolutePath;
+        this.directoryPath = directoryPath;
+        this.absolutePath = this.directoryPath + "//" + this.fullFileName;
+
+        super.setChanged();
+        super.notifyObservers(new Picture(oldAbsolutePath));
+    }
+
+    /**
+     * Set the tagless name of this picture.
+     * It will notify all the observers that it has changed.
+     * It will send a copy of its old Picture instance to the observers
+     * @param taglessName The new tagless name of this picture.
+     */
+    public void setTaglessName(String taglessName){
+        String oldAbsolutePath = this.absolutePath;
+        StringBuilder tags = new StringBuilder();
+        String[] nameParts = fullFileName.split("@");
+        for (int i = 1; i < nameParts.length; i++)
+            tags.append(" @").append(nameParts[i]);
+
+        this.fullFileName = taglessName + tags.toString();
+        this.absolutePath = this.directoryPath + "//" + this.fullFileName;
+
+        super.setChanged();
+        super.notifyObservers(new Picture(oldAbsolutePath));
     }
 }

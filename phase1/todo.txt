@@ -5,3 +5,7 @@ smith244 : think about the file structure used to store information
 kartonoe : will think about the possible constraints the program will face.
 kartonoe : will create a Business Requirements document that will outline specifically what the program will do and achieve. 
 dengzhou : Will implement I/O 
+smith244 : Write file management code to move, rename and delete files
+smith244 : Create some serializable classes to represent different types of logs
+smith244 : Write code to read and write to serial files
+smith244 : Create the gui

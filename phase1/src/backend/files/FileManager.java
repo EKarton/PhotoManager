@@ -83,10 +83,9 @@ public class FileManager {
    */
   public boolean moveFile(String path, String destination) {
     File file = new File(path);
-    File dest = new File(destination);  // this is done to ensure the proper format of the destination path
     
     if(file.isFile()) {
-      return file.renameTo(new File(dest.getAbsolutePath() + "/" +  file.getName()));
+      return file.renameTo(new File(destination, file.getName()));
     }
     
     return false;

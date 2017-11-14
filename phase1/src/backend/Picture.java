@@ -9,18 +9,26 @@ import java.util.Observable;
  */
 public class Picture extends Observable implements Serializable{
 
-    // The absolute path to the picture, i.e,
-    // contains the parent directory and the full file name
+    /**
+     * The absolute path to the picture, i.e,
+     * contains the parent directory and the full file name
+     */
     private String absolutePath;
 
-    // The directory path to the picture, i.e,
-    // it is the absolute path without the full file name.
+    /**
+     * The directory path to the picture, i.e,
+     * it is the absolute path without the full file name.
+     */
     private String directoryPath;
 
-    // The file name, with the tag names in them
+    /**
+     * The file name, with the tag names in them
+     */
     private String fullFileName;
 
-    // The file name, without the tag names.
+    /**
+     * The file name, without the tag names.
+     */
     private String taglessName;
 
     /**

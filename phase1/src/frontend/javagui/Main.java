@@ -4,6 +4,7 @@ import backend.FastMapRepository;
 import backend.MapRepository;
 import backend.Picture;
 import backend.Tag;
+import backend.logger.Logger;
 
 public class Main {
     public static void main(String[] args){

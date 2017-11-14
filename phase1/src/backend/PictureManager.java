@@ -1,8 +1,6 @@
 package backend;
 
 import backend.files.FileManager;
-
-import javax.sql.PooledConnection;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -113,6 +111,7 @@ public class PictureManager implements Observer {
                 }
             }
         }
+        //update config files
     }
 
     /**

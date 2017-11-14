@@ -137,4 +137,9 @@ public class Picture extends Observable implements Serializable{
         super.setChanged();
         super.notifyObservers(new Picture(oldAbsolutePath));
     }
+
+    @Override
+    public String toString(){
+        return "Abs path: " + absolutePath;
+    }
 }

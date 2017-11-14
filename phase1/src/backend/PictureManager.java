@@ -13,15 +13,15 @@ import java.util.Observer;
 public class PictureManager implements Observer {
 
     // Used to store the mappings of the pictures to the tags
-    private MapRepository<Picture, Tag> mapRepository;
+    private BiDirectionalMap<Picture, Tag> biDirectionalMap;
 
     /**
      * Creates a new instance of a PictureManager with an
-     * initial Picture/Tag mappings in a MapRepository
+     * initial Picture/Tag mappings in a BiDirectionalMap
      * @param repository The repository containing the Picture-tag mappings
      */
-    public PictureManager(MapRepository<Picture, Tag> repository){
-        mapRepository = repository;
+    public PictureManager(BiDirectionalMap<Picture, Tag> repository){
+        biDirectionalMap = repository;
     }
 
     /**
@@ -34,13 +34,13 @@ public class PictureManager implements Observer {
         FileManager manager = new FileManager();
         List<File> pictures = manager.getFileList(directoryPath);
 
-        mapRepository = new FastMapRepository<Picture, Tag>();
+        biDirectionalMap = new BiDirectionalHashMap<Picture, Tag>();
 
         // Parse the pictures by getting its names and tags
         for (File picture : pictures){
             String[] tokenizeFileName = picture.getName().split("@");
             Picture newPic = new Picture(picture.getAbsolutePath());
-            mapRepository.addItem(newPic);
+            biDirectionalMap.addItem(newPic);
 
             // Track the item
             newPic.addObserver(this);
@@ -48,7 +48,7 @@ public class PictureManager implements Observer {
             for (int i = 1; i < tokenizeFileName.length; i++){
                 String tagName = tokenizeFileName[i];
                 Tag newTag = new Tag(tagName);
-                mapRepository.addTagToItem(newPic, newTag);
+                biDirectionalMap.addTagToItem(newPic, newTag);
 
                 // Track the tag
                 newTag.addObserver(this);
@@ -60,8 +60,8 @@ public class PictureManager implements Observer {
      * Returns the map repository used in this PictureManager
      * @return The map repository used in this PictureManager
      */
-    public MapRepository<Picture, Tag> getMapRepository() {
-        return mapRepository;
+    public BiDirectionalMap<Picture, Tag> getBiDirectionalMap() {
+        return biDirectionalMap;
     }
 
     public List<Tag> getHistoricalTagsOfPicture(Picture picture){
@@ -90,11 +90,11 @@ public class PictureManager implements Observer {
 
             // If the tag name has been changed
             if (!newTag.getLabel().equals(oldTag.getLabel())){
-                List<Picture> pictures = mapRepository.getItemsFromTag(newTag);
+                List<Picture> pictures = biDirectionalMap.getItemsFromTag(newTag);
 
                 // Rename each pic that has that tag
                 for (Picture pic : pictures){
-                    List<Tag> tags = mapRepository.getTagsFromItem(pic);
+                    List<Tag> tags = biDirectionalMap.getTagsFromItem(pic);
 
                     manager.renameFile(pic.getAbsolutePath(), generateAbsolutePath(pic, tags));
                 }

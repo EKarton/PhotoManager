@@ -1,17 +1,18 @@
 package backend.logger.configLogs;
 
 import java.io.*;
-import backend.MapRepository;
+
+import backend.BiDirectionalMap;
 import backend.Picture;
 import backend.Tag;
 
 public class ConfigMap {
-  private MapRepository<Picture, Tag> mapRepository;
+  private BiDirectionalMap<Picture, Tag> biDirectionalMap;
 
   public ConfigMap() {}
 
-  public void setMapRepository(MapRepository<Picture, Tag> mapRepository) {
-    this.mapRepository = mapRepository;
+  public void setBiDirectionalMap(BiDirectionalMap<Picture, Tag> biDirectionalMap) {
+    this.biDirectionalMap = biDirectionalMap;
   }
   
   /**
@@ -21,7 +22,7 @@ public class ConfigMap {
     try {
       FileOutputStream config = new FileOutputStream("/config.log");
       ObjectOutputStream configFile = new ObjectOutputStream(config);
-      configFile.writeObject(this.mapRepository);
+      configFile.writeObject(this.biDirectionalMap);
       configFile.close();
       config.close();
     } catch (IOException i) {

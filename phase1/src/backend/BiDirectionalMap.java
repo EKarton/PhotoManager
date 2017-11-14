@@ -10,7 +10,7 @@ import java.util.Map;
  * @param <K> The item type
  * @param <V> The tag type
  */
-public interface MapRepository<K, V> extends Serializable{
+public interface BiDirectionalMap<K, V> extends Serializable{
 
     /**
      * Add an item with no tags

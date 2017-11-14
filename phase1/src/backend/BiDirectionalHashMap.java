@@ -8,7 +8,7 @@ import java.util.*;
  * @param <K> The item type
  * @param <V> The tag type
  */
-public class FastMapRepository<K, V> extends Observable implements MapRepository<K, V>{
+public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectionalMap<K, V> {
 
     // Stores the items as keys and the tags as values
     private Map<K, List<V>> itemToTags = new HashMap<>();

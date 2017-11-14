@@ -5,19 +5,19 @@ import backend.logger.Log;
 /**
  *This represents a change where a file was renamed, moved or deleted
  */
-public class FileChangeLog extends Log{
+public class PicChangeLog extends Log{
   private String originalPath;
   private String newPath;
   private boolean delete;
   
-  public FileChangeLog(String originalPath, String newPath) {
+  public PicChangeLog(String originalPath, String newPath) {
     super();
     this.originalPath = originalPath;
     this.newPath = newPath;
     this.delete = false;
   }
   
-  public FileChangeLog(String orignalPath) {
+  public PicChangeLog(String orignalPath) {
     this.delete = true;
   }
   

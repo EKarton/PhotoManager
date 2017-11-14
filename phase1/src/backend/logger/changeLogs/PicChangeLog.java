@@ -8,14 +8,14 @@ import backend.logger.Log;
 public class PicChangeLog extends Log {
   private String originalPath;
   private String newPath;
+  private boolean nameChange;
 
-  public PicChangeLog(String originalPath, String newPath) {
+  public PicChangeLog(String originalPath, String newPath, boolean nameChange) {
     super();
     this.originalPath = originalPath;
     this.newPath = newPath;
+    this.nameChange = nameChange;
   }
-
-  public PicChangeLog(String orignalPath) {}
 
   public String getOriginalPath() {
     return this.originalPath;
@@ -23,5 +23,9 @@ public class PicChangeLog extends Log {
 
   public String getNewPath() {
     return this.newPath;
+  }
+
+  public boolean isNameChange() {
+    return nameChange;
   }
 }

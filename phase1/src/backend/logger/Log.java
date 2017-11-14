@@ -8,7 +8,7 @@ import java.util.Calendar;
 /**
  * This is an entry in the log
  */
-public class Log implements Serializable{
+public abstract class Log implements Serializable{
 
   /** This is the time stamp */
   private String timeStamp;  

@@ -40,7 +40,7 @@ public class PictureManager implements Observer {
         for (File picture : pictures){
             String[] tokenizeFileName = picture.getName().split("@");
             Picture newPic = new Picture(picture.getAbsolutePath());
-            biDirectionalMap.addItem(newPic);
+            biDirectionalMap.addKey(newPic);
 
             // Track the item
             newPic.addObserver(this);
@@ -48,7 +48,7 @@ public class PictureManager implements Observer {
             for (int i = 1; i < tokenizeFileName.length; i++){
                 String tagName = tokenizeFileName[i];
                 Tag newTag = new Tag(tagName);
-                biDirectionalMap.addTagToItem(newPic, newTag);
+                biDirectionalMap.addValueToKey(newPic, newTag);
 
                 // Track the tag
                 newTag.addObserver(this);
@@ -90,11 +90,11 @@ public class PictureManager implements Observer {
 
             // If the tag name has been changed
             if (!newTag.getLabel().equals(oldTag.getLabel())){
-                List<Picture> pictures = biDirectionalMap.getItemsFromTag(newTag);
+                List<Picture> pictures = biDirectionalMap.getKeysFromValue(newTag);
 
                 // Rename each pic that has that tag
                 for (Picture pic : pictures){
-                    List<Tag> tags = biDirectionalMap.getTagsFromItem(pic);
+                    List<Tag> tags = biDirectionalMap.getValuesFromKey(pic);
 
                     manager.renameFile(pic.getAbsolutePath(), generateAbsolutePath(pic, tags));
                 }

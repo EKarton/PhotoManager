@@ -15,7 +15,7 @@ public class ConfigMap {
   }
   
   /**
-   *  
+   *  write the mapRepo as our configuration file so we can use it to initialize the program when opened.
    */
   public void writeConig() {
     try {

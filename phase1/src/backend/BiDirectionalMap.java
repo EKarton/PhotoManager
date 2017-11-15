@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 /**
  * A simple generic class that stores the mappings between a key and its values.
@@ -12,7 +13,7 @@ import java.util.Map;
  * @param <K> The key type
  * @param <V> The value type
  */
-public interface BiDirectionalMap<K, V> extends Serializable{
+public interface BiDirectionalMap<K, V> extends Serializable {
 
     /**
      * Add an key with no value
@@ -20,6 +21,20 @@ public interface BiDirectionalMap<K, V> extends Serializable{
      * @param key A new key
      */
     void addKey(K key);
+
+    /**
+     * Get a list of keys stored in this map.
+     * Note: they are not in order.
+     * @return A list of keys stored in this map.
+     */
+    List<K> getKeys();
+
+    /**
+     * Get a list of values stored in this map.
+     * Note: they are not in order.
+     * @return A list of keys stored in this map.
+     */
+    List<V> getValues();
 
     /**
      * Get a copy of the list of keys that has a specific value.
@@ -95,4 +110,6 @@ public interface BiDirectionalMap<K, V> extends Serializable{
      * @param value  The value to remove
      */
     void deleteValueFromKey(K key, V value);
+
+    BiDirectionalMap<K, V> getClone();
 }

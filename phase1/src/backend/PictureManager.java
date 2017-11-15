@@ -103,7 +103,10 @@ public class PictureManager implements Observer {
             for (Picture pic : pictures){
                 List<Tag> tags = map.getValuesFromKey(pic);
 
-                manager.renameFile(pic.getAbsolutePath(), generateAbsolutePath(pic, tags));
+                String newAbsolutePath = generateAbsolutePath(pic, tags);
+                pic.setAbsolutePath(newAbsolutePath);
+
+                manager.renameFile(pic.getAbsolutePath(), newAbsolutePath);
             }
         }
     }

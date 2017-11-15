@@ -20,7 +20,8 @@ public class ActionEventController {
   }
 
   public void addImage(ActionEvent e) {
-    System.out.println("Add Image");
+    File file = this.view.openFileChooser(this.view.getMainStage());
+    System.out.println(file);
   }
 
   public void addDirectory(ActionEvent e) {

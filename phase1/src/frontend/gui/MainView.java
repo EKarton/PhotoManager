@@ -1,6 +1,7 @@
 package frontend.gui;
 
 import java.io.File;
+import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -8,6 +9,8 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MainView extends Application {
@@ -93,6 +96,17 @@ public class MainView extends Application {
     DirectoryChooser dirChooser = new DirectoryChooser();
     dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     File file = dirChooser.showDialog(mainStage);
+    return file;
+  }
+  
+  public File openFileChooser(Stage mainStage) {
+    FileChooser fileChooser = new FileChooser();
+
+    fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    fileChooser.getExtensionFilters().add(new ExtensionFilter("Images", "*jpg", "*.jpeg", "*.png"));
+    
+    File file = fileChooser.showOpenDialog(mainStage);
+    
     return file;
   }
   

@@ -39,6 +39,26 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     }
 
     /**
+     * Get a list of keys stored in this map.
+     * Note: they are not in order.
+     * @return A list of keys stored in this map.
+     */
+    @Override
+    public List<K> getKeys() {
+        return new ArrayList<K>(keysToValues.keySet());
+    }
+
+    /**
+     * Get a list of values stored in this map.
+     * Note: they are not in order.
+     * @return A list of keys stored in this map.
+     */
+    @Override
+    public List<V> getValues() {
+        return new ArrayList<V>(valuesToKeys.keySet());
+    }
+
+    /**
      * Get a copy of the list of keys that has a specific value.
      * If it cannot find the value, it returns null.
      * @param value The value to search for

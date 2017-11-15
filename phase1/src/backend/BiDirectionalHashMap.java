@@ -1,5 +1,7 @@
 package backend;
 
+import com.sun.deploy.util.ArrayUtil;
+
 import java.util.*;
 
 /**
@@ -13,12 +15,12 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     /**
      * Stores the keys as keys and the values as values
      */
-    private Map<K, List<V>> keysToValues = new HashMap<>();
+    private Map<K, ArrayList<V>> keysToValues = new HashMap<>();
 
     /**
      * Stores the values as keys and the keys as values
      */
-    private Map<V, List<K>> valuesToKeys = new HashMap<>();
+    private Map<V, ArrayList<K>> valuesToKeys = new HashMap<>();
 
     /**
      * Add an key with no value
@@ -30,8 +32,11 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
         if (!keysToValues.containsKey(key)){
             keysToValues.put(key, new ArrayList<V>());
 
+            Map<K, ArrayList<V>> map = new HashMap<>();
+            map.put(key, new ArrayList<V>());
+
             super.setChanged();
-            super.notifyObservers(key);
+            super.notifyObservers(map);
         }
     }
 
@@ -88,8 +93,12 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     @Override
     public void addValueToKey(K key, V value) {
         if (keysToValues.containsKey(key)){
-            List<V> values = keysToValues.get(key);
+            ArrayList<V> values = keysToValues.get(key);
             if (!values.contains(value)) {
+
+                Map<K, List<V>> oldMap = new HashMap<>();
+                oldMap.put(key, values);
+
                 values.add(value);
 
                 if (!valuesToKeys.containsKey(value))
@@ -97,7 +106,7 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
                 valuesToKeys.get(value).add(key);
 
                 super.setChanged();
-                super.notifyObservers(key);
+                super.notifyObservers(oldMap);
             }
         }
     }
@@ -107,6 +116,7 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
      * If the value does not exist, it will add the value to the repository.
      * If the key already exist, it will not do anything.
      * If the value already exist, it will use the pre-existing value to value it with the new key.
+     * It will notify the observers
      * @param key The key to set the value to
      * @param value  The value to include
      */
@@ -114,6 +124,9 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     public void addKeyWithValue(K key, V value) {
         if (!keysToValues.containsKey(key)) {
             keysToValues.put(key, new ArrayList<V>());
+
+            Map<K, List<V>> oldMap = new HashMap<>();
+            oldMap.put(key, new ArrayList<V>());
 
             // Check if the key already has the value
             if (valuesToKeys.containsKey(value)){
@@ -127,80 +140,30 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
             valuesToKeys.get(value).add(key);
 
             super.setChanged();
-            super.notifyObservers(key);
-        }
-    }
-
-    /**
-     * Replaces a value with another value
-     * If the original value does not exist, it will not do anything.
-     * If the new value already exist, it will not do anything.
-     * @param oldValue The old value to remove
-     * @param newValue The new value to replace the old value
-     */
-    @Override
-    public void replaceValue(V oldValue, V newValue) {
-        if (valuesToKeys.containsKey(oldValue)){
-            if (!valuesToKeys.containsKey(newValue)) {
-                // Update the value key in the dictionary
-                List<K> keys = valuesToKeys.get(oldValue);
-                valuesToKeys.remove(oldValue);
-                valuesToKeys.put(newValue, keys);
-
-                // Update the keys in the dictionary
-                for (K key : keys) {
-                    List<V> curvalues = keysToValues.get(key);
-                    curvalues.remove(oldValue);
-                    curvalues.add(newValue);
-                }
-
-                super.setChanged();
-                super.notifyObservers();
-            }
-        }
-    }
-
-    /**
-     * Replaces an key with another key
-     * If the old key does not exist it will not do anything.
-     * If the new key already exist, it will not do anything.
-     * @param oldKey The key to remove
-     * @param newKey The new key to replace the removed key
-     */
-    @Override
-    public void replaceKey(K oldKey, K newKey) {
-        if (keysToValues.containsKey(oldKey)) {
-            if (!keysToValues.containsKey(newKey)) {
-                // Update the key in the keys dictionary
-                List<V> curvalues = keysToValues.get(oldKey);
-                keysToValues.remove(oldKey);
-                keysToValues.put(newKey, curvalues);
-
-                // Update the values in the values dictionary
-                for (V value : curvalues) {
-                    List<K> curkeys = valuesToKeys.get(value);
-                    curkeys.remove(oldKey);
-                    curkeys.add(newKey);
-                }
-
-                super.setChanged();
-                super.notifyObservers();
-            }
+            super.notifyObservers(oldMap);
         }
     }
 
     /**
      * Deletes an key from the repository.
      * If the key to be deleted does not exist, it will not do anything.
-     * If deleting an key cause a value to be unvalueged to any other key,
+     * If deleting an key cause a value to be unmapped to any other key,
      * it also deletes the value in this repository too.
+     * It will also notify the observer the key that has been deleted
      * @param key The key to delete from the repository
      */
     @Override
     public void deleteKey(K key) {
         if (keysToValues.containsKey(key)){
+
+            // Make a copy of its values
+            ArrayList<V> oldValues = new ArrayList<>(keysToValues.get(key));
+            Map<K, ArrayList<V>> oldMap = new HashMap<>();
+            oldMap.put(key, oldValues);
+
+
             // Update the keys dictionary
-            List<V> values = keysToValues.get(key);
+            ArrayList<V> values = keysToValues.get(key);
             keysToValues.remove(key);
 
             // Update the values dictionary
@@ -218,21 +181,31 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
 
             // Update the observers about the changes
             super.setChanged();
-            super.notifyObservers();
+            super.notifyObservers(oldMap);
         }
     }
 
     /**
      * Deletes the value from the repository
-     * It will remove the values from all keys it is valueged with.
+     * It will remove the values from all keys it is changed with.
      *  If the value does not exist, it will not do anything.
+     *  It will notify the observers, sending the observers
+     *  a dictionary of {key:values} that were affected.
      * @param value The value to delete from the repository
      */
     @Override
     public void deleteValue(V value) {
         if (valuesToKeys.containsKey(value)){
+
+            // Get a copy of the keys that were affected
+            ArrayList<K> keys = valuesToKeys.get(value);
+
+            // Get the keys:values that were affected.
+            Map<K, ArrayList<V>> affectedKeys = new HashMap<>();
+            for (K key : keys)
+                affectedKeys.put(key, new ArrayList<V>(keysToValues.get(key)));
+
             // Delete the value from the values dictionary
-            List<K> keys = valuesToKeys.get(value);
             valuesToKeys.remove(value);
 
             // Delete the value from each key
@@ -241,15 +214,16 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
 
             // Notify observers about the changes
             super.setChanged();
-            super.notifyObservers();
+            super.notifyObservers(affectedKeys);
         }
     }
 
     /**
      * Deletes a value from an key
      * If the key and the value does not exist, it will not do anything.
-     * If deleting the value cause the value to become unvalueged to any key,
+     * If deleting the value cause the value to become unmapped to any key,
      * it will delete the value.
+     * It will notify the observer, by returning a {key:value} which was affected.
      * @param key The key with the value
      * @param value  The value to remove
      */
@@ -257,6 +231,10 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
     public void deleteValueFromKey(K key, V value) {
         if (valuesToKeys.containsKey(value)){
             if (keysToValues.containsKey(key)){
+
+                Map<K, V> affectedPair = new HashMap<>();
+                affectedPair.put(key, value);
+
                 valuesToKeys.get(value).remove(key);
                 keysToValues.get(key).remove(value);
 
@@ -264,30 +242,24 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
                     valuesToKeys.remove(value);
 
                 super.setChanged();
-                super.notifyObservers(value);
+                super.notifyObservers(affectedPair);
             }
         }
     }
 
-    /**
-     * Returns a copy of the mappings
-     * @return A copy of the mappings
-     */
-    @Override
-    public Map<K, List<V>> getCopyOfMappings() {
-        Map<K, List<V>> mapCopies = new HashMap<>();
-        for (Map.Entry<K, List<V>> pair : keysToValues.entrySet()){
-            K key = pair.getKey();
-            List<V> copyOfvalues = new ArrayList<>(pair.getValue());
-            mapCopies.put(key, copyOfvalues);
+    public BiDirectionalMap<K, V> getClone(){
+        BiDirectionalMap<K, V> copy = new BiDirectionalHashMap<>();
+        for (Map.Entry<K, ArrayList<V>> pair : keysToValues.entrySet()){
+            for (V value : pair.getValue())
+                copy.addKeyWithValue(pair.getKey(), value);
         }
-        return mapCopies;
+        return copy;
     }
 
     @Override
     public String toString() {
         String output = "key to values: \n";
-        for (Map.Entry<K, List<V>> pair : keysToValues.entrySet()){
+        for (Map.Entry<K, ArrayList<V>> pair : keysToValues.entrySet()){
             K key = pair.getKey();
             List<V> values = pair.getValue();
             String curText = key.toString() + " : {";
@@ -299,7 +271,7 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
         }
 
         output += "\n\nvalue to keys: \n";
-        for (Map.Entry<V, List<K>> pair : valuesToKeys.entrySet()){
+        for (Map.Entry<V, ArrayList<K>> pair : valuesToKeys.entrySet()){
             V value = pair.getKey();
             List<K> keys = pair.getValue();
             String curText = value.toString() + " : {";

@@ -1,6 +1,7 @@
 package backend;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,20 @@ public interface BiDirectionalMap<K, V> extends Serializable{
     List<V> getValuesFromKey(K key);
 
     /**
+     * Determines whether a key is in this mapping
+     * @param key A key
+     * @return True if it is in the map; else false
+     */
+    boolean containsKey(K key);
+
+    /**
+     * Determines whether a value is in this map.
+     * @param value A value
+     * @return True if it is in this map; else false.
+     */
+    boolean containsValue(V value);
+
+    /**
      * Adds a value to a specific key
      * If the value already exist with the key, that value will not be added
      * @param key The key to set the value to
@@ -53,24 +68,6 @@ public interface BiDirectionalMap<K, V> extends Serializable{
      * @param value  The value to include
      */
     void addKeyWithValue(K key, V value);
-
-    /**
-     * Replaces a value with another value
-     * If the original value does not exist, it will not do anything.
-     * If the new value already exist, it will not do anything.
-     * @param oldValue The old value to remove
-     * @param newValue The new value to replace the old value
-     */
-    void replaceValue(V oldValue, V newValue);
-
-    /**
-     * Replaces an key with another key
-     * If the old key does not exist it will not do anything.
-     * If the new key already exist, it will not do anything.
-     * @param oldKey The key to remove
-     * @param newKey The new key to replace the removed key
-     */
-    void replaceKey(K oldKey, K newKey);
 
     /**
      * Deletes an key from the repository.
@@ -98,10 +95,4 @@ public interface BiDirectionalMap<K, V> extends Serializable{
      * @param value  The value to remove
      */
     void deleteValueFromKey(K key, V value);
-
-    /**
-     * Returns a copy of the mappings
-     * @return A copy of the mappings
-     */
-    Map<K, List<V>> getCopyOfMappings();
 }

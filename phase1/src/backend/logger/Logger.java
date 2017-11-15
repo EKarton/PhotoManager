@@ -3,13 +3,11 @@ package backend.logger;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import backend.BiDirectionalHashMap;
 import backend.Picture;
 import backend.Tag;
 import backend.logger.changeLogs.MapChangeLog;
 import backend.logger.changeLogs.PicChangeLog;
 import backend.logger.changeLogs.TagChangeLog;
-import javafx.collections.ListChangeListener.Change;
 
 public class Logger implements Observer {
 
@@ -28,7 +26,8 @@ public class Logger implements Observer {
 
   @Override
   public void update(Observable o, Object arg) {
-    if (o instanceof BiDirectionalHashMap) {
+    if (o instanceof Observable) {
+      //TODO:11
       this.mapUpdate(o, arg);
     } else if (o instanceof Picture) {
       this.picUpdate(o, arg);
@@ -40,8 +39,8 @@ public class Logger implements Observer {
 
 
   private void mapUpdate(Observable o, Object arg) {
-    BiDirectionalHashMap newMap = (BiDirectionalHashMap) o;
-
+    //TODO:11
+   
   }
 
   private void picUpdate(Observable o, Object arg) {

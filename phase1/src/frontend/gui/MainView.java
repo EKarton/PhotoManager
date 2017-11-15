@@ -1,11 +1,13 @@
 package frontend.gui;
 
+import java.io.File;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class MainView extends Application {
@@ -14,6 +16,7 @@ public class MainView extends Application {
 
   /** Controller for all action event handling */
   private ActionEventController actionEventController;
+  private Stage mainStage;
 
   /**
    * Launches the main view
@@ -30,12 +33,15 @@ public class MainView extends Application {
    * where else
    */
   public MainView() {
-    this.actionEventController = new ActionEventController();
+    // create the controller for all action event handling
+    this.actionEventController = new ActionEventController(this);
   }
 
   @Override
   public void start(Stage mainStage) throws Exception {
-
+    
+    this.mainStage = mainStage;
+    
     mainStage.setTitle("Picture Manager"); // the primary stage provides the window
 
     BorderPane root = new BorderPane(); // Using a border pane layout
@@ -83,6 +89,18 @@ public class MainView extends Application {
     return menuBar;
   }
 
+  public File openDirectoryChooser(Stage mainStage) {
+    DirectoryChooser dirChooser = new DirectoryChooser();
+    dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    File file = dirChooser.showDialog(mainStage);
+    return file;
+  }
+  
+  public Stage getMainStage() {
+    return this.mainStage;
+  }
+  
+  
   @Override
   public void stop() {
     // This is where we can put custom shut down code

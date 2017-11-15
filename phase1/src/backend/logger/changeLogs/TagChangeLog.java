@@ -28,7 +28,7 @@ public class TagChangeLog extends Log {
   }
 
   public String getOldDescription() {
-    return oldDescription;
+    return this.oldDescription;
   }
 
   public String getNameChange() {

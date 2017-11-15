@@ -39,24 +39,34 @@ public class Logger implements Observer {
 
 
 
-  public void mapUpdate(Observable o, Object arg) {
+  private void mapUpdate(Observable o, Object arg) {
     BiDirectionalHashMap newMap = (BiDirectionalHashMap) o;
 
   }
 
-  public void picUpdate(Observable o, Object arg) {
+  private void picUpdate(Observable o, Object arg) {
     Picture newPic = (Picture) o;
     Picture oldPic = (Picture) arg;
-    
+    if (newPic.getDirectoryPath() == newPic.getDirectoryPath()) {
+      // Name Change
+      PicChangeLog newPicChange =
+          new PicChangeLog(newPic.getTaglessName(), oldPic.getTaglessName(), true);
+      // the Log will be recorded with Names.
+      this.picChanges.add(newPicChange);
+    } else {//Directory Change
+      PicChangeLog newPicChange =//this Log will be recorded with directory paths.
+          new PicChangeLog(newPic.getDirectoryPath(), oldPic.getDirectoryPath(), false);
+      this.picChanges.add(newPicChange);
+    }
   }
 
-  public void tagUpdate(Observable o, Object arg) {
+  private void tagUpdate(Observable o, Object arg) {
     Tag newTag = (Tag) o;
-    if (arg instanceof String) {
+    if (arg instanceof String) {//Description Change
       String oldDescription = (String) arg;
       TagChangeLog newTagChange = new TagChangeLog(newTag, oldDescription);
       this.tagChanges.add(newTagChange);
-    } else if (arg instanceof Tag) {
+    } else if (arg instanceof Tag) {// Tag name Change
       Tag oldTag = (Tag) arg;
       TagChangeLog newTagChange = new TagChangeLog(newTag, oldTag);
       this.tagChanges.add(newTagChange);

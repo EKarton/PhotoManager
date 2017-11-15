@@ -1,8 +1,9 @@
 package backend;
 
-import com.sun.deploy.util.ArrayUtil;
-
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A fast mapping repository system, with O(1) lookups and O(n) additions / deletions,
@@ -10,7 +11,7 @@ import java.util.*;
  * @param <K> The key type
  * @param <V> The value type
  */
-public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectionalMap<K, V> {
+public class BiDirectionalHashMap<K, V> extends BiDirectionalMap<K, V> {
 
     /**
      * Stores the keys as keys and the values as values
@@ -22,11 +23,6 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
      */
     private Map<V, ArrayList<K>> valuesToKeys = new HashMap<>();
 
-    /**
-     * Add an key with no value
-     * If the key already exist in the repo, it will not do anything.
-     * @param key A new key
-     */
     @Override
     public void addKey(K key) {
         if (!keysToValues.containsKey(key)){
@@ -40,21 +36,11 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
         }
     }
 
-    /**
-     * Get a list of keys stored in this map.
-     * Note: they are not in order.
-     * @return A list of keys stored in this map.
-     */
     @Override
     public List<K> getKeys() {
         return new ArrayList<K>(keysToValues.keySet());
     }
 
-    /**
-     * Get a list of values stored in this map.
-     * Note: they are not in order.
-     * @return A list of keys stored in this map.
-     */
     @Override
     public List<V> getValues() {
         return new ArrayList<V>(valuesToKeys.keySet());
@@ -303,4 +289,5 @@ public class BiDirectionalHashMap<K, V> extends Observable implements BiDirectio
         }
         return output;
     }
+
 }

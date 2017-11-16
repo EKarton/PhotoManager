@@ -1,10 +1,11 @@
 package backend.commands;
 
 import java.util.LinkedList;
+import java.util.Stack;
 import javax.naming.NoInitialContextException;
 
 public class CommandManager {
-  private LinkedList<Command> commandStack = new LinkedList<>();
+  private Stack<Command> commandStack = new Stack<Command>();
 
   private boolean areCommandsLimited = false;
   private int maxNumCommands = 10;

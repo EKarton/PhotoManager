@@ -74,6 +74,13 @@ public class PictureManager implements Observer {
   }
 
   /**
+   * Untracks a picture from this class.
+   */
+  public void untrackPicture(Picture picture){
+    pictures.remove(picture);
+  }
+
+  /**
    * Return a list of pictures stored in this class that has a certain tag
    *
    * @param tag A tag
@@ -101,7 +108,7 @@ public class PictureManager implements Observer {
   public void update(Observable o, Object arg) {
     FileManager manager = new FileManager();
 
-    // If there is a change with the pictures
+    // If there is a commands with the pictures
     if (o instanceof Picture && arg instanceof Picture) {
       Picture newPicture = (Picture) o;
       Picture oldPicture = (Picture) arg;

@@ -8,13 +8,11 @@ import backend.logger.Log;
  */
 public class TagChangeLog extends Log {
   private Tag tag;
-  private String oldDescription;
   private String nameChange;
 
   public TagChangeLog(Tag tag, String oldDescription) {
     super();
     this.tag = tag;
-    this.oldDescription = oldDescription;
   }
 
   public TagChangeLog(Tag tag, Tag oldTag) {
@@ -25,10 +23,6 @@ public class TagChangeLog extends Log {
 
   public Tag getTag() {
     return this.tag;
-  }
-
-  public String getOldDescription() {
-    return this.oldDescription;
   }
 
   public String getNameChange() {

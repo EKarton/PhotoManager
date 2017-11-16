@@ -26,7 +26,8 @@ public class PictureManager implements Observer {
    */
   public PictureManager(String directoryPath) throws IOException {
     FileManager manager = new FileManager();
-    List<File> files = manager.getImageList(directoryPath); //TODO: getImageList now recursively gets all the picture under that dir.
+    List<File> files = manager.getImageList(directoryPath); // TODO: getImageList now recursively
+                                                            // gets all the picture under that dir.
 
     for (File file : files) {
       Picture picture = new Picture(file.getAbsolutePath());
@@ -38,8 +39,7 @@ public class PictureManager implements Observer {
   /**
    * Creates a PictureManager instance with no pictures to keep track of.
    */
-  public PictureManager() {
-  }
+  public PictureManager() {}
 
   /**
    * Return a copy of the list of pictures that this class has.
@@ -52,12 +52,13 @@ public class PictureManager implements Observer {
 
   /**
    * Returns a list of pictures stored in this class that have that tag.
+   * 
    * @param tag The tag to search for
    * @return A list of pictures that this tag belongs to.
    */
-  public ArrayList<Picture> getPictureWithTag(Tag tag){
+  public ArrayList<Picture> getPictureWithTag(Tag tag) {
     ArrayList<Picture> picturesWithTags = new ArrayList<>();
-    for (Picture picture : pictures){
+    for (Picture picture : pictures) {
       if (picture.containsTag(tag))
         picturesWithTags.add(picture);
     }
@@ -90,16 +91,22 @@ public class PictureManager implements Observer {
   /**
    * Untracks a picture from this class.
    */
-  public void untrackPicture(Picture picture){
+  public void untrackPicture(Picture picture) {
     pictures.remove(picture);
+    for (Picture thisPicture : this.pictures) {
+      if (picture.equals(thisPicture))
+        pictures.remove(thisPicture);
+      thisPicture.deleteObserver(this);
+    }
   }
 
   /**
-   * Determines whether a picture is in this instance or not.
-   * If it is in this instance, it is being tracked.
+   * Determines whether a picture is in this instance or not. If it is in this instance, it is being
+   * tracked.
+   * 
    * @return True if the picture is in this instance; else false.
    */
-  public boolean contains(Picture picture){
+  public boolean contains(Picture picture) {
     return pictures.contains(picture);
   }
 

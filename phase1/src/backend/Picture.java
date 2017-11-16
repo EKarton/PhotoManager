@@ -96,8 +96,7 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * Set the absolute path, directory path, tagless name, and full file name and tags of this
-   * object
+   * Set the absolute path, directory path, tagless name, and full file name and tags of this object
    *
    * @param absolutePath The absolute path to this picture
    */
@@ -112,9 +111,9 @@ public class Picture extends Observable implements Serializable, Observer {
                                                   // tags, we will split them
     String endOfFile = nameParts[nameParts.length - 1];
 
-    this.fileExt = "." + endOfFile.split(".")[endOfFile.length() - 1]; // sets the file extension,
-                                                                       // which are the chars after
-                                                                       // the last ".
+    this.fileExt = "." + endOfFile.split(".")[1]; // sets the file extension,
+                                                  // which are the chars after
+                                                  // the last ".
     this.taglessName = "";
     if (nameParts.length >= 1) {
       this.taglessName = nameParts[0];
@@ -152,6 +151,19 @@ public class Picture extends Observable implements Serializable, Observer {
     super.setChanged();
     super.notifyObservers(oldPic);
   }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Picture) {
+      Picture otherPic = (Picture) o;
+      if (otherPic.absolutePath == this.absolutePath) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
 
   /**
    * Set the directory path of this picture It will notify all the observers that it has changed. It
@@ -273,7 +285,7 @@ public class Picture extends Observable implements Serializable, Observer {
       Tag currTag = (Tag) curObserved;
       Tag changedTag = (Tag) change;
 
-      for (Tag tag : this.getTags()) {//Find the Tag with the name Change.
+      for (Tag tag : this.getTags()) {// Find the Tag with the name Change.
         if (tag.equals(changedTag)) {
           this.deleteTag(tag);
           this.addTag(currTag);

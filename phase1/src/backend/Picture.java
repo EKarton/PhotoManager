@@ -43,6 +43,11 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   private String tagNames;
 
+  /**
+   * The tags in the name .
+   */
+  private String fileExt;
+
 
 
   /**
@@ -105,16 +110,33 @@ public class Picture extends Observable implements Serializable, Observer {
 
     String[] nameParts = fullFileName.split(" @");// If the name of the picture originally have some
                                                   // tags, we will split them
+    String endOfFile = nameParts[nameParts.length - 1];
+
+    this.fileExt = "." + endOfFile.split(".")[endOfFile.length() - 1]; // sets the file extension,
+                                                                       // which are the chars after
+                                                                       // the last ".
     this.taglessName = "";
     if (nameParts.length >= 1) {
       this.taglessName = nameParts[0];
     }
 
+    String theTagName;
     for (int i = 1; i < nameParts.length; i++) {
-      this.tagNames += nameParts[i];// Concatenate the tagNames
-      this.tags.add(new Tag(nameParts[i]));
+
+      if (i == nameParts.length - 1) {// if it's at the last tag
+        theTagName = endOfFile.split(".")[endOfFile.length() - 2];
+      } else {
+        theTagName = nameParts[i];
+      }
+      this.tagNames += theTagName; // Concatenate the tagNames
+      Tag newTag = new Tag(theTagName);
+      if (!this.containsTag(newTag)) {
+        this.tags.add(newTag);
+        newTag.addObserver(this);
+      }
     }
   }
+
 
   /**
    * Set the absolute path of this picture It will notify all the observers that it has changed. It
@@ -123,11 +145,12 @@ public class Picture extends Observable implements Serializable, Observer {
    * @param absolutePath The new absolute path to this picture
    */
   public void setAbsolutePath(String absolutePath) {
-    String oldAbsolutePath = this.absolutePath;
+    Picture oldPic = this.clone();
+
     setObjectProperties(absolutePath);
 
     super.setChanged();
-    super.notifyObservers(new Picture(oldAbsolutePath));
+    super.notifyObservers(oldPic);
   }
 
   /**
@@ -137,12 +160,12 @@ public class Picture extends Observable implements Serializable, Observer {
    * @param directoryPath The new directory path to this picture.
    */
   public void setDirectoryPath(String directoryPath) {
-    String oldAbsolutePath = this.absolutePath;
+    Picture oldPic = this.clone();
     this.directoryPath = directoryPath;
     this.absolutePath = this.directoryPath + "//" + this.fullFileName;
 
     super.setChanged();
-    super.notifyObservers(new Picture(oldAbsolutePath));
+    super.notifyObservers(oldPic);
   }
 
   /**
@@ -151,19 +174,21 @@ public class Picture extends Observable implements Serializable, Observer {
    * 
    * @param taglessName The new tagless name of this picture.
    */
-  public void setTaglessName(String taglessName) {
-    String oldAbsolutePath = this.absolutePath;
-    StringBuilder tags = new StringBuilder();
-    String[] nameParts = fullFileName.split("@");
-    for (int i = 1; i < nameParts.length; i++) {
-      tags.append(" @").append(nameParts[i]);
-    }
-    this.fullFileName = taglessName + tags.toString();
-    this.absolutePath = this.directoryPath + "//" + this.fullFileName;
+  public boolean setTaglessName(String taglessName) {
+    if ((taglessName + this.tagNames).length() <= 255) {// Make sure the name does not exceed
+                                                        // maximum char length.
+      Picture oldPic = this.clone();
 
-    super.setChanged();
-    super.notifyObservers(new Picture(oldAbsolutePath));
+      this.fullFileName = taglessName + this.tagNames + this.fileExt;
+      this.absolutePath = this.directoryPath + "//" + this.fullFileName;
+
+      super.setChanged();
+      super.notifyObservers(oldPic);
+      return true;
+    }
+    return false;
   }
+
 
   @Override
   public String toString() {
@@ -171,7 +196,7 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   public ArrayList<Tag> getTags() {
-    return this.tags;
+    return new ArrayList<Tag>(this.tags);
   }
 
   /**
@@ -181,12 +206,12 @@ public class Picture extends Observable implements Serializable, Observer {
    * @return true if the tag is successfully added, else false.
    */
 
-  public boolean addTags(Tag tag) {
-    if (!this.tags.contains(tag)) {
+  public boolean addTag(Tag tag) {
+    if (!this.tags.contains(tag) && (this.fullFileName.length() + tag.getLabel().length()) <= 255) {
       Picture oldPic = this.clone();
-      this.tags.add(tag);
+      String newTagNames = this.tagNames + " @" + tag.getLabel();
       this.absolutePath =
-          this.getDirectoryPath() + "//" + " @" + tag.getLabel() + this.getFullFileName();
+          this.getDirectoryPath() + "//" + this.taglessName + newTagNames + this.fileExt;
       this.setObjectProperties(this.absolutePath);
 
       super.setChanged();
@@ -204,18 +229,27 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   public boolean deleteTag(Tag tag) {
     Picture oldPic = this.clone();
-    if (this.tags.contains(tag)) {
-      this.tags.remove(tag);
-      String newTagName = this.tagNames.replace(" @" + tag.getLabel(), "");
-      String absPath = this.getDirectoryPath() + "//" + newTagName + this.getTaglessName();
-      this.setAbsolutePath(absPath);
+    for (Tag originalTag : this.tags) {// for loop is necessary to deleting this Picture from the
+                                       // actual Tag Object it's observing.
+      if (originalTag.equals(tag)) {
+        originalTag.deleteObserver(this);
+        this.tags.remove(tag);
 
-      super.setChanged();
-      super.notifyObservers(oldPic);
-      return true;
+        String newTagNames = this.tagNames.replace(" @" + tag.getLabel(), "");
+        this.absolutePath =
+            this.getDirectoryPath() + "//" + this.taglessName + newTagNames + this.fileExt;
+        this.setObjectProperties(this.absolutePath);
+
+
+        super.setChanged();
+        super.notifyObservers(oldPic);
+        return true; // successfully deleted.
+      }
     }
     return false;
   }
+
+
 
   /**
    * 
@@ -224,7 +258,6 @@ public class Picture extends Observable implements Serializable, Observer {
   @Override
   public Picture clone() {
     Picture clone = new Picture(this.absolutePath);
-    clone.tags = new ArrayList<Tag>(this.tags);
     return clone;
   }
 
@@ -236,9 +269,20 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   @Override
-  public void update(Observable arg0, Object arg1) {
-    // TODO Auto-generated method stub
+  public void update(Observable curObserved, Object change) {
+    if (curObserved instanceof Tag && change instanceof Tag) {
+      // see if it's a Tag naming Change, note: currently, only naming change on Tags will be
+      // reflected on here.
+      Tag currTag = (Tag) curObserved;
+      Tag changedTag = (Tag) change;
 
+      for (Tag tag : this.getTags()) {//Find the Tag with the name Change.
+        if (tag.equals(changedTag)) {
+          this.deleteTag(tag);
+          this.addTag(currTag);
+        }
+      }
+    }
   }
 
 

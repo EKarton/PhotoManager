@@ -56,8 +56,9 @@ public class MainView extends Application {
     BorderPane root = new BorderPane(); // Using a border pane layout
 
     root.setTop(createMenuBar()); // add the menu bar on top
-
-    root.setCenter(createFileListView(this.listViewController));
+    
+    ListView<File> listView = createFileListView(this.listViewController);
+    root.setCenter(listView);
 
     // container for all content in a scene graph
     Scene scene = new Scene(root, MainView.WIDTH, MainView.HEIGHT);
@@ -128,8 +129,6 @@ public class MainView extends Application {
   public ListView<File> createFileListView(ListViewController<File> controller) {
 
     ListView<File> listView = new ListView<File>(controller.getItems());
-
-    listView.getFocusModel().focus(-1); // removes the defualt focus to element 0
 
     listView.setOrientation(Orientation.VERTICAL);
 

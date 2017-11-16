@@ -34,22 +34,22 @@ class PictureTest {
 
   @Test
   void setDirectoryPath() {
-    Picture picture = new Picture(picPath);
+    Picture picture = new Picture("C:\\Grandma\\baby chicken @Chicken.jpg");
     picture.setDirectoryPath("C:\\Grandma");
     assert(picture.getTaglessName().equals("baby chicken"));
-    assert(picture.getFullFileName().equals("baby chicken @wasd @grandma.jpg"));
+    assert(picture.getFullFileName().equals("baby chicken @Chicken.jpg"));
     assert(picture.getDirectoryPath().equals("C:\\Grandma"));
-    assert(picture.getTags().size() == 2);
+    assert(picture.getTags().size() == 1);
   }
 
   @Test
   void setTaglessName() {
-    Picture picture = new Picture(picPath);
-    picture.setTaglessName("chick");
+    Picture picture = new Picture("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg");
+    picture.setTaglessName("baby chicken");
     assert(picture.getTaglessName().equals("baby chicken"));
-    assert(picture.getFullFileName().equals("baby chicken @wasd @grandma.jpg"));
-    assert(picture.getDirectoryPath().equals("C:\\Grandma"));
-    assert(picture.getTags().size() == 2);
+    assert(picture.getFullFileName().equals("baby chicken @Chicken.jpg"));
+    assert(picture.getDirectoryPath().equals("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
+    assert(picture.getTags().size() == 1);
   }
 
   @Test
@@ -63,13 +63,16 @@ class PictureTest {
 
   @Test
   void addTag() {
-    Picture picture = new Picture("C:\\chicks @Chicken @Cute @Yellow.jpg");
+    Picture picture = new Picture("C:\\Grandma\\chicks @Chicken @Cute @Yellow.jpg");
     picture.addTag(new Tag("Brown"));
     assert(picture.getTags().size() == 4);
     assert(picture.getTags().get(0).getLabel().equals("Chicken"));
     assert(picture.getTags().get(1).getLabel().equals("Cute"));
     assert(picture.getTags().get(2).getLabel().equals("Yellow"));
     assert(picture.getTags().get(3).getLabel().equals("Brown"));
+    assert(picture.getAbsolutePath().equals("C:\\Grandma\\chicks @Chicken @Cute @Yellow @Brown.jpg"));
+    assert(picture.getDirectoryPath().equals("C:\\Grandma"));
+    assert(picture.getFullFileName().equals("chicks @Chicken @Cute @Yellow @Brown.jpg"));
   }
 
   @Test

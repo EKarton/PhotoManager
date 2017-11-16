@@ -168,6 +168,7 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   public void setDirectoryPath(String directoryPath) {
     Picture oldPic = this.clone();
+
     this.directoryPath = directoryPath;
     this.absolutePath = this.directoryPath + "//" + this.fullFileName;
 
@@ -186,6 +187,7 @@ public class Picture extends Observable implements Serializable, Observer {
       // maximum char length.
       Picture oldPic = this.clone();
 
+      this.taglessName = taglessName;
       this.fullFileName = taglessName + this.tagNames + this.fileExt;
       this.absolutePath = this.directoryPath + "//" + this.fullFileName;
 
@@ -215,10 +217,12 @@ public class Picture extends Observable implements Serializable, Observer {
   public boolean addTag(Tag tag) {
     if (!this.tags.contains(tag) && (this.fullFileName.length() + tag.getLabel().length()) <= 255) {
       Picture oldPic = this.clone();
-      String newTagNames = this.tagNames + " @" + tag.getLabel();
-      this.absolutePath =
-          this.getDirectoryPath() + "//" + this.taglessName + newTagNames + this.fileExt;
-      this.setObjectProperties(this.absolutePath);
+      this.tagNames = this.tagNames + " @" + tag.getLabel();
+
+      this.absolutePath = this.directoryPath + "\\" + this.taglessName + tagNames + this.fileExt;
+      this.fullFileName = this.taglessName + tagNames + this.fileExt;
+      this.tags.add(tag);
+      tag.addObserver(this);
 
       super.setChanged();
       super.notifyObservers(oldPic);// provide an old copy of the picture for the observer.
@@ -240,10 +244,8 @@ public class Picture extends Observable implements Serializable, Observer {
         originalTag.deleteObserver(this);
         this.tags.remove(tag);
 
-        String newTagNames = this.tagNames.replace(" @" + tag.getLabel(), "");
-        this.absolutePath =
-            this.getDirectoryPath() + "//" + this.taglessName + newTagNames + this.fileExt;
-        this.setObjectProperties(this.absolutePath);
+        this.fullFileName = this.fullFileName.replace(" @" + tag.getLabel(), "");
+        this.absolutePath = this.directoryPath + "\\" + this.fullFileName;
 
         super.setChanged();
         super.notifyObservers(oldPic);

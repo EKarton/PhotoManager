@@ -155,7 +155,7 @@ public class PictureManager extends Observable implements Observer {
 
       if (pictures.contains(newPicture)) {
         if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-          manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getFullFileName());
+          manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
         }
 
         if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {

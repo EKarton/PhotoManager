@@ -4,5 +4,3 @@
 /bin/
 .project
 .classpath
-/src/backend/commands/tests/
-/src/backend/models/tests/

@@ -55,10 +55,4 @@ public class AddPictureCommand implements Command {
   public String getLogMessage() {
     return "Added picture " + picture + " to the Picture Manager, " + manager;
   }
-
-  @Override
-  public void redo() {
-    // TODO Auto-generated method stub
-    
-  }
 }

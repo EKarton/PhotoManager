@@ -59,10 +59,4 @@ public class RenamePictureCommand implements Command {
   public String getLogMessage() {
     return "Renamed a picture " + picture + " from " + oldName + " to " + newName;
   }
-
-  @Override
-  public void redo() {
-    // TODO Auto-generated method stub
-    
-  }
 }

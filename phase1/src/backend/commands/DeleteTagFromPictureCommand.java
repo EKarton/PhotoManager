@@ -60,10 +60,4 @@ public class DeleteTagFromPictureCommand implements Command {
   public String getLogMessage() {
     return "Removed a tag " + tag + " from picture " + picture;
   }
-
-  @Override
-  public void redo() {
-    // TODO Auto-generated method stub
-    
-  }
 }

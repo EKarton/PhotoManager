@@ -147,21 +147,6 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
 
-  /**
-   * Set the absolute path of this picture It will notify all the observers that it has changed. It
-   * will send a copy of its old Picture instance to the observers.
-   *
-   * @param absolutePath The new absolute path to this picture
-   */
-  public void setAbsolutePath(String absolutePath) {
-    Picture oldPic = this.clone();
-
-    setObjectProperties(absolutePath);
-
-    super.setChanged();
-    super.notifyObservers(oldPic);
-  }
-
   @Override
   public boolean equals(Object o) {
     if (o instanceof Picture) {

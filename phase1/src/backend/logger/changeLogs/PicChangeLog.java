@@ -3,7 +3,7 @@ package backend.logger.changeLogs;
 import backend.logger.Log;
 
 /**
- * This represents a change where a file was renamed, moved or deleted
+ * This represents a commands where a file was renamed, moved or deleted
  */
 public class PicChangeLog extends Log {
   private String originalPath;

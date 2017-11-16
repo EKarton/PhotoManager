@@ -44,10 +44,9 @@ public class Picture extends Observable implements Serializable, Observer {
   private String tagNames;
 
 
-
   /**
    * Creates an instance of Picture
-   * 
+   *
    * @param absolutePath The absolute path to the Picture
    */
   public Picture(String absolutePath) {
@@ -57,7 +56,7 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * Get the absolute path to the picture
-   * 
+   *
    * @return The absolute path to the picture
    */
   public String getAbsolutePath() {
@@ -66,7 +65,7 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * Get the directory path to the picture
-   * 
+   *
    * @return The directory path to the picture
    */
   public String getDirectoryPath() {
@@ -75,7 +74,7 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * Get the full file name of this picture, including its tags.
-   * 
+   *
    * @return The full file name of this picture.
    */
   public String getFullFileName() {
@@ -84,7 +83,7 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * Get the name of this picture without the tags
-   * 
+   *
    * @return The name of this picture without the tags
    */
   public String getTaglessName() {
@@ -92,8 +91,9 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * Set the absolute path, directory path, tagless name, and full file name and tags of this object
-   * 
+   * Set the absolute path, directory path, tagless name, and full file name and tags of this
+   * object
+   *
    * @param absolutePath The absolute path to this picture
    */
   private void setObjectProperties(String absolutePath) {
@@ -104,7 +104,7 @@ public class Picture extends Observable implements Serializable, Observer {
     this.fullFileName = file.getName();
 
     String[] nameParts = fullFileName.split(" @");// If the name of the picture originally have some
-                                                  // tags, we will split them
+    // tags, we will split them
     this.taglessName = "";
     if (nameParts.length >= 1) {
       this.taglessName = nameParts[0];
@@ -119,7 +119,7 @@ public class Picture extends Observable implements Serializable, Observer {
   /**
    * Set the absolute path of this picture It will notify all the observers that it has changed. It
    * will send a copy of its old Picture instance to the observers.
-   * 
+   *
    * @param absolutePath The new absolute path to this picture
    */
   public void setAbsolutePath(String absolutePath) {
@@ -133,7 +133,7 @@ public class Picture extends Observable implements Serializable, Observer {
   /**
    * Set the directory path of this picture It will notify all the observers that it has changed. It
    * will send a copy of its old Picture instance to the observers
-   * 
+   *
    * @param directoryPath The new directory path to this picture.
    */
   public void setDirectoryPath(String directoryPath) {
@@ -148,7 +148,7 @@ public class Picture extends Observable implements Serializable, Observer {
   /**
    * Set the tagless name of this picture. It will notify all the observers that it has changed. It
    * will send a copy of its old Picture instance to the observers
-   * 
+   *
    * @param taglessName The new tagless name of this picture.
    */
   public void setTaglessName(String taglessName) {
@@ -176,8 +176,7 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * method for adding a tag to this picture
-   * 
-   * @param tag
+   *
    * @return true if the tag is successfully added, else false.
    */
 
@@ -198,8 +197,7 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * method for deleting a tag form this picture
-   * 
-   * @param tag
+   *
    * @return true if the tag is successfully deleted, else false.
    */
   public boolean deleteTag(Tag tag) {
@@ -218,7 +216,6 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * 
    * @return a copy of this picture
    */
   @Override

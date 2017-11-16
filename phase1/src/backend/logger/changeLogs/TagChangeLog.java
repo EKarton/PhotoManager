@@ -4,7 +4,7 @@ import backend.Tag;
 import backend.logger.Log;
 
 /**
- * This represents a change where a tag was added or deleted
+ * This represents a commands where a tag was added or deleted
  */
 public class TagChangeLog extends Log {
   private Tag tag;

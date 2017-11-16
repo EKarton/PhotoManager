@@ -4,7 +4,7 @@ import backend.Picture;
 import backend.Tag;
 import backend.logger.Log;
 /**
- * The MapChangeLog records any change of Key,Value mapping that occurs to the BiDirectionalMap.
+ * The MapChangeLog records any commands of Key,Value mapping that occurs to the BiDirectionalMap.
  *
  */
 

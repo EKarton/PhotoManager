@@ -1,13 +1,18 @@
 package backend.commands;
 
+import backend.logger.Logger;
+
 public class SaveLogsCommand implements Command{
 
-  /**
-   * Redos the command again
-   */
-  @Override
-  public void redo() {
+  private Logger logger;
+  private String directoryPath;
+  private String fileName;
 
+  public SaveLogsCommand(Logger logger, String directoryPath, String fileName){
+
+    this.logger = logger;
+    this.directoryPath = directoryPath;
+    this.fileName = fileName;
   }
 
   /**

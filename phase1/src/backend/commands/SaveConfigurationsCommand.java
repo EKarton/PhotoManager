@@ -15,14 +15,6 @@ public class SaveConfigurationsCommand implements Command {
   }
 
   /**
-   * Redos the command again
-   */
-  @Override
-  public void redo() {
-
-  }
-
-  /**
    * Undo the command
    */
   @Override

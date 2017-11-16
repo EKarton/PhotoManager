@@ -51,6 +51,20 @@ public class PictureManager implements Observer {
   }
 
   /**
+   * Returns a list of pictures stored in this class that have that tag.
+   * @param tag The tag to search for
+   * @return A list of pictures that this tag belongs to.
+   */
+  public ArrayList<Picture> getPictureWithTag(Tag tag){
+    ArrayList<Picture> picturesWithTags = new ArrayList<>();
+    for (Picture picture : pictures){
+      if (picture.containsTag(tag))
+        picturesWithTags.add(picture);
+    }
+    return picturesWithTags;
+  }
+
+  /**
    * Deletes a tag. It will update all the pictures in this instance that has this tag so that these
    * pictures do not have the deleted tag anymore.
    *

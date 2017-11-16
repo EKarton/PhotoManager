@@ -50,7 +50,7 @@ public class AddTagToPictureCommand implements Command {
   @Override
   public void execute() {
     if (!picture.containsTag(tagToAdd)){
-      picture.addTags(tagToAdd);
+      picture.addTag(tagToAdd);
     }
   }
 
@@ -61,5 +61,11 @@ public class AddTagToPictureCommand implements Command {
   @Override
   public String getLogMessage() {
     return "Tagged a picture " + picture + " to " + tagToAdd;
+  }
+
+  @Override
+  public void redo() {
+    // TODO Auto-generated method stub
+    
   }
 }

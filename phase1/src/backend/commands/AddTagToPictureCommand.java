@@ -1,8 +1,7 @@
 package backend.commands;
 
-import backend.Picture;
-import backend.PictureManager;
-import backend.Tag;
+import backend.models.Picture;
+import backend.models.Tag;
 
 /**
  * A command class used to add a tag to a picture.

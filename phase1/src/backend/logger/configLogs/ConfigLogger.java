@@ -1,7 +1,7 @@
 package backend.logger.configLogs;
 
 import java.io.IOException;
-import backend.PictureManager;
+import backend.models.PictureManager;
 import backend.files.SerializableFileWriter;
 
 

@@ -1,4 +1,4 @@
-package backend;
+package backend.models;
 
 import java.io.File;
 import java.io.Serializable;

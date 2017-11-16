@@ -1,7 +1,7 @@
 package backend.commands;
 
-import backend.Picture;
-import backend.PictureManager;
+import backend.models.Picture;
+import backend.models.PictureManager;
 
 /**
  * A Command class used to delete a picture from the PictureManager

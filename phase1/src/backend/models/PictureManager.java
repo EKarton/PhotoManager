@@ -1,4 +1,4 @@
-package backend;
+package backend.models;
 
 import backend.files.FileManager;
 import java.io.File;

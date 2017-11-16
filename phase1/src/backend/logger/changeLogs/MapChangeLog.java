@@ -1,7 +1,7 @@
 package backend.logger.changeLogs;
 
-import backend.Picture;
-import backend.Tag;
+import backend.models.Picture;
+import backend.models.Tag;
 import backend.logger.Log;
 /**
  * The MapChangeLog records any commands of Key,Value mapping that occurs to the BiDirectionalMap.

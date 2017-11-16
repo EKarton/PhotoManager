@@ -1,6 +1,6 @@
 package backend.commands;
 
-import backend.Picture;
+import backend.models.Picture;
 
 /**
  * A Command class used to specify a rename to a picture

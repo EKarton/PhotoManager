@@ -96,6 +96,15 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
+   *
+   * @return The tag names in a String
+   */
+  public String getTagName() {
+    return this.tagNames;
+  }
+
+
+  /**
    * Set the absolute path, directory path, tagless name, and full file name and tags of this object
    *
    * @param absolutePath The absolute path to this picture

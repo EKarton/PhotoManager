@@ -11,7 +11,7 @@ import java.util.Observer;
 /**
  * A class used to keep track of the pictures.
  */
-public class PictureManager implements Observer {
+public class PictureManager extends Observable implements Observer {
 
   /**
    * A list of pictures that this class keeps track of.
@@ -75,6 +75,9 @@ public class PictureManager implements Observer {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
+
+        this.clearChanged();
+        this.notifyObservers(tag);// notify a Tag change
       }
     }
   }
@@ -86,6 +89,9 @@ public class PictureManager implements Observer {
    */
   public void addPicture(Picture picture) {
     pictures.add(picture);
+
+    this.clearChanged();
+    this.notifyObservers(picture); // notify a picture change
   }
 
   /**
@@ -94,9 +100,13 @@ public class PictureManager implements Observer {
   public void untrackPicture(Picture picture) {
     pictures.remove(picture);
     for (Picture thisPicture : this.pictures) {
-      if (picture.equals(thisPicture))
+      if (picture.equals(thisPicture)) {
         pictures.remove(thisPicture);
-      thisPicture.deleteObserver(this);
+        thisPicture.deleteObserver(this);
+
+        this.clearChanged();
+        this.notifyObservers(picture);
+      }
     }
   }
 

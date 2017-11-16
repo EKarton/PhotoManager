@@ -9,7 +9,6 @@ public class SaveLogsCommand implements Command{
   private String fileName;
 
   public SaveLogsCommand(Logger logger, String directoryPath, String fileName){
-
     this.logger = logger;
     this.directoryPath = directoryPath;
     this.fileName = fileName;

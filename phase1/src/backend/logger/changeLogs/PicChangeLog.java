@@ -1,31 +1,45 @@
 package backend.logger.changeLogs;
 
 import backend.logger.Log;
+import backend.models.Picture;
+import backend.models.Tag;
 
 /**
  * This represents a commands where a file was renamed, moved or deleted
  */
 public class PicChangeLog extends Log {
-  private String originalPath;
-  private String newPath;
+
+  private Picture changedPicture;
+
+  private Tag tagChange;
+
+  /**
+   * true if it's a nameChange, false implies it's directory change
+   */
   private boolean nameChange;
 
-  public PicChangeLog(String originalPath, String newPath, boolean nameChange) {
+  public PicChangeLog(Picture changedPicture, boolean nameChange) {
     super();
-    this.originalPath = originalPath;
-    this.newPath = newPath;
+    this.changedPicture = changedPicture;
     this.nameChange = nameChange;
   }
 
-  public String getOriginalPath() {
-    return this.originalPath;
+  public PicChangeLog(Picture changedPicture, Tag tagChange) {
+    super();
+    this.changedPicture = changedPicture;
+    this.tagChange = tagChange;
   }
 
-  public String getNewPath() {
-    return this.newPath;
-  }
 
   public boolean isNameChange() {
     return nameChange;
+  }
+
+  public Tag getTagChange() {
+    return tagChange;
+  }
+
+  public Picture getChangedPicture() {
+    return changedPicture;
   }
 }

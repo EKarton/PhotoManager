@@ -26,7 +26,7 @@ public class PictureManager implements Observer {
    */
   public PictureManager(String directoryPath) throws IOException {
     FileManager manager = new FileManager();
-    List<File> files = manager.getFileList(directoryPath);
+    List<File> files = manager.getImageList(directoryPath); //TODO: getImageList now recursively gets all the picture under that dir.
 
     for (File file : files) {
       Picture picture = new Picture(file.getAbsolutePath());

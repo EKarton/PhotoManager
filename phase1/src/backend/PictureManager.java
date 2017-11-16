@@ -20,7 +20,7 @@ public class PictureManager implements Observer {
 
   /**
    * Populate the picture manager with pictures under a certain directory
-   * 
+   *
    * @param directoryPath A directory path
    * @throws IOException Thrown when the directory does not exist.
    */
@@ -38,11 +38,12 @@ public class PictureManager implements Observer {
   /**
    * Creates a PictureManager instance with no pictures to keep track of.
    */
-  public PictureManager() {}
+  public PictureManager() {
+  }
 
   /**
    * Return a copy of the list of pictures that this class has.
-   * 
+   *
    * @return A list of pictures in this class.
    */
   public ArrayList<Picture> getPictures() {
@@ -52,18 +53,20 @@ public class PictureManager implements Observer {
   /**
    * Deletes a tag. It will update all the pictures in this instance that has this tag so that these
    * pictures do not have the deleted tag anymore.
-   * 
+   *
    * @param tag The tag to delete.
    */
   public void deleteTag(Tag tag) {
-    for (Picture picture : pictures)
-      if (picture.containsTag(tag))
+    for (Picture picture : pictures) {
+      if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
+      }
+    }
   }
 
   /**
    * Adds a unique picture to this class. If the picture already exist, it will not add it.
-   * 
+   *
    * @param picture A picture
    */
   public void addPicture(Picture picture) {
@@ -72,15 +75,17 @@ public class PictureManager implements Observer {
 
   /**
    * Return a list of pictures stored in this class that has a certain tag
-   * 
+   *
    * @param tag A tag
    * @return Pictures in this class containing a tag.
    */
   private List<Picture> getPictureFromTags(Tag tag) {
     List<Picture> picturesWithTag = new ArrayList<Picture>();
-    for (Picture picture : pictures)
-      if (picture.containsTag(tag))
+    for (Picture picture : pictures) {
+      if (picture.containsTag(tag)) {
         picturesWithTag.add(picture);
+      }
+    }
     return picturesWithTag;
   }
 
@@ -88,7 +93,7 @@ public class PictureManager implements Observer {
    * This method is called whenever the observed object is changed. When the arguements and the
    * observable object is a Picture object, and this instance is keeping track of this object, it
    * will perform the changes of the Picture class in the IO level.
-   * 
+   *
    * @param o the observable object.
    * @param arg an argument passed to the <code>notifyObservers</code>
    */

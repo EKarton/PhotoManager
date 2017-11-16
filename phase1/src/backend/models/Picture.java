@@ -41,7 +41,7 @@ public class Picture extends Observable implements Serializable, Observer {
   /**
    * The tags in the name .
    */
-  private String tagNames;
+  private String tagNames = "";
 
   /**
    * The tags in the name .
@@ -109,12 +109,12 @@ public class Picture extends Observable implements Serializable, Observer {
     this.fullFileName = file.getName();
 
     String[] nameParts = fullFileName.split(" @");// If the name of the picture originally have some
-                                                  // tags, we will split them
+    // tags, we will split them
     String endOfFile = nameParts[nameParts.length - 1];
 
-    this.fileExt = "." + endOfFile.split(".")[endOfFile.length() - 1]; // sets the file extension,
-                                                                       // which are the chars after
-                                                                       // the last ".
+    this.fileExt = "." + endOfFile.split("\\.")[1]; // sets the file extension,
+    // which are the chars after
+    // the last ".
     this.taglessName = "";
     if (nameParts.length >= 1) {
       this.taglessName = nameParts[0];
@@ -124,11 +124,11 @@ public class Picture extends Observable implements Serializable, Observer {
     for (int i = 1; i < nameParts.length; i++) {
 
       if (i == nameParts.length - 1) {// if it's at the last tag
-        theTagName = endOfFile.split(".")[endOfFile.length() - 2];
+        theTagName = endOfFile.split("\\.")[0];
       } else {
         theTagName = nameParts[i];
       }
-      this.tagNames += theTagName; // Concatenate the tagNames
+      this.tagNames += " @"+ theTagName; // Concatenate the tagNames
       Tag newTag = new Tag(theTagName);
       if (!this.containsTag(newTag)) {
         this.tags.add(newTag);
@@ -176,7 +176,7 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   public boolean setTaglessName(String taglessName) {
     if ((taglessName + this.tagNames).length() <= 255) {// Make sure the name does not exceed
-                                                        // maximum char length.
+      // maximum char length.
       Picture oldPic = this.clone();
 
       this.fullFileName = taglessName + this.tagNames + this.fileExt;
@@ -228,7 +228,7 @@ public class Picture extends Observable implements Serializable, Observer {
   public boolean deleteTag(Tag tag) {
     Picture oldPic = this.clone();
     for (Tag originalTag : this.tags) {// for loop is necessary to deleting this Picture from the
-                                       // actual Tag Object it's observing.
+      // actual Tag Object it's observing.
       if (originalTag.equals(tag)) {
         originalTag.deleteObserver(this);
         this.tags.remove(tag);
@@ -238,7 +238,6 @@ public class Picture extends Observable implements Serializable, Observer {
             this.getDirectoryPath() + "//" + this.taglessName + newTagNames + this.fileExt;
         this.setObjectProperties(this.absolutePath);
 
-
         super.setChanged();
         super.notifyObservers(oldPic);
         return true; // successfully deleted.
@@ -246,7 +245,6 @@ public class Picture extends Observable implements Serializable, Observer {
     }
     return false;
   }
-
 
 
   /**

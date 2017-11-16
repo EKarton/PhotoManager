@@ -1,6 +1,8 @@
 package frontend.gui;
 
 import java.io.File;
+import java.io.IOException;
+import backend.files.FileManager;
 import javafx.event.ActionEvent;
 
 /**
@@ -9,6 +11,7 @@ import javafx.event.ActionEvent;
 public class ActionEventController {
 
   private MainView view;
+  private FileManager fileManager = new FileManager();
 
   /**
    * Constructs an ActionEventController
@@ -20,19 +23,36 @@ public class ActionEventController {
   }
 
   public void addImage(ActionEvent e) {
+    //TODO complete
     File file = this.view.openFileChooser(this.view.getMainStage());
-    System.out.println(file);
   }
 
   public void addDirectory(ActionEvent e) {
+    // TODO complete
     File dir = this.view.openDirectoryChooser(this.view.getMainStage());
   }
 
   public void openDirectory(ActionEvent e) {
-    File dir = this.view.openDirectoryChooser(this.view.getMainStage());
+    String directory = this.view.openDirectoryChooser(this.view.getMainStage()).getAbsolutePath();
+
+    try {
+      this.view.getListViewController().getItems().addAll(fileManager.getImageList(directory));
+    } catch (IOException e1) {
+      // if for some reason it fails we will leave the display as before
+    }
+  }
+  
+  public void openDirectoryRecursively(ActionEvent e) {
+    String directory = this.view.openDirectoryChooser(this.view.getMainStage()).getAbsolutePath();
+
+    try {
+      this.view.getListViewController().getItems().addAll(fileManager.getImageListRec(directory));
+    } catch (IOException e1) {
+      // if for some reason it fails we will leave the display as before
+    }
   }
 
   public void openLog(ActionEvent e) {
-    view.getListViewController().addItem(new File("This is a test"));
+    // TODO complete
   }
 }

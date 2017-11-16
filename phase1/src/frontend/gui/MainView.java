@@ -1,11 +1,7 @@
 package frontend.gui;
 
 import java.io.File;
-import java.util.List;
-import backend.files.FileManager;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
@@ -45,7 +41,7 @@ public class MainView extends Application {
   public MainView() {
     // create the controller for all action event handling
     this.actionEventController = new ActionEventController(this);
-    
+
     // create the controller for the ListView that displays the list of files
     this.listViewController = new ListViewController<File>();
   }
@@ -91,8 +87,15 @@ public class MainView extends Application {
 
     Menu open = new Menu("Open");
 
-    MenuItem openDir = new MenuItem("Open Directory");
-    openDir.setOnAction(this.actionEventController::openDirectory);
+    Menu openDir = new Menu("Open Directory");
+    
+    MenuItem openDirNonRec = new MenuItem("Open Directory");
+    openDirNonRec.setOnAction(this.actionEventController::openDirectory);
+    
+    MenuItem openDirRec = new MenuItem("Open Directory Recursively");
+    openDirRec.setOnAction(this.actionEventController::openDirectoryRecursively);
+    
+    openDir.getItems().addAll(openDirNonRec, openDirRec);
 
     MenuItem openLog = new MenuItem("Open Log");
     openLog.setOnAction(this.actionEventController::openLog);
@@ -123,27 +126,26 @@ public class MainView extends Application {
   }
 
   public ListView<File> createFileListView(ListViewController<File> controller) {
-    
+
     ListView<File> listView = new ListView<File>(controller.getItems());
-    
-    listView.getFocusModel().focus(-1);  // removes the defualt focus to element 0
-    
+
+    listView.getFocusModel().focus(-1); // removes the defualt focus to element 0
+
     listView.setOrientation(Orientation.VERTICAL);
-    
+
     listView.setCellFactory(listCell -> new ListCell<File>() {
       @Override
       public void updateItem(File item, boolean empty) {
         super.updateItem(item, empty);
-        if(empty) {
+        if (empty) {
           setText(null);
-        }
-        else {
+        } else {
           setText(item.getName());
         }
       }
-    });    
-        
-    return listView; 
+    });
+
+    return listView;
   }
 
   public Stage getMainStage() {
@@ -151,10 +153,10 @@ public class MainView extends Application {
   }
 
 
-  public ListViewController<File> getListViewController(){
+  public ListViewController<File> getListViewController() {
     return this.listViewController;
   }
-  
+
   @Override
   public void stop() {
     // This is where we can put custom shut down code

@@ -1,16 +1,18 @@
 package frontend.gui;
 
 import java.io.File;
+import java.io.FileInputStream;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -59,7 +61,20 @@ public class MainView extends Application {
     root.setTop(createMenuBar()); // add the menu bar on top
     
     ListView<File> listView = createFileListView(this.listViewController);
-    root.setCenter(listView);
+    listView.setPrefSize(WIDTH/4, MainView.HEIGHT);
+    HBox hbox = new HBox();
+    hbox.getChildren().add(listView);
+    
+    
+    Image image = new Image(new FileInputStream("dog.png"));
+    ImageView imageView = new ImageView(image);
+    imageView.setFitWidth((3 * WIDTH) / 4);
+    imageView.setFitHeight(MainView.HEIGHT);
+    imageView.setPreserveRatio(true);  // this lets us nicely scale the image
+    
+    hbox.getChildren().add(imageView);
+    
+    root.setCenter(hbox);
 
     // container for all content in a scene graph
     Scene scene = new Scene(root, MainView.WIDTH, MainView.HEIGHT);
@@ -77,16 +92,6 @@ public class MainView extends Application {
   private MenuBar createMenuBar() {
     MenuBar menuBar = new MenuBar();
 
-    Menu add = new Menu("Add");
-
-    MenuItem addImage = new MenuItem("Add Image");
-    addImage.setOnAction(this.actionEventController::addImage);
-
-    MenuItem addDir = new MenuItem("Add Directory");
-    addDir.setOnAction(this.actionEventController::addDirectory);
-
-    add.getItems().addAll(addImage, addDir);
-
     Menu open = new Menu("Open");
 
     Menu openDir = new Menu("Open Directory");
@@ -103,9 +108,24 @@ public class MainView extends Application {
     openLog.setOnAction(this.actionEventController::openLog);
 
     open.getItems().addAll(openDir, openLog);
+    
+    Menu save = new Menu("Save");
+    MenuItem saveItem = new MenuItem("Save");
+    saveItem.setOnAction(this.actionEventController::save);
+    save.getItems().add(saveItem);
+    
+    Menu undo = new Menu("Undo");
+    MenuItem undoItem = new MenuItem("Undo");
+    undoItem.setOnAction(this.actionEventController::undo);
+    undo.getItems().add(undoItem);
+    
+    Menu redo = new Menu("Redo");
+    MenuItem redoItem = new MenuItem("Redo");
+    redoItem.setOnAction(this.actionEventController::redo);
+    redo.getItems().add(redoItem);
 
-    menuBar.getMenus().addAll(add, open);
-
+    menuBar.getMenus().addAll(open, save, undo, redo);
+    
     return menuBar;
   }
 

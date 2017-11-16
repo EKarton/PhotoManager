@@ -1,11 +1,9 @@
 package backend.commands;
 
+/**
+ * An interface used to specify an undoable command.
+ */
 public interface Command {
-
-  /**
-   * Redos the command again
-   */
-  void redo();
 
   /**
    * Undo the command

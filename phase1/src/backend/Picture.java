@@ -9,6 +9,8 @@ import java.util.Observer;
 /**
  * A class used to represent a picture in the IO level
  */
+
+
 public class Picture extends Observable implements Serializable, Observer {
 
   /**
@@ -215,7 +217,6 @@ public class Picture extends Observable implements Serializable, Observer {
     return false;
   }
 
-
   /**
    * 
    * @return a copy of this picture
@@ -225,6 +226,13 @@ public class Picture extends Observable implements Serializable, Observer {
     Picture clone = new Picture(this.absolutePath);
     clone.tags = new ArrayList<Tag>(this.tags);
     return clone;
+  }
+
+  public boolean containsTag(Tag tag) {
+    if (this.tags.contains(tag)) {
+      return true;
+    }
+    return false;
   }
 
   @Override

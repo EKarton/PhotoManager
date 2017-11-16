@@ -131,15 +131,14 @@ public class Picture extends Observable implements Serializable, Observer {
 
     String theTagName;
     for (int i = 1; i < nameParts.length; i++) {
-
       if (i == nameParts.length - 1) {// if it's at the last tag
         theTagName = endOfFile.split("\\.")[0];
       } else {
         theTagName = nameParts[i];
       }
-      this.tagNames += " @" + theTagName; // Concatenate the tagNames
       Tag newTag = new Tag(theTagName);
       if (!this.containsTag(newTag)) {
+        this.tagNames += " @" + theTagName; // Concatenate the tagNames
         this.tags.add(newTag);
         newTag.addObserver(this);
       }

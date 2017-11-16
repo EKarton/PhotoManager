@@ -62,10 +62,4 @@ public class AddTagToPictureCommand implements Command {
   public String getLogMessage() {
     return "Tagged a picture " + picture + " to " + tagToAdd;
   }
-
-  @Override
-  public void redo() {
-    // TODO Auto-generated method stub
-    
-  }
 }

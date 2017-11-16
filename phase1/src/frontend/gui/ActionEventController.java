@@ -23,7 +23,7 @@ public class ActionEventController {
   }
 
   public void addImage(ActionEvent e) {
-    //TODO complete
+    // TODO complete
     File file = this.view.openFileChooser(this.view.getMainStage());
   }
 
@@ -41,7 +41,7 @@ public class ActionEventController {
       // if for some reason it fails we will leave the display as before
     }
   }
-  
+
   public void openDirectoryRecursively(ActionEvent e) {
     String directory = this.view.openDirectoryChooser(this.view.getMainStage()).getAbsolutePath();
 
@@ -54,5 +54,17 @@ public class ActionEventController {
 
   public void openLog(ActionEvent e) {
     // TODO complete
+  }
+
+  public void save(ActionEvent e) {
+    System.out.println("Save");
+  }
+
+  public void undo(ActionEvent e) {
+    System.out.println("Undo");
+  }
+
+  public void redo(ActionEvent e) {
+    System.out.println("Redo");
   }
 }

@@ -36,7 +36,7 @@ public class ActionEventController {
     String directory = this.view.openDirectoryChooser(this.view.getMainStage()).getAbsolutePath();
 
     try {
-      this.view.getListViewController().getItems().addAll(fileManager.getImageList(directory));
+      this.view.getListViewController().setItems(fileManager.getImageList(directory));
     } catch (IOException e1) {
       // if for some reason it fails we will leave the display as before
     }
@@ -46,7 +46,7 @@ public class ActionEventController {
     String directory = this.view.openDirectoryChooser(this.view.getMainStage()).getAbsolutePath();
 
     try {
-      this.view.getListViewController().getItems().addAll(fileManager.getImageListRec(directory));
+      this.view.getListViewController().setItems(fileManager.getImageListRec(directory));
     } catch (IOException e1) {
       // if for some reason it fails we will leave the display as before
     }

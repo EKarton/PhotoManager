@@ -2,10 +2,12 @@ package frontend.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class ListViewController<T> {
+public class ListViewController<T> implements ChangeListener<T>{
   ObservableList<T> items;
   
   public ListViewController(){
@@ -24,5 +26,11 @@ public class ListViewController<T> {
   public void addItem(T item) {
     this.items.add(item);
   }
+
+  @Override
+  public void changed(ObservableValue<? extends T> observable, T oldValue, T newValue) {
+   System.out.println(newValue);
+  }
+
   
 }

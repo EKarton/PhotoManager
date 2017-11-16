@@ -2,7 +2,8 @@ package frontend.gui;
 
 import java.io.File;
 import javafx.application.Application;
-import javafx.geometry.Orientation;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -130,8 +131,6 @@ public class MainView extends Application {
 
     ListView<File> listView = new ListView<File>(controller.getItems());
 
-    listView.setOrientation(Orientation.VERTICAL);
-
     listView.setCellFactory(listCell -> new ListCell<File>() {
       @Override
       public void updateItem(File item, boolean empty) {
@@ -143,6 +142,8 @@ public class MainView extends Application {
         }
       }
     });
+
+    listView.getSelectionModel().selectedItemProperty().addListener(this.listViewController);
 
     return listView;
   }

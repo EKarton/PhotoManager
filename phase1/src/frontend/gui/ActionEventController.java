@@ -33,6 +33,6 @@ public class ActionEventController {
   }
 
   public void openLog(ActionEvent e) {
-    System.out.println("Open Log");
+    view.getListViewController().addItem(new File("This is a test"));
   }
 }

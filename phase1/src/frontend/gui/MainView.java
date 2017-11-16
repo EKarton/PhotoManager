@@ -2,8 +2,14 @@ package frontend.gui;
 
 import java.io.File;
 import java.util.List;
+import backend.files.FileManager;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -19,6 +25,7 @@ public class MainView extends Application {
 
   /** Controller for all action event handling */
   private ActionEventController actionEventController;
+  private ListViewController<File> listViewController;
   private Stage mainStage;
 
   /**
@@ -38,18 +45,23 @@ public class MainView extends Application {
   public MainView() {
     // create the controller for all action event handling
     this.actionEventController = new ActionEventController(this);
+    
+    // create the controller for the ListView that displays the list of files
+    this.listViewController = new ListViewController<File>();
   }
 
   @Override
   public void start(Stage mainStage) throws Exception {
-    
+
     this.mainStage = mainStage;
-    
+
     mainStage.setTitle("Picture Manager"); // the primary stage provides the window
 
     BorderPane root = new BorderPane(); // Using a border pane layout
 
     root.setTop(createMenuBar()); // add the menu bar on top
+
+    root.setCenter(createFileListView(this.listViewController));
 
     // container for all content in a scene graph
     Scene scene = new Scene(root, MainView.WIDTH, MainView.HEIGHT);
@@ -98,22 +110,50 @@ public class MainView extends Application {
     File file = dirChooser.showDialog(mainStage);
     return file;
   }
-  
+
   public File openFileChooser(Stage mainStage) {
     FileChooser fileChooser = new FileChooser();
 
     fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     fileChooser.getExtensionFilters().add(new ExtensionFilter("Images", "*jpg", "*.jpeg", "*.png"));
-    
+
     File file = fileChooser.showOpenDialog(mainStage);
-    
+
     return file;
   }
-  
+
+  public ListView<File> createFileListView(ListViewController<File> controller) {
+    
+    ListView<File> listView = new ListView<File>(controller.getItems());
+    
+    listView.getFocusModel().focus(-1);  // removes the defualt focus to element 0
+    
+    listView.setOrientation(Orientation.VERTICAL);
+    
+    listView.setCellFactory(listCell -> new ListCell<File>() {
+      @Override
+      public void updateItem(File item, boolean empty) {
+        super.updateItem(item, empty);
+        if(empty) {
+          setText(null);
+        }
+        else {
+          setText(item.getName());
+        }
+      }
+    });    
+        
+    return listView; 
+  }
+
   public Stage getMainStage() {
     return this.mainStage;
   }
-  
+
+
+  public ListViewController<File> getListViewController(){
+    return this.listViewController;
+  }
   
   @Override
   public void stop() {

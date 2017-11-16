@@ -1,6 +1,6 @@
 package backend.commands;
 
-import backend.PictureManager;
+import backend.models.PictureManager;
 
 public class SaveConfigurationsCommand implements Command {
 

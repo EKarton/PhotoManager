@@ -1,7 +1,7 @@
 package backend.commands;
 
-import backend.Picture;
-import backend.PictureManager;
+import backend.models.Picture;
+import backend.models.PictureManager;
 
 /**
  * A class used to specify an addition of a picture to a manager.

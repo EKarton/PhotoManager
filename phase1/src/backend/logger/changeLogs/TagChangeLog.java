@@ -1,6 +1,6 @@
 package backend.logger.changeLogs;
 
-import backend.Tag;
+import backend.models.Tag;
 import backend.logger.Log;
 
 /**

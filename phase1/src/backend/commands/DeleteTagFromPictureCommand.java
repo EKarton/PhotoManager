@@ -38,7 +38,7 @@ public class DeleteTagFromPictureCommand implements Command {
   @Override
   public void undo() {
     if (!picture.containsTag(tag))
-      picture.addTags(tag);
+      picture.addTag(tag);
   }
 
   /**
@@ -59,5 +59,11 @@ public class DeleteTagFromPictureCommand implements Command {
   @Override
   public String getLogMessage() {
     return "Removed a tag " + tag + " from picture " + picture;
+  }
+
+  @Override
+  public void redo() {
+    // TODO Auto-generated method stub
+    
   }
 }

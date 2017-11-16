@@ -61,4 +61,10 @@ public class DeletePictureCommand implements Command{
   public String getLogMessage() {
     return "Deleted a picture, " + picture + ", from the manager " + manager;
   }
+
+  @Override
+  public void redo() {
+    // TODO Auto-generated method stub
+    
+  }
 }

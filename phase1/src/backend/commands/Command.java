@@ -20,4 +20,6 @@ public interface Command {
    * @return A log message for this command
    */
   String getLogMessage();
+
+  void redo();
 }

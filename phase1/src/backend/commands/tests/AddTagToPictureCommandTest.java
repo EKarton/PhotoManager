@@ -36,7 +36,7 @@ class AddTagToPictureCommandTest {
     command.execute();
     assert(command.getLogMessage().equals(""));
     command.undo();
-    assert(command.getLogMessage().equals(""));
+    assert(command.getLogMessage().equals(""));//TODO: EMILIO!!!
   }
 
 }

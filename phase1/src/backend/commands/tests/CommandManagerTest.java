@@ -4,16 +4,19 @@ import backend.models.Picture;
 import backend.models.PictureManager;
 import backend.commands.AddPictureCommand;
 import backend.commands.CommandManager;
+import java.io.IOException;
 import javax.naming.NoInitialContextException;
 import org.junit.jupiter.api.Test;
 
 class CommandManagerTest {
 
-  private final String pic1 = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
-  private final String pic2 = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg";
+  private final String pic1 =
+      "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
+  private final String pic2 =
+      "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg";
 
   @Test
-  void addCommand() {
+  void addCommand() throws SecurityException, IOException {
     CommandManager commandManager = new CommandManager();
     Picture picture1 = new Picture(pic1);
     Picture picture2 = new Picture(pic2);
@@ -24,11 +27,11 @@ class CommandManagerTest {
     addPictureCommand2.execute();
     commandManager.addCommand(addPictureCommand1);
     commandManager.addCommand(addPictureCommand2);
-    assert(manager.getPictures().size() == 2);
+    assert (manager.getPictures().size() == 2);
   }
 
   @Test
-  void undoRecentCommand() throws NoInitialContextException {
+  void undoRecentCommand() throws NoInitialContextException, SecurityException, IOException {
     CommandManager commandManager = new CommandManager();
     Picture picture1 = new Picture(pic1);
     Picture picture2 = new Picture(pic2);
@@ -40,8 +43,8 @@ class CommandManagerTest {
     commandManager.addCommand(addPictureCommand1);
     commandManager.addCommand(addPictureCommand2);
     commandManager.undoRecentCommand();
-    assert(manager.getPictures().size() == 1);
+    assert (manager.getPictures().size() == 1);
     commandManager.undoRecentCommand();
-    assert(manager.getPictures().size() == 0);
+    assert (manager.getPictures().size() == 0);
   }
 }

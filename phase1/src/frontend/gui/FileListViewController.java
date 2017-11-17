@@ -43,7 +43,13 @@ public class FileListViewController extends Controller implements ChangeListener
   }
 
   public void move(ActionEvent e) {
-//    File directory = this.view.openDirectoryChooser(this.view.getMainStage());
+    String newDirectory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage()).getAbsolutePath();
+    
+    // if the file is moved
+    if (this.getFileManager().moveFile(this.listView.getSelectionModel().getSelectedItem(), newDirectory)) {
+      // remove it from the list
+      this.items.remove(this.listView.getSelectionModel().getSelectedIndex());
+    }
   }
 
   public void delete(ActionEvent e) {

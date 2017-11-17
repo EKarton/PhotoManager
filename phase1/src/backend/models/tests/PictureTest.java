@@ -2,33 +2,33 @@ package backend.models.tests;
 
 import backend.models.Picture;
 import backend.models.Tag;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class PictureTest {
 
-  private final String picPath = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg";
-
   @Test
   void getAbsolutePath() {
-    Picture picture = new Picture(picPath);
-    assert(picture.getAbsolutePath().equals(picPath));
+    Picture picture = new Picture("C:\\Users\\chick @Chicken.jpg");
+    System.out.println(picture.getAbsolutePath());
+    assert(picture.getAbsolutePath().equals("C:\\Users\\chick @Chicken.jpg"));
   }
 
   @Test
   void getDirectoryPath() {
-    Picture picture = new Picture(picPath);
+    Picture picture = new Picture("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg");
     assert(picture.getDirectoryPath().equals("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
   }
 
   @Test
   void getFullFileName() {
-    Picture picture = new Picture(picPath);
+    Picture picture = new Picture("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg");
     assert(picture.getFullFileName().equals("chick @Chicken - Copy.jpg"));
   }
 
   @Test
   void getTaglessName() {
-    Picture picture = new Picture(picPath);
+    Picture picture = new Picture("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg");
     assert(picture.getTaglessName().equals("chick"));
   }
 
@@ -78,6 +78,7 @@ class PictureTest {
   @Test
   void deleteTag() {
     Picture picture = new Picture("C:\\chicks @Chicken @Cute @Yellow @Brown @Young.jpg");
+
     picture.deleteTag(picture.getTags().get(0));
     assert(picture.getTags().size() == 4);
     assert(picture.getTags().get(0).getLabel().equals("Cute"));

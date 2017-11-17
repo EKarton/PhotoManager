@@ -14,19 +14,9 @@ import java.util.Observer;
 public class Picture extends Observable implements Serializable, Observer {
 
   /**
-   * The absolute path to the picture, i.e, contains the parent directory and the full file name
-   */
-  private String absolutePath;
-
-  /**
    * The directory path to the picture, i.e, it is the absolute path without the full file name.
    */
   private String directoryPath;
-
-  /**
-   * The file name, with the tag names in them
-   */
-  private String fullFileName;
 
   /**
    * The file name, without the tag names.
@@ -34,43 +24,58 @@ public class Picture extends Observable implements Serializable, Observer {
   private String taglessName;
 
   /**
-   * The file name, without the tag names.
-   */
-  private ArrayList<Tag> tags;
-
-  /**
-   * The tags in the name .
-   */
-  private String tagNames = "";
-
-  /**
-   * The tags in the name .
+   * The file extension (includes the .).
+   * Ex: ".jpg", ".gif"
    */
   private String fileExt;
+
+  /**
+   * An arraylist of tags
+   */
+  private ArrayList<Tag> tags;
 
 
   /**
    * Creates an instance of Picture
-   *
    * @param absolutePath The absolute path to the Picture
    */
   public Picture(String absolutePath) {
     this.tags = new ArrayList<Tag>();
-    setObjectProperties(absolutePath);
+
+    File file = new File(absolutePath);
+
+    this.directoryPath = file.getParent();
+    String fullFileName = file.getName();
+    this.fileExt = "." + fullFileName.split("\\.")[1].trim();
+    String nameWithoutFileExtension = fullFileName.split("\\.")[0].trim();
+
+    if (!file.getName().contains("@"))
+      this.taglessName = nameWithoutFileExtension.trim();
+    else{
+      String[] nameParts = nameWithoutFileExtension.split("@");
+      this.taglessName = nameParts[0].trim();
+
+      for (int i = 1; i < nameParts.length; i++){
+        Tag newTag = new Tag(nameParts[i].trim());
+        if (!tags.contains(newTag)) {
+          tags.add(newTag);
+          newTag.addObserver(this);
+        }
+      }
+    }
   }
 
   /**
    * Get the absolute path to the picture
-   *
    * @return The absolute path to the picture
    */
   public String getAbsolutePath() {
-    return this.absolutePath;
+    File newFile = new File(directoryPath, getFullFileName());
+    return newFile.getAbsolutePath();
   }
 
   /**
    * Get the directory path to the picture
-   *
    * @return The directory path to the picture
    */
   public String getDirectoryPath() {
@@ -79,84 +84,23 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * Get the full file name of this picture, including its tags.
-   *
    * @return The full file name of this picture.
    */
   public String getFullFileName() {
-    return this.fullFileName;
+    String fullFileName = taglessName;
+    for (Tag tag : tags)
+      fullFileName += " @" + tag.getLabel();
+    fullFileName +=  fileExt;
+    return fullFileName;
   }
 
   /**
    * Get the name of this picture without the tags
-   *
    * @return The name of this picture without the tags
    */
   public String getTaglessName() {
     return this.taglessName;
   }
-
-  /**
-   *
-   * @return The tag names in a String
-   */
-  public String getTagName() {
-    return this.tagNames;
-  }
-
-
-  /**
-   * Set the absolute path, directory path, tagless name, and full file name and tags of this object
-   *
-   * @param absolutePath The absolute path to this picture
-   */
-  private void setObjectProperties(String absolutePath) {
-    this.absolutePath = absolutePath;
-    File file = new File(absolutePath);
-
-    this.directoryPath = file.getParent();
-    this.fullFileName = file.getName();
-
-    String[] nameParts = fullFileName.split(" @");// If the name of the picture originally have some
-    // tags, we will split them
-    String endOfFile = nameParts[nameParts.length - 1];
-
-    this.fileExt = "." + endOfFile.split("\\.")[1]; // sets the file extension,
-    // which are the chars after
-    // the last ".
-
-    this.taglessName = "";
-    if (nameParts.length >= 1) {
-      this.taglessName = nameParts[0];
-    }
-
-    String theTagName;
-    for (int i = 1; i < nameParts.length; i++) {
-      if (i == nameParts.length - 1) {// if it's at the last tag
-        theTagName = endOfFile.split("\\.")[0];
-      } else {
-        theTagName = nameParts[i];
-      }
-      Tag newTag = new Tag(theTagName);
-      if (!this.containsTag(newTag)) {
-        this.tagNames += " @" + theTagName; // Concatenate the tagNames
-        this.tags.add(newTag);
-        newTag.addObserver(this);
-      }
-    }
-  }
-
-
-  @Override
-  public boolean equals(Object o) {
-    if (o instanceof Picture) {
-      Picture otherPic = (Picture) o;
-      if (otherPic.absolutePath == this.absolutePath) {
-        return true;
-      }
-    }
-    return false;
-  }
-
 
 
   /**
@@ -169,7 +113,6 @@ public class Picture extends Observable implements Serializable, Observer {
     Picture oldPic = this.clone();
 
     this.directoryPath = directoryPath;
-    this.absolutePath = this.directoryPath + "//" + this.fullFileName;
 
     super.setChanged();
     super.notifyObservers(oldPic);
@@ -182,25 +125,17 @@ public class Picture extends Observable implements Serializable, Observer {
    * @param taglessName The new tagless name of this picture.
    */
   public boolean setTaglessName(String taglessName) {
-    if ((taglessName + this.tagNames).length() <= 255) {// Make sure the name does not exceed
-      // maximum char length.
+    // Make sure the name does not exceed maximum char length.
+    if (getFullFileName().length() <= 255) {
       Picture oldPic = this.clone();
 
       this.taglessName = taglessName;
-      this.fullFileName = taglessName + this.tagNames + this.fileExt;
-      this.absolutePath = this.directoryPath + "//" + this.fullFileName;
 
       super.setChanged();
       super.notifyObservers(oldPic);
       return true;
     }
     return false;
-  }
-
-
-  @Override
-  public String toString() {
-    return "Abs path: " + absolutePath;
   }
 
   public ArrayList<Tag> getTags() {
@@ -214,17 +149,14 @@ public class Picture extends Observable implements Serializable, Observer {
    */
 
   public boolean addTag(Tag tag) {
-    if (!this.tags.contains(tag) && (this.fullFileName.length() + tag.getLabel().length()) <= 255) {
+    int lengthOfNewFileName = (this.getFullFileName() + " @" + tag.getLabel()).length();
+    if (lengthOfNewFileName < 255 && !tags.contains(tag)){
       Picture oldPic = this.clone();
-      this.tagNames = this.tagNames + " @" + tag.getLabel();
-
-      this.absolutePath = this.directoryPath + "\\" + this.taglessName + tagNames + this.fileExt;
-      this.fullFileName = this.taglessName + tagNames + this.fileExt;
       this.tags.add(tag);
       tag.addObserver(this);
 
       super.setChanged();
-      super.notifyObservers(oldPic);// provide an old copy of the picture for the observer.
+      super.notifyObservers(oldPic);
       return true;
     }
     return false;
@@ -232,24 +164,17 @@ public class Picture extends Observable implements Serializable, Observer {
 
   /**
    * method for deleting a tag form this picture
-   *
    * @return true if the tag is successfully deleted, else false.
    */
   public boolean deleteTag(Tag tag) {
-    Picture oldPic = this.clone();
-    for (Tag originalTag : this.tags) {// for loop is necessary to deleting this Picture from the
-      // actual Tag Object it's observing.
-      if (originalTag.equals(tag)) {
-        originalTag.deleteObserver(this);
-        this.tags.remove(tag);
+    if (tags.contains(tag)){
+      Picture oldPic = this.clone();
+      tags.remove(tag);
+      tag.deleteObserver(this);
 
-        this.fullFileName = this.fullFileName.replace(" @" + tag.getLabel(), "");
-        this.absolutePath = this.directoryPath + "\\" + this.fullFileName;
-
-        super.setChanged();
-        super.notifyObservers(oldPic);
-        return true; // successfully deleted.
-      }
+      super.setChanged();
+      super.notifyObservers(oldPic);
+      return true;
     }
     return false;
   }
@@ -260,15 +185,11 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   @Override
   public Picture clone() {
-    Picture clone = new Picture(this.absolutePath);
-    return clone;
+    return new Picture(getAbsolutePath());
   }
 
   public boolean containsTag(Tag tag) {
-    if (this.tags.contains(tag)) {
-      return true;
-    }
-    return false;
+    return this.tags.contains(tag);
   }
 
   @Override
@@ -288,5 +209,19 @@ public class Picture extends Observable implements Serializable, Observer {
     }
   }
 
+  @Override
+  public String toString() {
+    return "Abs path: " + getAbsolutePath();
+  }
 
+  @Override
+  public boolean equals(Object o) {
+    if (o instanceof Picture) {
+      Picture otherPic = (Picture) o;
+      if (otherPic.getAbsolutePath().equals(this.getAbsolutePath())) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

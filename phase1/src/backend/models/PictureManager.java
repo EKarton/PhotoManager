@@ -157,7 +157,12 @@ public class PictureManager extends Observable implements Observer {
         }
 
         if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-          manager.renameFile(newPicture.getAbsolutePath(), newPicture.getFullFileName());
+          String fileNameWithoutExtension = newPicture.getFullFileName();
+          if (fileNameWithoutExtension.contains("."))
+            fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
+
+          boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
+          System.out.println(a);
         }
       }
     }

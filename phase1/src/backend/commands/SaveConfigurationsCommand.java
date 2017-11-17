@@ -1,15 +1,12 @@
 package backend.commands;
 
-import backend.PictureManager;
-
 public class SaveConfigurationsCommand implements Command {
 
   private String directoryPath;
   private String fileName;
-  private PictureManager manager;
 
-  public SaveConfigurationsCommand(PictureManager manager, String directoryPath, String fileName){
-    this.manager = manager;
+
+  public SaveConfigurationsCommand(String directoryPath, String fileName) {
     this.directoryPath = directoryPath;
     this.fileName = fileName;
   }
@@ -37,6 +34,6 @@ public class SaveConfigurationsCommand implements Command {
    */
   @Override
   public String getLogMessage() {
-    return "Saving logs to " + directoryPath + "\\" + fileName;
+    return "ConfigLogSaved " + directoryPath + "\\" + fileName;
   }
 }

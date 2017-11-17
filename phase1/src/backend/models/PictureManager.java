@@ -1,4 +1,4 @@
-package backend;
+package backend.models;
 
 import backend.files.FileManager;
 import java.io.File;
@@ -11,7 +11,7 @@ import java.util.Observer;
 /**
  * A class used to keep track of the pictures.
  */
-public class PictureManager implements Observer {
+public class PictureManager extends Observable implements Observer {
 
   /**
    * A list of pictures that this class keeps track of.
@@ -26,7 +26,8 @@ public class PictureManager implements Observer {
    */
   public PictureManager(String directoryPath) throws IOException {
     FileManager manager = new FileManager();
-    List<File> files = manager.getImageList(directoryPath); //TODO: getImageList now recursively gets all the picture under that dir.
+    List<File> files = manager.getImageList(directoryPath); // TODO: getImageList now recursively
+                                                            // gets all the picture under that dir.
 
     for (File file : files) {
       Picture picture = new Picture(file.getAbsolutePath());
@@ -38,8 +39,7 @@ public class PictureManager implements Observer {
   /**
    * Creates a PictureManager instance with no pictures to keep track of.
    */
-  public PictureManager() {
-  }
+  public PictureManager() {}
 
   /**
    * Return a copy of the list of pictures that this class has.
@@ -52,12 +52,13 @@ public class PictureManager implements Observer {
 
   /**
    * Returns a list of pictures stored in this class that have that tag.
+   * 
    * @param tag The tag to search for
    * @return A list of pictures that this tag belongs to.
    */
-  public ArrayList<Picture> getPictureWithTag(Tag tag){
+  public ArrayList<Picture> getPictureWithTag(Tag tag) {
     ArrayList<Picture> picturesWithTags = new ArrayList<>();
-    for (Picture picture : pictures){
+    for (Picture picture : pictures) {
       if (picture.containsTag(tag))
         picturesWithTags.add(picture);
     }
@@ -74,32 +75,46 @@ public class PictureManager implements Observer {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
+
+        this.clearChanged();
+        this.notifyObservers(tag);// notify a Tag change
       }
     }
   }
 
   /**
-   * Adds a unique picture to this class. If the picture already exist, it will not add it.
-   *
+   * Adds a unique picture to this class.
+   * It will also add this as an observer to the new picture.
+   * If the picture already exist, it will not add it.
+   * To see if a picture exist, refer to the Picture.equals()
+   * to see if two pictures are equal
    * @param picture A picture
    */
   public void addPicture(Picture picture) {
-    pictures.add(picture);
+    if (!pictures.contains(picture)) {
+      pictures.add(picture);
+      picture.addObserver(this);
+    }
   }
 
   /**
-   * Untracks a picture from this class.
+   * Untracks a picture from this class and the
+   * picture no longer becomes observed from this class.
+   * If the picture does not exist, it will do nothing
+   * @param picture A picture in this class.
    */
-  public void untrackPicture(Picture picture){
+  public void untrackPicture(Picture picture) {
     pictures.remove(picture);
+    picture.deleteObserver(this);
   }
 
   /**
-   * Determines whether a picture is in this instance or not.
-   * If it is in this instance, it is being tracked.
+   * Determines whether a picture is in this instance or not. If it is in this instance, it is being
+   * tracked.
+   * 
    * @return True if the picture is in this instance; else false.
    */
-  public boolean contains(Picture picture){
+  public boolean contains(Picture picture) {
     return pictures.contains(picture);
   }
 
@@ -138,11 +153,16 @@ public class PictureManager implements Observer {
 
       if (pictures.contains(newPicture)) {
         if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-          manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getFullFileName());
+          manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
         }
 
         if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-          manager.renameFile(newPicture.getAbsolutePath(), newPicture.getFullFileName());
+          String fileNameWithoutExtension = newPicture.getFullFileName();
+          if (fileNameWithoutExtension.contains("."))
+            fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
+
+          boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
+          System.out.println(a);
         }
       }
     }

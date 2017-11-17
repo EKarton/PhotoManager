@@ -1,4 +1,4 @@
-package backend;
+package backend.models;
 
 import java.io.Serializable;
 import java.util.Observable;
@@ -30,8 +30,8 @@ public class Tag extends Observable implements Serializable {
   @Override
   public boolean equals(Object anObject) {
     if (anObject instanceof Tag) {
-      Tag anTag = (Tag) anObject;
-      if (this.getLabel() == anTag.getLabel()) {
+      Tag otherTag = (Tag) anObject;
+      if (this.getLabel().equals(otherTag.getLabel())) {
         return true;
       }
     }

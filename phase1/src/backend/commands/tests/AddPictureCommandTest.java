@@ -34,7 +34,7 @@ class AddPictureCommandTest {
     Picture picture = new Picture(picturePath);
     PictureManager manager = new PictureManager();
     AddPictureCommand command = new AddPictureCommand(picture, manager);
-    assert(command.getLogMessage().equals(""));
+    assert(command.getLogMessage().equals(""));//TODO: EMIILIO!!!!
     command.execute();
     assert(command.getLogMessage().equals(""));
     command.undo();

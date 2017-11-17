@@ -22,7 +22,7 @@ class CommandManagerTest {
     Picture picture2 = new Picture(pic2);
     PictureManager manager = new PictureManager();
     AddPictureCommand addPictureCommand1 = new AddPictureCommand(picture1, manager);
-    AddPictureCommand addPictureCommand2 = new AddPictureCommand(picture1, manager);
+    AddPictureCommand addPictureCommand2 = new AddPictureCommand(picture2, manager);
     addPictureCommand1.execute();
     addPictureCommand2.execute();
     commandManager.addCommand(addPictureCommand1);
@@ -37,7 +37,7 @@ class CommandManagerTest {
     Picture picture2 = new Picture(pic2);
     PictureManager manager = new PictureManager();
     AddPictureCommand addPictureCommand1 = new AddPictureCommand(picture1, manager);
-    AddPictureCommand addPictureCommand2 = new AddPictureCommand(picture1, manager);
+    AddPictureCommand addPictureCommand2 = new AddPictureCommand(picture2, manager);
     addPictureCommand1.execute();
     addPictureCommand2.execute();
     commandManager.addCommand(addPictureCommand1);

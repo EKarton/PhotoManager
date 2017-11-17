@@ -55,6 +55,6 @@ public class AddPictureCommand implements Command {
    */
   @Override
   public String getLogMessage() {
-    return "Addpicture (" + picture + ") to the Picture Manager, " + manager;
+    return "addPicture (" + picture + ") to the Picture Manager, " + manager;
   }
 }

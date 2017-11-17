@@ -113,14 +113,18 @@ public class FileManager {
    * 
    * @param path the path of the file
    * @param destination the path of the destination to move the file
-   * @return true if the file was moved, false otherwise
+   * @return true if the file was moved, false otherwise (this includes if the file was moved to the same place)
    */
   public boolean moveFile(String path, String destination) {
     return moveFile(new File(path), destination);
   }
   
   public boolean moveFile(File file, String destination) {
-    if (file.isFile()) {
+    /* if the user is trying to move it to the same place
+     * we simply won't move it and return false. This is because a return false of true
+     * means the file was "moved", as in changed it's location
+     */
+    if (file.isFile() && !file.getParent().equals(destination)) { 
       return file.renameTo(new File(destination, file.getName()));
     }
 

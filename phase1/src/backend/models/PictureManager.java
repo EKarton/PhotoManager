@@ -24,10 +24,16 @@ public class PictureManager extends Observable implements Observer {
    * @param directoryPath A directory path
    * @throws IOException Thrown when the directory does not exist.
    */
-  public PictureManager(String directoryPath) throws IOException {
+  public PictureManager(String directoryPath, boolean recursive) throws IOException {
     FileManager manager = new FileManager();
-    List<File> files = manager.getImageList(directoryPath); // TODO: getImageList now recursively
-                                                            // gets all the picture under that dir.
+
+    List<File> files;
+    if (recursive)
+      files = manager.getImageListRec(directoryPath);
+    else
+      files = manager.getImageList(directoryPath);
+
+
 
     for (File file : files) {
       Picture picture = new Picture(file.getAbsolutePath());

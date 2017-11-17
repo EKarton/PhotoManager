@@ -23,12 +23,12 @@ public class RenamePictureCommand implements Command {
   private String oldName;
 
   /**
-   * Creates a RenamePictureCommand which can rename a picture with
-   * a new name
+   * Creates a RenamePictureCommand which can rename a picture with a new name
+   * 
    * @param picture A picture to rename
    * @param newName The new name for this picture.
    */
-  public RenamePictureCommand(Picture picture, String newName){
+  public RenamePictureCommand(Picture picture, String newName) {
     this.oldName = picture.getTaglessName();
     this.picture = picture;
     this.newName = newName;
@@ -53,10 +53,11 @@ public class RenamePictureCommand implements Command {
 
   /**
    * Returns a log message for this command
+   * 
    * @return A log message for this command
    */
   @Override
   public String getLogMessage() {
-    return "Renamed a picture " + picture + " from " + oldName + " to " + newName;
+    return "RenamePicture(" + picture + ") from (" + oldName + ") to (" + newName + ")";
   }
 }

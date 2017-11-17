@@ -20,10 +20,11 @@ public class AddPictureCommand implements Command {
 
   /**
    * Creates an AddPictureCommand instance
+   * 
    * @param picture A picture to add
    * @param manager A manager used to store the pictures.
    */
-  public AddPictureCommand(Picture picture, PictureManager manager){
+  public AddPictureCommand(Picture picture, PictureManager manager) {
     this.picture = picture;
     this.manager = manager;
   }
@@ -38,8 +39,8 @@ public class AddPictureCommand implements Command {
   }
 
   /**
-   * Execute the command by adding a picture to the picture manager.
-   * It will only add it if the picture does not exist in the manager yet.
+   * Execute the command by adding a picture to the picture manager. It will only add it if the
+   * picture does not exist in the manager yet.
    */
   @Override
   public void execute() {
@@ -49,10 +50,11 @@ public class AddPictureCommand implements Command {
 
   /**
    * Returns a log message for this command
+   * 
    * @return A log message for this command
    */
   @Override
   public String getLogMessage() {
-    return "Added picture " + picture + " to the Picture Manager, " + manager;
+    return "Addpicture (" + picture + ") to the Picture Manager, " + manager;
   }
 }

@@ -19,20 +19,20 @@ public class DeleteTagFromPictureCommand implements Command {
   private Tag tag;
 
   /**
-   * Creates a DeleteTagFromPictureCommand specifying a tag to delete from a picture.
-   * Note: the tag should be already in the picture.
+   * Creates a DeleteTagFromPictureCommand specifying a tag to delete from a picture. Note: the tag
+   * should be already in the picture.
+   * 
    * @param picture A picture containing the tag
    * @param tag The tag to delete.
    */
-  public DeleteTagFromPictureCommand(Picture picture, Tag tag){
+  public DeleteTagFromPictureCommand(Picture picture, Tag tag) {
     this.picture = picture;
     this.tag = tag;
   }
 
   /**
-   * Undo the command by re-adding the tag back to the picture.
-   * If for some reason the tag already exist in the picture,
-   * it will not add the tag again to the picture.
+   * Undo the command by re-adding the tag back to the picture. If for some reason the tag already
+   * exist in the picture, it will not add the tag again to the picture.
    */
   @Override
   public void undo() {
@@ -41,9 +41,8 @@ public class DeleteTagFromPictureCommand implements Command {
   }
 
   /**
-   * Execute the command by removing the tag from the picture.
-   * If for some reason the tag is already not in the picture,
-   * it will do nothing.
+   * Execute the command by removing the tag from the picture. If for some reason the tag is already
+   * not in the picture, it will do nothing.
    */
   @Override
   public void execute() {
@@ -53,10 +52,11 @@ public class DeleteTagFromPictureCommand implements Command {
 
   /**
    * Returns a log message for this command
+   * 
    * @return A log message for this command
    */
   @Override
   public String getLogMessage() {
-    return "Removed a tag " + tag + " from picture " + picture;
+    return "RemoveTag (" + tag + ") from picture (" + picture + ")";
   }
 }

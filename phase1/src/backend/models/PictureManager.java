@@ -83,31 +83,29 @@ public class PictureManager extends Observable implements Observer {
   }
 
   /**
-   * Adds a unique picture to this class. If the picture already exist, it will not add it.
-   *
+   * Adds a unique picture to this class.
+   * It will also add this as an observer to the new picture.
+   * If the picture already exist, it will not add it.
+   * To see if a picture exist, refer to the Picture.equals()
+   * to see if two pictures are equal
    * @param picture A picture
    */
   public void addPicture(Picture picture) {
-    pictures.add(picture);
-
-    this.clearChanged();
-    this.notifyObservers(picture); // notify a picture change
+    if (!pictures.contains(picture)) {
+      pictures.add(picture);
+      picture.addObserver(this);
+    }
   }
 
   /**
-   * Untracks a picture from this class.
+   * Untracks a picture from this class and the
+   * picture no longer becomes observed from this class.
+   * If the picture does not exist, it will do nothing
+   * @param picture A picture in this class.
    */
   public void untrackPicture(Picture picture) {
     pictures.remove(picture);
-    for (Picture thisPicture : this.pictures) {
-      if (picture.equals(thisPicture)) {
-        pictures.remove(thisPicture);
-        thisPicture.deleteObserver(this);
-
-        this.clearChanged();
-        this.notifyObservers(picture);
-      }
-    }
+    picture.deleteObserver(this);
   }
 
   /**

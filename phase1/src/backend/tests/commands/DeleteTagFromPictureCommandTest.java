@@ -1,12 +1,11 @@
-package backend.commands.tests;
+package backend.tests.commands;
 
 import backend.models.Picture;
 import backend.models.Tag;
 import backend.commands.AddTagToPictureCommand;
 import org.junit.jupiter.api.Test;
 
-class AddTagToPictureCommandTest {
-
+class DeleteTagFromPictureCommandTest {
   private final String picturePath = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
 
   @Test
@@ -16,7 +15,7 @@ class AddTagToPictureCommandTest {
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
     command.undo();
-    assert(picture.containsTag(tag) == false);
+    assert(picture.containsTag(tag));
   }
 
   @Test
@@ -25,7 +24,7 @@ class AddTagToPictureCommandTest {
     Tag tag = new Tag("Grandma");
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
-    assert(picture.containsTag(tag));
+    assert(picture.containsTag(tag) == false);
   }
 
   @Test
@@ -36,7 +35,6 @@ class AddTagToPictureCommandTest {
     command.execute();
     assert(command.getLogMessage().equals(""));
     command.undo();
-    assert(command.getLogMessage().equals(""));//TODO: EMILIO!!!
+    assert(command.getLogMessage().equals(""));
   }
-
 }

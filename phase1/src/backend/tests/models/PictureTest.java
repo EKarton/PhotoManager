@@ -1,4 +1,4 @@
-package backend.models.tests;
+package backend.tests.models;
 
 import backend.models.Picture;
 import backend.models.Tag;

@@ -1,4 +1,4 @@
-package backend.models.tests;
+package backend.tests.models;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package backend.commands.tests;
+package backend.tests.commands;
 
 import backend.models.Picture;
 import backend.models.PictureManager;

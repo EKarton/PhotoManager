@@ -1,7 +1,7 @@
-package backend.commands.tests;
+package backend.tests.commands;
 
-import backend.models.Picture;
 import backend.commands.RenamePictureCommand;
+import backend.models.Picture;
 import org.junit.jupiter.api.Test;
 
 class RenamePictureCommandTest {

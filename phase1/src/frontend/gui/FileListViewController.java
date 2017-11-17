@@ -41,6 +41,7 @@ public class FileListViewController extends Controller implements ChangeListener
     try {
       Image image = new Image(new FileInputStream(newValue));
       this.getMainView().getPictureImageView().setImage(image);
+      this.getMainView().setPictureName(newValue.getName());
     } catch (FileNotFoundException e) {
       // This should never happen but if it does just set the image to be nothing
       this.getMainView().getPictureImageView().setImage(null);
@@ -48,8 +49,6 @@ public class FileListViewController extends Controller implements ChangeListener
   }
 
   public void rename(ActionEvent e) {
-//    this.listView.getSelectionModel().getSelectedItem();
-    System.out.println("rename");
     this.listView.edit(this.listView.getSelectionModel().getSelectedIndex());
   }
 

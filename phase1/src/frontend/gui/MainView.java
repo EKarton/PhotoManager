@@ -1,18 +1,20 @@
 package frontend.gui;
 
 import java.io.File;
-import java.io.FileInputStream;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -26,6 +28,7 @@ public class MainView extends Application {
   private ActionEventController actionEventController;
   private FileListViewController listViewController;
   private ImageView pictureImageView;
+  private Label pictureName;
   private Stage mainStage;
 
   /**
@@ -61,18 +64,12 @@ public class MainView extends Application {
 
     ListView<File> listView = createFileListView();
     listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);
-    HBox hbox = new HBox();
-    hbox.getChildren().add(listView);
+    HBox hBox = new HBox();
+    hBox.getChildren().add(listView);
 
-    this.pictureImageView = new ImageView();
-    pictureImageView.setFitWidth((3 * WIDTH) / 4);
-    pictureImageView.setFitHeight(MainView.HEIGHT);
-    pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
-//    imageView.setOnMouseEntered(value->System.out.println("YO"));
+    hBox.getChildren().add(this.createPictureViewer());
 
-    hbox.getChildren().add(pictureImageView);
-
-    root.setCenter(hbox);
+    root.setCenter(hBox);
 
     // container for all content in a scene graph
     Scene scene = new Scene(root, MainView.WIDTH, MainView.HEIGHT);
@@ -127,6 +124,22 @@ public class MainView extends Application {
     return menuBar;
   }
 
+  private VBox createPictureViewer() {
+    VBox pictureBox = new VBox();
+    
+    pictureName = new Label();
+    pictureName.setFont(Font.font ("Verdana", 20));
+    pictureName.setPadding(new Insets(0, 0, 5, 0));
+    
+    this.pictureImageView = new ImageView();
+    pictureImageView.setFitWidth((3 * WIDTH) / 4);
+    pictureImageView.setFitHeight(MainView.HEIGHT);
+    pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
+    
+    pictureBox.getChildren().addAll(pictureName, this.pictureImageView);
+    
+    return pictureBox;
+  }
 
   public File openDirectoryChooser(Stage mainStage) {
     DirectoryChooser dirChooser = new DirectoryChooser();
@@ -184,6 +197,10 @@ public class MainView extends Application {
   
   public ImageView getPictureImageView() {
     return this.pictureImageView;
+  }
+  
+  public void setPictureName(String name) {
+    this.pictureName.setText(name);
   }
 
   @Override

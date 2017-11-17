@@ -101,11 +101,22 @@ public class FileManager {
 
   public boolean renameFile(File file, String newName) {
     if (file.isFile()) {
-      return file.renameTo(
-          new File(file.getParent(), newName + "." + getFileExtension(file.getAbsolutePath())));
+      return file.renameTo(this.getRenamedFile(file, newName));
     }
 
     return false;
+  }
+  
+  /**
+   * Returns a new file which is <code>file</code> but with its
+   * name changed to <code>newName</code>
+   * 
+   * @param file
+   * @param newName
+   * @return
+   */
+  public File getRenamedFile(File file, String newName) {
+    return new File(file.getParent(), newName + "." + getFileExtension(file.getAbsolutePath()));
   }
 
   /**

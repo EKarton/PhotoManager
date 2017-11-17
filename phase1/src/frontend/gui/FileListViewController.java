@@ -1,6 +1,8 @@
 package frontend.gui;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
@@ -9,7 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.image.Image;
 
 public class FileListViewController extends Controller implements ChangeListener<File> {
   private ObservableList<File> items;
@@ -36,7 +38,13 @@ public class FileListViewController extends Controller implements ChangeListener
 
   @Override
   public void changed(ObservableValue<? extends File> observable, File oldValue, File newValue) {
-    // TODO display picture
+    try {
+      Image image = new Image(new FileInputStream(newValue));
+      this.getMainView().getPictureImageView().setImage(image);
+    } catch (FileNotFoundException e) {
+      // This should never happen but if it does just set the image to be nothing
+      this.getMainView().getPictureImageView().setImage(null);
+    }
   }
 
   public void rename(ActionEvent e) {

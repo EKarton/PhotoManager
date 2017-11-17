@@ -3,26 +3,20 @@ package frontend.gui;
 import java.io.File;
 import java.io.FileInputStream;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 public class MainView extends Application {
   private static final int WIDTH = 1080;
@@ -31,6 +25,7 @@ public class MainView extends Application {
   /** Controller for all action event handling */
   private ActionEventController actionEventController;
   private FileListViewController listViewController;
+  private ImageView pictureImageView;
   private Stage mainStage;
 
   /**
@@ -69,14 +64,13 @@ public class MainView extends Application {
     HBox hbox = new HBox();
     hbox.getChildren().add(listView);
 
+    this.pictureImageView = new ImageView();
+    pictureImageView.setFitWidth((3 * WIDTH) / 4);
+    pictureImageView.setFitHeight(MainView.HEIGHT);
+    pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
+//    imageView.setOnMouseEntered(value->System.out.println("YO"));
 
-    Image image = new Image(new FileInputStream("dog.png"));
-    ImageView imageView = new ImageView(image);
-    imageView.setFitWidth((3 * WIDTH) / 4);
-    imageView.setFitHeight(MainView.HEIGHT);
-    imageView.setPreserveRatio(true); // this lets us nicely scale the image
-
-    hbox.getChildren().add(imageView);
+    hbox.getChildren().add(pictureImageView);
 
     root.setCenter(hbox);
 
@@ -188,6 +182,9 @@ public class MainView extends Application {
     return this.listViewController;
   }
   
+  public ImageView getPictureImageView() {
+    return this.pictureImageView;
+  }
 
   @Override
   public void stop() {

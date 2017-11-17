@@ -48,7 +48,7 @@ public class MainView extends Application {
   public MainView() {
     // create the controller for all action event handling
     this.actionEventController = new ActionEventController(this);
-    this.listViewController = new FileListViewController();
+    this.listViewController = new FileListViewController(this);
   }
 
   @Override

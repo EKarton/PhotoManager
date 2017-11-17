@@ -3,7 +3,6 @@ package frontend.gui;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import backend.files.FileManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -11,16 +10,15 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
 
-public class FileListViewController implements ChangeListener<File> {
+public class FileListViewController extends Controller implements ChangeListener<File> {
   private ObservableList<File> items;
   private ListView<File> listView;
-  private FileManager fileManager;
-
-  public FileListViewController() {
+  
+  public FileListViewController(MainView mainView) {
+    super(mainView);
+    
     List<File> defaultEmptyList = new ArrayList<>();
     this.items = FXCollections.observableList(defaultEmptyList);
-    
-    this.fileManager = new FileManager();
   }
 
   public ObservableList<File> getItems() {
@@ -45,11 +43,11 @@ public class FileListViewController implements ChangeListener<File> {
   }
 
   public void move(ActionEvent e) {
-    // TODO
+//    File directory = this.view.openDirectoryChooser(this.view.getMainStage());
   }
 
   public void delete(ActionEvent e) {
-    this.fileManager.deleteFile(this.listView.getSelectionModel().getSelectedItem());
+    this.getFileManager().deleteFile(this.listView.getSelectionModel().getSelectedItem());
     this.items.remove(this.listView.getSelectionModel().getSelectedIndex());
   }
 

@@ -28,7 +28,7 @@ public class MainView extends Application {
 
   /** Controller for all action event handling */
   private ActionEventController actionEventController;
-  private ListViewController<File> listViewController;
+  private FileListViewController listViewController;
   private Stage mainStage;
 
   /**
@@ -48,9 +48,7 @@ public class MainView extends Application {
   public MainView() {
     // create the controller for all action event handling
     this.actionEventController = new ActionEventController(this);
-
-    // create the controller for the ListView that displays the list of files
-    this.listViewController = new ListViewController<File>();
+    this.listViewController = new FileListViewController();
   }
 
   @Override
@@ -64,7 +62,7 @@ public class MainView extends Application {
 
     root.setTop(createMenuBar()); // add the menu bar on top
 
-    ListView<File> listView = createFileListView(this.listViewController);
+    ListView<File> listView = createFileListView();
     listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);
     HBox hbox = new HBox();
     hbox.getChildren().add(listView);
@@ -154,24 +152,26 @@ public class MainView extends Application {
   }
 
 
-  public ListView<File> createFileListView(ListViewController<File> controller) {
+  public ListView<File> createFileListView() {
+    ListView<File> listView = new ListView<File>(this.listViewController.getItems());
+    this.listViewController.setView(listView);  // must call this
 
-    ListView<File> listView = new ListView<File>(controller.getItems());
-    
     MenuItem rename = new MenuItem("Rename");
     rename.setOnAction(this.listViewController::rename);
-    
+
     MenuItem move = new MenuItem("Move");
     move.setOnAction(this.listViewController::move);
-    
+
     MenuItem delete = new MenuItem("Delete");
     delete.setOnAction(this.listViewController::delete);
-    
+
+
     ContextMenu contextMenu = new ContextMenu();
     contextMenu.getItems().addAll(rename, move, delete);
-    
+
+    // TODO clean this up later
     listView.setCellFactory(new Callback<ListView<File>, ListCell<File>>() {
-     
+
       @Override
       public ListCell<File> call(ListView<File> param) {
         ListCell<File> cell = new ListCell<File>() {
@@ -185,13 +185,14 @@ public class MainView extends Application {
             }
           }
         };
+
         cell.setContextMenu(contextMenu);
         return cell;
       }
     });
 
     listView.getSelectionModel().selectedItemProperty().addListener(this.listViewController);
-    
+
     return listView;
   }
 
@@ -200,9 +201,10 @@ public class MainView extends Application {
   }
 
 
-  public ListViewController<File> getListViewController() {
+  public FileListViewController getListViewController() {
     return this.listViewController;
   }
+  
 
   @Override
   public void stop() {

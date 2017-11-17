@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import backend.files.FileManager;
 import javafx.event.ActionEvent;
+import javafx.scene.control.MenuItem;
 
 /**
  * This is a controller to handle all action events from the MainView

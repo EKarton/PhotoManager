@@ -27,6 +27,7 @@ public class MainView extends Application {
   /** Controller for all action event handling */
   private ActionEventController actionEventController;
   private FileListViewController listViewController;
+  private MainController mainController;
   private ImageView pictureImageView;
   private Label pictureName;
   private Stage mainStage;
@@ -49,6 +50,7 @@ public class MainView extends Application {
     // create the controller for all action event handling
     this.actionEventController = new ActionEventController(this);
     this.listViewController = new FileListViewController(this);
+    this.mainController = new MainController(this);
   }
 
   @Override
@@ -197,6 +199,10 @@ public class MainView extends Application {
   
   public ImageView getPictureImageView() {
     return this.pictureImageView;
+  }
+  
+  public MainController getMainController() {
+    return this.mainController;
   }
   
   public void setPictureName(String name) {

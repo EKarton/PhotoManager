@@ -105,6 +105,6 @@ class PictureTest {
     assert(picture.containsTag(picture.getTags().get(2)));
     assert(picture.containsTag(picture.getTags().get(3)));
     assert(picture.containsTag(picture.getTags().get(4)));
-    assert(picture.containsTag(new Tag("Cute")) == false);
+    assert(picture.containsTag(new Tag("Cute")));
   }
 }

@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
+import javafx.scene.input.KeyEvent;
 
 public class FileListViewController extends Controller implements ChangeListener<File> {
   private ObservableList<File> items;
@@ -39,7 +40,9 @@ public class FileListViewController extends Controller implements ChangeListener
   }
 
   public void rename(ActionEvent e) {
-    System.out.println(this.listView.getSelectionModel().getSelectedItem());
+//    this.listView.getSelectionModel().getSelectedItem();
+    System.out.println("rename");
+    this.listView.edit(this.listView.getSelectionModel().getSelectedIndex());
   }
 
   public void move(ActionEvent e) {

@@ -11,16 +11,18 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.util.Callback;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 public class MainView extends Application {
   private static final int WIDTH = 1080;
@@ -155,6 +157,8 @@ public class MainView extends Application {
   public ListView<File> createFileListView() {
     ListView<File> listView = new ListView<File>(this.listViewController.getItems());
     this.listViewController.setView(listView);  // must call this
+    
+    listView.setEditable(true);
 
     MenuItem rename = new MenuItem("Rename");
     rename.setOnAction(this.listViewController::rename);
@@ -165,31 +169,10 @@ public class MainView extends Application {
     MenuItem delete = new MenuItem("Delete");
     delete.setOnAction(this.listViewController::delete);
 
-
     ContextMenu contextMenu = new ContextMenu();
     contextMenu.getItems().addAll(rename, move, delete);
-
-    // TODO clean this up later
-    listView.setCellFactory(new Callback<ListView<File>, ListCell<File>>() {
-
-      @Override
-      public ListCell<File> call(ListView<File> param) {
-        ListCell<File> cell = new ListCell<File>() {
-          @Override
-          public void updateItem(File item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-              setText(null);
-            } else {
-              setText(item.getName());
-            }
-          }
-        };
-
-        cell.setContextMenu(contextMenu);
-        return cell;
-      }
-    });
+    
+    listView.setCellFactory(new FileListViewCallback(contextMenu));
 
     listView.getSelectionModel().selectedItemProperty().addListener(this.listViewController);
 

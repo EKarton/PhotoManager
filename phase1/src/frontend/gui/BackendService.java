@@ -18,7 +18,7 @@ public class BackendService extends Observable {
       pictureManager = new PictureManager();
       appSettings = new AppSettings();
 
-      appSettings.addHistoricalPictures(pictureManager);
+      appSettings.addPicToManager(pictureManager);
 
       setChanged();
       notifyObservers();
@@ -31,7 +31,7 @@ public class BackendService extends Observable {
   public void resetBackendService(String directory, boolean isRecursive){
     try{
       pictureManager = new PictureManager(directory, isRecursive);
-      appSettings.addHistoricalPictures(pictureManager);
+      appSettings.addPicToManager(pictureManager);
 
       setChanged();
       notifyObservers();

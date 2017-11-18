@@ -41,7 +41,7 @@ public class AppSettings implements Serializable {
    * 
    * @param manager a PictureManager
    */
-  public void addHistoricalPictures(PictureManager manager) {
+  public void addPicToManager(PictureManager manager) {
     if (historicalPictures.size() != 0) {
       for (Picture picture : historicalPictures) {
         for (Picture picture1 : manager.getPictures()) {
@@ -52,6 +52,18 @@ public class AppSettings implements Serializable {
         }
       }
     }
+  }
+
+  /**
+   * adds all the pictures in the given PictureManager to historicalPictures
+   * 
+   * @param manager
+   */
+  public void addPicFromManager(PictureManager manager) {
+    for (Picture picture : manager.getPictures())
+      if (!this.historicalPictures.contains(picture)) {
+        this.historicalPictures.add(picture);
+      }
   }
 
   /**

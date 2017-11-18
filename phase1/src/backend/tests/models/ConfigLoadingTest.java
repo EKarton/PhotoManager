@@ -23,12 +23,12 @@ class ConfigLoadingTest {
     hisNames.add("chick");
     hisNames.add("baby chicken");
     hisNames.add("shimiISDUMB");
-    setting.addHistoricalPictures(manager);
+    setting.addPicFromManager(manager);
     setting.save();
     AppSettings newSetting = AppSettings.loadFromFile();
-    assert (setting.getHistoricalPicture().size() == 0);
-    // assert (newSetting.getHistoricalPicture().get(0).getHistoricalTaglessNames()
-    // .equals(picture.getHistoricalTaglessNames()));
+    assert (setting.getHistoricalPicture().size() == 1);
+    assert (newSetting.getHistoricalPicture().get(0).getHistoricalTaglessNames()
+        .equals(picture.getHistoricalTaglessNames()));
     assert (picture.getTaglessName().equals("shimiISDUMB"));
     assert (picture.getFullFileName().equals("shimiISDUMB @Chicken.jpg"));
     assert (picture.getDirectoryPath()

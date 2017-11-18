@@ -155,10 +155,11 @@ public class PictureViewer extends BorderPane {
 
     public void rerenderTags(){
 
+      tagsInnerBox.getChildren().clear();
+
       if (picture == null || picture.getTags().size() == 0)
         return;
 
-      tagsInnerBox.getChildren().clear();
       tagsInnerBox.getChildren().add(new Label("Tags: "));
       for (Tag tag : picture.getTags()){
         Label newLabel = new Label(tag.getLabel());

@@ -24,16 +24,4 @@ class RenamePictureCommandTest {
     command.execute();
     assert(picture.getTaglessName().equals("chicken"));
   }
-
-  @Test
-  void getLogMessage() {
-    Picture picture = new Picture(picturePath);
-    RenamePictureCommand command = new RenamePictureCommand(picture, "chicken");
-    assert(command.getLogMessage().equals(""));
-    command.execute();
-    assert(command.getLogMessage().equals(""));
-    command.undo();
-    assert(command.getLogMessage().equals(""));
-  }
-
 }

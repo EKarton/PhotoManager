@@ -1,5 +1,7 @@
 package backend.commands;
 
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.PictureManager;
 
@@ -34,8 +36,7 @@ public class AddPictureCommand implements Command {
    */
   @Override
   public void undo() {
-    if (manager.contains(picture))
-      manager.untrackPicture(picture);
+    manager.untrackPicture(picture);
   }
 
   /**
@@ -44,17 +45,12 @@ public class AddPictureCommand implements Command {
    */
   @Override
   public void execute() {
-    if (!manager.contains(picture))
-      manager.addPicture(picture);
+    manager.addPicture(picture);
   }
 
-  /**
-   * Returns a log message for this command
-   * 
-   * @return A log message for this command
-   */
   @Override
-  public String getLogMessage() {
-    return "addPicture (" + picture + ") to the Picture Manager, " + manager;
+  public LogRecord getLogRecord() {
+    return new LogRecord(Level.FINE, "added Picture " + picture.getTaglessName());
   }
+
 }

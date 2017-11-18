@@ -25,9 +25,9 @@ public class MainView extends Application {
   private static final int HEIGHT = 720;
 
   /** Controller for all action event handling */
-  private ActionEventController actionEventController;
+  private MainViewController mainViewController;
   private FileListViewController listViewController;
-  private MainController mainController;
+  private BackendService backendService;
   private ImageView pictureImageView;
   private Label pictureName;
   private Stage mainStage;
@@ -48,9 +48,9 @@ public class MainView extends Application {
    */
   public MainView() {
     // create the controller for all action event handling
-    this.actionEventController = new ActionEventController(this);
-    this.listViewController = new FileListViewController(this);
-    this.mainController = new MainController(this);
+    //this.mainViewController = new MainViewController(this);
+    //this.listViewController = new FileListViewController(this);
+    //this.backendService = new BackendService(this);
   }
 
   @Override
@@ -77,7 +77,7 @@ public class MainView extends Application {
     Scene scene = new Scene(root, MainView.WIDTH, MainView.HEIGHT);
 
     mainStage.setScene(scene);
-    mainStage.setResizable(false);
+    mainStage.setResizable(true);
     mainStage.show();
   }
 
@@ -94,31 +94,31 @@ public class MainView extends Application {
     Menu openDir = new Menu("Open Directory");
 
     MenuItem openDirNonRec = new MenuItem("Open Directory");
-    openDirNonRec.setOnAction(this.actionEventController::openDirectory);
+    openDirNonRec.setOnAction(this.mainViewController::openDirectory);
 
     MenuItem openDirRec = new MenuItem("Open Directory Recursively");
-    openDirRec.setOnAction(this.actionEventController::openDirectoryRecursively);
+    openDirRec.setOnAction(this.mainViewController::openDirectoryRecursively);
 
     openDir.getItems().addAll(openDirNonRec, openDirRec);
 
     MenuItem openLog = new MenuItem("Open Log");
-    openLog.setOnAction(this.actionEventController::openLog);
+    openLog.setOnAction(this.mainViewController::openLog);
 
     open.getItems().addAll(openDir, openLog);
 
     Menu save = new Menu("Save");
     MenuItem saveItem = new MenuItem("Save");
-    saveItem.setOnAction(this.actionEventController::save);
+    saveItem.setOnAction(this.mainViewController::save);
     save.getItems().add(saveItem);
 
     Menu undo = new Menu("Undo");
     MenuItem undoItem = new MenuItem("Undo");
-    undoItem.setOnAction(this.actionEventController::undo);
+    undoItem.setOnAction(this.mainViewController::undo);
     undo.getItems().add(undoItem);
 
     Menu redo = new Menu("Redo");
     MenuItem redoItem = new MenuItem("Redo");
-    redoItem.setOnAction(this.actionEventController::redo);
+    redoItem.setOnAction(this.mainViewController::redo);
     redo.getItems().add(redoItem);
 
     menuBar.getMenus().addAll(open, save, undo, redo);
@@ -134,8 +134,10 @@ public class MainView extends Application {
     pictureName.setPadding(new Insets(0, 0, 5, 0));
     
     this.pictureImageView = new ImageView();
-    pictureImageView.setFitWidth((3 * WIDTH) / 4);
-    pictureImageView.setFitHeight(MainView.HEIGHT);
+    pictureImageView.setFitHeight(mainStage.getHeight());
+    pictureImageView.setFitWidth((3 * mainStage.getWidth()) / 4);
+    //pictureImageView.setFitWidth((3 * WIDTH) / 4);
+    //pictureImageView.setFitHeight(MainView.HEIGHT);
     pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
     
     pictureBox.getChildren().addAll(pictureName, this.pictureImageView);
@@ -201,8 +203,8 @@ public class MainView extends Application {
     return this.pictureImageView;
   }
   
-  public MainController getMainController() {
-    return this.mainController;
+  public BackendService getBackendService() {
+    return this.backendService;
   }
   
   public void setPictureName(String name) {

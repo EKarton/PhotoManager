@@ -1,5 +1,8 @@
 package backend.commands;
 
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+
 /**
  * An interface used to specify an undoable command.
  */
@@ -16,8 +19,9 @@ public interface Command {
   void execute();
 
   /**
-   * Returns a log message for this command
-   * @return A log message for this command
+   * Returns a log record for this command
+   * 
+   * @return A log record for this command
    */
-  String getLogMessage();
+  LogRecord getLogRecord();
 }

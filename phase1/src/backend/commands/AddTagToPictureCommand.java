@@ -1,5 +1,8 @@
 package backend.commands;
 
+import backend.models.PictureManager;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.Tag;
 
@@ -19,7 +22,7 @@ public class AddTagToPictureCommand implements Command {
   private Picture picture;
 
   /**
-   * Creates an instance of AddTagToPictureCommand. Note that the tag specified should not exist in
+   * Creates an instance of AddTagToPictureCommand. Note that the tag specified should exist in
    * the picture.
    * 
    * @param picture A picture
@@ -36,9 +39,7 @@ public class AddTagToPictureCommand implements Command {
    */
   @Override
   public void undo() {
-    if (picture.containsTag(tagToAdd)) {
-      picture.deleteTag(tagToAdd);
-    }
+    picture.deleteTag(tagToAdd);
   }
 
   /**
@@ -47,18 +48,11 @@ public class AddTagToPictureCommand implements Command {
    */
   @Override
   public void execute() {
-    if (!picture.containsTag(tagToAdd)) {
-      picture.addTag(tagToAdd);
-    }
+    picture.addTag(tagToAdd);
   }
 
-  /**
-   * Returns a log message for this command
-   * 
-   * @return A log message for this command
-   */
   @Override
-  public String getLogMessage() {
-    return "addedTagTo (" + picture + ") to " + "(" + tagToAdd + ")";
+  public LogRecord getLogRecord() {
+    return new LogRecord(Level.FINE, "added " + tagToAdd + " Tag To " + picture.getTaglessName());
   }
 }

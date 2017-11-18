@@ -48,7 +48,6 @@ public class FileListViewController extends Controller implements ChangeListener
   }
 
   public void rename(ActionEvent e) {
-    System.out.println("yooo");
     this.listView.edit(this.listView.getSelectionModel().getSelectedIndex());
   }
 

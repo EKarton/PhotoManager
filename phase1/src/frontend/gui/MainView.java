@@ -112,14 +112,22 @@ public class MainView extends Application {
 
     Menu save = new Menu("Save");
     MenuItem saveItem = new MenuItem("Save");
+    saveItem.setOnAction(this.actionEventController::save);
+    
+    // add a key combination
+    saveItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
     save.getItems().add(saveItem);
 
     Menu undo = new Menu("Undo");
     MenuItem undoItem = new MenuItem("Undo");
+    undoItem.setOnAction(this.actionEventController::undo);
+    undoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
     undo.getItems().add(undoItem);
 
     Menu redo = new Menu("Redo");
     MenuItem redoItem = new MenuItem("Redo");
+    redoItem.setOnAction(this.actionEventController::redo);
+    redoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));  //TODO shift ctrl
     redo.getItems().add(redoItem);
 
     menuBar.getMenus().addAll(open, save, undo, redo);

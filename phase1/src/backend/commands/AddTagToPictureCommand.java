@@ -1,6 +1,5 @@
 package backend.commands;
 
-import backend.models.PictureManager;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import backend.models.Picture;
@@ -8,6 +7,7 @@ import backend.models.Tag;
 
 /**
  * A command class used to add a tag to a picture.
+ * Has a severity level of FINE.
  */
 public class AddTagToPictureCommand implements Command {
 

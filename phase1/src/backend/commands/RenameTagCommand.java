@@ -4,6 +4,12 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import backend.models.Tag;
 
+/**
+ * Command for renaming a Tag
+ * 
+ * Severity Level: INFO
+ *
+ */
 public class RenameTagCommand implements Command {
 
   private Tag thisTag;

@@ -1,6 +1,5 @@
 package backend.commands;
 
-import backend.models.PictureManager;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import backend.models.Picture;
@@ -8,6 +7,8 @@ import backend.models.Tag;
 
 /**
  * A command used to delete a tag from a picture.
+ * 
+ * Severity Level: Fine
  */
 public class DeleteTagFromPictureCommand implements Command {
 

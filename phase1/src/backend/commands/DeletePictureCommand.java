@@ -6,7 +6,9 @@ import backend.models.Picture;
 import backend.models.PictureManager;
 
 /**
- * A Command class used to delete a picture from the PictureManager
+ * A Command class used to delete a picture from the PictureManager.
+ * 
+ * severity level: FINE
  */
 public class DeletePictureCommand implements Command {
 

@@ -5,7 +5,9 @@ import java.util.logging.LogRecord;
 import backend.models.Picture;
 
 /**
- * A Command class used to specify a rename to a picture
+ * A Command class used to specify a rename to a picture.
+ * 
+ * Severity Level:INFO
  */
 public class RenamePictureCommand implements Command {
 

@@ -3,7 +3,6 @@ package backend.models;
 import backend.files.FileManager;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -33,8 +32,6 @@ public class PictureManager implements Observer {
       files = manager.getImageListRec(directoryPath);
     else
       files = manager.getImageList(directoryPath);
-
-
 
     for (File file : files) {
       Picture picture = new Picture(file.getAbsolutePath());
@@ -87,11 +84,10 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Adds a unique picture to this class.
-   * It will also add this as an observer to the new picture.
-   * If the picture already exist, it will not add it.
-   * To see if a picture exist, refer to the Picture.equals()
-   * to see if two pictures are equal
+   * Adds a unique picture to this class. It will also add this as an observer to the new picture.
+   * If the picture already exist, it will not add it. To see if a picture exist, refer to the
+   * Picture.equals() to see if two pictures are equal
+   * 
    * @param picture A picture
    */
   public void addPicture(Picture picture) {
@@ -102,14 +98,20 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Untracks a picture from this class and the
-   * picture no longer becomes observed from this class.
+   * Untracks a picture from this class and the picture no longer becomes observed from this class.
    * If the picture does not exist, it will do nothing
+   * 
    * @param picture A picture in this class.
    */
   public void untrackPicture(Picture picture) {
-    pictures.remove(picture);
-    picture.deleteObserver(this);
+    for (Picture thePicture : this.pictures) {
+      if (thePicture.equals(picture)) {
+        pictures.remove(thePicture);
+        thePicture.deleteObserver(this); // deleting observer from the actuall picture instead of
+                                         // a reference
+        break;
+      }
+    }
   }
 
   /**
@@ -148,27 +150,33 @@ public class PictureManager implements Observer {
    */
   @Override
   public void update(Observable o, Object arg) {
-    FileManager manager = new FileManager();
-
     // If there is a commands with the pictures
     if (o instanceof Picture && arg instanceof Picture) {
       Picture newPicture = (Picture) o;
       Picture oldPicture = (Picture) arg;
+      this.updatePicture(newPicture, oldPicture);
+    }
+  }
 
-      if (pictures.contains(newPicture)) {
-        if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-          manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
-        }
+  /**
+   * helper function for updating picture, chages will be reflected on the OS
+   * 
+   * @param newPicture
+   * @param oldPicture
+   */
+  private void updatePicture(Picture newPicture, Picture oldPicture) {
+    FileManager manager = new FileManager();
+    if (pictures.contains(newPicture)) {
+      if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
+        manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
+      }
 
-        if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-          String fileNameWithoutExtension = newPicture.getFullFileName();
-          if (fileNameWithoutExtension.contains(".")) {
-            fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
-          }
-          String oldAbsolutePath = oldPicture.getAbsolutePath();
-          boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
-          System.out.println(a);
-        }
+      if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
+        String fileNameWithoutExtension = newPicture.getFullFileName();
+        if (fileNameWithoutExtension.contains("."))
+          fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
+
+        boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
       }
     }
   }

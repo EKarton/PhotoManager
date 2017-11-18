@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -50,6 +51,7 @@ public class PictureViewer extends BorderPane {
     controller = new PictureViewerController(mainView, this);
 
     this.setMaxHeight(mainView.HEIGHT);
+    this.setMaxWidth((3 * mainView.WIDTH) / 4);
 
     title = new Label();
     title.setFont(Font.font ("Verdana", 10));
@@ -58,11 +60,11 @@ public class PictureViewer extends BorderPane {
     // https://stackoverflow.com/questions/37010192/imageview-always-scaling-beyond-scene-size-cant-seem-to-force-it-to-fit
 
     imageView = new ImageView();
-    imageView.setFitHeight(this.mainView.HEIGHT);
-    imageView.setFitWidth((3 * this.mainView.WIDTH) / 4);
     imageView.setPreserveRatio(true); // this lets us nicely scale the image
 
     StackPane imageContainer = new StackPane(imageView);
+    // https://stackoverflow.com/questions/6174299/javafx-2-0-set-component-to-full-width-and-height-of-immediate-parent
+    imageContainer.prefWidthProperty().bind(this.prefWidthProperty());
     imageView.fitWidthProperty().bind(imageContainer.widthProperty());
     imageView.fitHeightProperty().bind(imageContainer.heightProperty());
 
@@ -71,6 +73,8 @@ public class PictureViewer extends BorderPane {
     this.setTop(title);
     this.setCenter(imageContainer);
     this.setBottom(tagsViewer);
+
+    //imageContainer.prefWidthProperty().bind(this.prefWidthProperty());
   }
 
   public Picture getPicture() {
@@ -151,10 +155,11 @@ public class PictureViewer extends BorderPane {
 
     public void rerenderTags(){
 
-      if (picture == null)
+      if (picture == null || picture.getTags().size() == 0)
         return;
 
       tagsInnerBox.getChildren().clear();
+      tagsInnerBox.getChildren().add(new Label("Tags: "));
       for (Tag tag : picture.getTags()){
         Label newLabel = new Label(tag.getLabel());
         tagsInnerBox.getChildren().add(newLabel);

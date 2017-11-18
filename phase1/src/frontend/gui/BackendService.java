@@ -19,7 +19,7 @@ public class BackendService {
       pictureManager = new PictureManager();
       appSettings = new AppSettings();
 
-      appSettings.addHistoricalPictures(pictureManager);
+      appSettings.addPicToManager(pictureManager);
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -29,7 +29,7 @@ public class BackendService {
   public void resetBackendService(String directory, boolean isRecursive){
     try{
       pictureManager = new PictureManager(directory, isRecursive);
-      appSettings.addHistoricalPictures(pictureManager);
+      appSettings.addPicToManager(pictureManager);
     }
     catch (IOException e){
       System.out.println(e);

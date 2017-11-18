@@ -74,6 +74,7 @@ public class MainView extends Application {
     ListView<Picture> listView = createFileListView();
     listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);
     HBox hBox = new HBox();
+    hBox.setMinWidth(MainView.WIDTH);
     hBox.getChildren().add(listView);
     hBox.getChildren().add(pictureViewer);
 

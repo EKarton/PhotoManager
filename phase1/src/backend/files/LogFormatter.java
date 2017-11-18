@@ -10,6 +10,8 @@ import java.util.logging.LogRecord;
 /**
  * Custom formatter that formats log messages without source and function name.
  * 
+ * Has a DateFormat of dd/MM/yyyy hh:mm:ss
+ * 
  * code adapted from : https://kodejava.org/how-do-i-create-a-custom-logger-formatter/
  * 
  */

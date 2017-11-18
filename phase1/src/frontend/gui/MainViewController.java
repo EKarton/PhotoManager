@@ -8,6 +8,7 @@ import java.util.Observer;
 import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.stage.DirectoryChooser;
+import javax.naming.NoInitialContextException;
 
 /**
  * This is a controller to handle all action events from the MainView
@@ -37,6 +38,13 @@ public class MainViewController extends Controller{
 
   public void openLog(ActionEvent e) {
     System.out.println("Open log");
+
+    String logs = this.backendService.getCommandManager().getLogs();
+    if (logs != "") {
+      TextDialog dialog = new TextDialog(logs);
+      dialog.setTitle("Rename logs");
+      dialog.show();
+    }
   }
 
   public void save(ActionEvent e) {
@@ -45,9 +53,19 @@ public class MainViewController extends Controller{
 
   public void undo(ActionEvent e) {
     System.out.println("Undo");
+
+    try {
+      this.backendService.getCommandManager().undoRecentCommand();
+    }
+    catch (NoInitialContextException e1) {  }
   }
 
   public void redo(ActionEvent e) {
     System.out.println("Redo");
+
+    try {
+      this.backendService.getCommandManager().redoRecentCommand();
+    }
+    catch (NoInitialContextException e1) { }
   }
 }

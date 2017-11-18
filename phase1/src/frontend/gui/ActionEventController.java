@@ -1,12 +1,13 @@
 package frontend.gui;
 
-import java.io.IOException;
+import javax.naming.NoInitialContextException;
+import backend.models.PictureManager;
 import javafx.event.ActionEvent;
 
 /**
  * This is a controller to handle all action events from the MainView
  */
-public class ActionEventController extends Controller{
+public class ActionEventController extends Controller {
 
   /**
    * Constructs an ActionEventController
@@ -17,39 +18,44 @@ public class ActionEventController extends Controller{
     super(mainView);
   }
 
-  public void openDirectory(ActionEvent e) {
-    String directory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage()).getAbsolutePath();
-
+  private void addDirectory(String directory, boolean recursive) {
     try {
-      this.getMainView().getListViewController().setItems(getFileManager().getImageList(directory));
-    } catch (IOException e1) {
-      // if for some reason it fails we will leave the display as before
+      PictureManager pictureManager = new PictureManager(directory, recursive);
+      this.getMainView().getMainController().setPictureManager(pictureManager);
+      this.getMainView().getListViewController().setItems(pictureManager.getPictures());
+    } catch (Exception exception) {
+      this.getMainView().getListViewController().setItems(null);
     }
+  }
+
+  public void openDirectory(ActionEvent e) {
+    String directory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage())
+        .getAbsolutePath();
+    this.addDirectory(directory, false);
   }
 
   public void openDirectoryRecursively(ActionEvent e) {
-    String directory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage()).getAbsolutePath();
-
-    try {
-      this.getMainView().getListViewController().setItems(getFileManager().getImageListRec(directory));
-    } catch (IOException e1) {
-      // if for some reason it fails we will leave the display as before
-    }
+    String directory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage())
+        .getAbsolutePath();
+    this.addDirectory(directory, true);
   }
 
   public void openLog(ActionEvent e) {
-    // TODO complete
+    // TODO openLog
   }
 
   public void save(ActionEvent e) {
-    System.out.println("Save");
+    // TODO save
   }
 
   public void undo(ActionEvent e) {
-    System.out.println("Undo");
+    try {
+      this.getMainView().getMainController().getCommandManager().undoRecentCommand();
+    } catch (NoInitialContextException e1) {
+    }
   }
 
   public void redo(ActionEvent e) {
-    System.out.println("Redo");
+    // TODO redo
   }
 }

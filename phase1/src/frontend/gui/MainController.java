@@ -5,8 +5,8 @@ import backend.models.PictureManager;
 import javafx.application.Platform;
 
 public class MainController extends Controller {
-  CommandManager commandManager;
-  PictureManager pictureManager;
+  private CommandManager commandManager;
+  private PictureManager pictureManager;
 
   public MainController(MainView mainView) {
     super(mainView);
@@ -24,7 +24,11 @@ public class MainController extends Controller {
     return this.commandManager;
   }
   
-  public PictureManager pictureManager() {
+  public PictureManager getPictureManager() {
     return this.pictureManager;
+  }
+  
+  public void setPictureManager(PictureManager pictureManager) {
+   this.pictureManager = pictureManager; 
   }
 }

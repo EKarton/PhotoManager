@@ -1,23 +1,22 @@
 package frontend.gui;
 
-import java.io.File;
-import backend.files.FileManager;
+import backend.models.Picture;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-public class FileListCell extends ListCell<File>{
+public class FileListCell extends ListCell<Picture>{
  
   private TextField textField;
     
   @Override
-  public void updateItem(File item, boolean empty) {
+  public void updateItem(Picture item, boolean empty) {
     super.updateItem(item, empty);
     if (empty) {
       setText(null);
     } else {
-      setText(item.getName());
+      setText(item.getTaglessName());
     }
   }
   
@@ -29,7 +28,7 @@ public class FileListCell extends ListCell<File>{
     
     this.setText(null);  // remove display of text
     
-    textField = new TextField(name.substring(0, name.lastIndexOf(".")));
+    textField = new TextField(name);
     textField.setOnKeyPressed(this::handleTextFieldInput);
     
     this.setGraphic(textField);  // display a textfield
@@ -41,7 +40,6 @@ public class FileListCell extends ListCell<File>{
   public void cancelEdit() {
     super.cancelEdit();
     this.setGraphic(null);
-    this.setText(this.getItem().getName());
   }
   
   private void handleTextFieldInput(KeyEvent keyEvent) {
@@ -51,9 +49,8 @@ public class FileListCell extends ListCell<File>{
       String text = textField.getText();
    
       if(text != "") {
-        FileManager fileManager = new FileManager();
-        fileManager.renameFile(this.getItem(), text);
-        this.commitEdit(fileManager.getRenamedFile(this.getItem(), text));
+        this.getItem().setTaglessName(text);
+        this.commitEdit(this.getItem());
       }
     }
     else if(keyCode == KeyCode.ESCAPE) {

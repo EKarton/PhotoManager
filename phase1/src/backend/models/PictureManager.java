@@ -189,6 +189,9 @@ public class PictureManager implements Observer {
     }
   }
 
+  /**
+   * Update the availableTags of this manager
+   */
   private void refreshAvailableTags() {
     for (Tag tag : this.getAvailableTags()) {
       boolean usefulTag = false;
@@ -204,6 +207,11 @@ public class PictureManager implements Observer {
     }
   }
 
+  /**
+   * Whenever a new Picture is added, it will update the available tags
+   * 
+   * @param picture
+   */
   private void addAvailableTags(Picture picture) {
     for (Tag tag : picture.getTags()) {
       if (!this.availableTags.contains(tag)) {
@@ -212,7 +220,9 @@ public class PictureManager implements Observer {
     }
   }
 
-
+  /**
+   * @return all the available tags in a list
+   */
   public ArrayList<Tag> getAvailableTags() {
     return new ArrayList<Tag>(availableTags);
   }

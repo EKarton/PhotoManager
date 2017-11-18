@@ -5,9 +5,10 @@ import backend.models.AppSettings;
 import backend.models.PictureManager;
 import java.io.IOException;
 import java.util.Observable;
+import java.util.Observer;
 import javafx.application.Platform;
 
-public class BackendService extends Observable {
+public class BackendService {
   private CommandManager commandManager;
   private PictureManager pictureManager;
   private AppSettings appSettings;
@@ -19,9 +20,6 @@ public class BackendService extends Observable {
       appSettings = new AppSettings();
 
       appSettings.addHistoricalPictures(pictureManager);
-
-      setChanged();
-      notifyObservers();
     }
     catch (IOException e) {
       e.printStackTrace();
@@ -32,11 +30,9 @@ public class BackendService extends Observable {
     try{
       pictureManager = new PictureManager(directory, isRecursive);
       appSettings.addHistoricalPictures(pictureManager);
-
-      setChanged();
-      notifyObservers();
     }
     catch (IOException e){
+      System.out.println(e);
     }
   }
   

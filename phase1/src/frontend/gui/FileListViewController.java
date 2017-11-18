@@ -1,51 +1,74 @@
 package frontend.gui;
 
+import backend.models.Picture;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 
-public class FileListViewController extends Controller implements ChangeListener<File> {
-  private ObservableList<File> items;
-  private ListView<File> listView;
+public class FileListViewController extends Controller implements ChangeListener<Picture> {
+  private ObservableList<Picture> items;
+  private ListView<Picture> listView;
+
+  private BackendService service;
   
-  public FileListViewController(MainView mainView) {
+  public FileListViewController(MainView mainView, BackendService service) {
     super(mainView);
+    this.service = service;
     
-    List<File> defaultEmptyList = new ArrayList<>();
+    List<Picture> defaultEmptyList = new ArrayList<>();
     this.items = FXCollections.observableList(defaultEmptyList);
   }
 
-  public ObservableList<File> getItems() {
+  public ObservableList<Picture> getItems() {
     return this.items;
   }
 
-  public void setItems(List<File> list) {
+  public void setItems(List<Picture> list) {
     this.items.setAll(list);
   }
 
-  public void addItem(File item) {
-    this.items.add(item);
-  }
-
   @Override
-  public void changed(ObservableValue<? extends File> observable, File oldValue, File newValue) {
+  public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
+    Picture selectedPicture = newValue;
+    if (selectedPicture == null)
+      selectedPicture = oldValue;
+
+    this.getMainView().getPictureViewer().setPicture(selectedPicture);
+
+    /*
+
     try {
-      Image image = new Image(new FileInputStream(newValue));
+
+      this.getMainView().getPictureViewer().setPicture(selectedPicture);
+
+      InputStream inputStream = new FileInputStream(newValue.getAbsolutePath());
+      BufferedImage bufferedImage = ImageIO.read(inputStream);
+      Image image = SwingFXUtils.toFXImage(bufferedImage, null);
       this.getMainView().getPictureImageView().setImage(image);
-      this.getMainView().setPictureName(newValue.getName());
+      this.getMainView().setPictureName(newValue.getFullFileName());
+
+      inputStream.close();
     } catch (FileNotFoundException e) {
       // This should never happen but if it does just set the image to be nothing
       this.getMainView().getPictureImageView().setImage(null);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    */
   }
 
   public void rename(ActionEvent e) {
@@ -53,21 +76,21 @@ public class FileListViewController extends Controller implements ChangeListener
   }
 
   public void move(ActionEvent e) {
-    String newDirectory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage()).getAbsolutePath();
-    
-    // if the file is moved
-    if (this.getFileManager().moveFile(this.listView.getSelectionModel().getSelectedItem(), newDirectory)) {
-      // remove it from the list
-      this.items.remove(this.listView.getSelectionModel().getSelectedIndex());
-    }
+    String newDirectory = this.getMainView().openDirectoryChooser().getAbsolutePath();
+    Picture selectedPicture = this.listView.getSelectionModel().getSelectedItem();
+    selectedPicture.setDirectoryPath(newDirectory);
+
+    this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());
   }
 
   public void delete(ActionEvent e) {
-    this.getFileManager().deleteFile(this.listView.getSelectionModel().getSelectedItem());
-    this.items.remove(this.listView.getSelectionModel().getSelectedIndex());
+    Picture pictureSelected = this.listView.getSelectionModel().getSelectedItem();
+    this.service.pictureManager().untrackPicture(pictureSelected);
+
+    this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());
   }
 
-  public void setView(ListView<File> listView) {
+  public void setView(ListView<Picture> listView) {
     this.listView = listView;
   }
 }

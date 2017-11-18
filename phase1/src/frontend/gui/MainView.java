@@ -1,5 +1,6 @@
 package frontend.gui;
 
+import backend.models.Picture;
 import java.io.File;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -21,8 +22,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
 public class MainView extends Application {
-  private static final int WIDTH = 1080;
-  private static final int HEIGHT = 720;
+  public static final int WIDTH = 1080;
+  public static final int HEIGHT = 600;
 
   /** Controller for all action event handling */
   private MainViewController mainViewController;
@@ -30,6 +31,9 @@ public class MainView extends Application {
   private BackendService backendService;
   private ImageView pictureImageView;
   private Label pictureName;
+
+  private PictureViewer pictureViewer;
+
   private Stage mainStage;
 
   /**
@@ -48,9 +52,12 @@ public class MainView extends Application {
    */
   public MainView() {
     // create the controller for all action event handling
-    //this.mainViewController = new MainViewController(this);
-    //this.listViewController = new FileListViewController(this);
-    //this.backendService = new BackendService(this);
+    this.backendService = new BackendService();
+
+    pictureViewer = new PictureViewer(this);
+
+    this.mainViewController = new MainViewController(this, backendService);
+    this.listViewController = new FileListViewController(this, backendService);
   }
 
   @Override
@@ -64,12 +71,13 @@ public class MainView extends Application {
 
     root.setTop(createMenuBar()); // add the menu bar on top
 
-    ListView<File> listView = createFileListView();
+    ListView<Picture> listView = createFileListView();
     listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);
     HBox hBox = new HBox();
     hBox.getChildren().add(listView);
+    hBox.getChildren().add(pictureViewer);
 
-    hBox.getChildren().add(this.createPictureViewer());
+    //hBox.getChildren().add(this.createPictureViewer());
 
     root.setCenter(hBox);
 
@@ -77,7 +85,7 @@ public class MainView extends Application {
     Scene scene = new Scene(root, MainView.WIDTH, MainView.HEIGHT);
 
     mainStage.setScene(scene);
-    mainStage.setResizable(true);
+    mainStage.setResizable(false);
     mainStage.show();
   }
 
@@ -90,20 +98,15 @@ public class MainView extends Application {
     MenuBar menuBar = new MenuBar();
 
     Menu open = new Menu("Open");
-
     Menu openDir = new Menu("Open Directory");
-
     MenuItem openDirNonRec = new MenuItem("Open Directory");
-    openDirNonRec.setOnAction(this.mainViewController::openDirectory);
-
     MenuItem openDirRec = new MenuItem("Open Directory Recursively");
+    openDirNonRec.setOnAction(this.mainViewController::openDirectory);
     openDirRec.setOnAction(this.mainViewController::openDirectoryRecursively);
-
     openDir.getItems().addAll(openDirNonRec, openDirRec);
 
     MenuItem openLog = new MenuItem("Open Log");
     openLog.setOnAction(this.mainViewController::openLog);
-
     open.getItems().addAll(openDir, openLog);
 
     Menu save = new Menu("Save");
@@ -126,6 +129,7 @@ public class MainView extends Application {
     return menuBar;
   }
 
+  /*
   private VBox createPictureViewer() {
     VBox pictureBox = new VBox();
     
@@ -134,8 +138,8 @@ public class MainView extends Application {
     pictureName.setPadding(new Insets(0, 0, 5, 0));
     
     this.pictureImageView = new ImageView();
-    pictureImageView.setFitHeight(mainStage.getHeight());
-    pictureImageView.setFitWidth((3 * mainStage.getWidth()) / 4);
+    pictureImageView.setFitHeight(HEIGHT);
+    pictureImageView.setFitWidth((3 * WIDTH) / 4);
     //pictureImageView.setFitWidth((3 * WIDTH) / 4);
     //pictureImageView.setFitHeight(MainView.HEIGHT);
     pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
@@ -144,29 +148,31 @@ public class MainView extends Application {
     
     return pictureBox;
   }
+  */
 
-  public File openDirectoryChooser(Stage mainStage) {
+  public File openDirectoryChooser() {
+    // http://java-buddy.blogspot.ca/2013/03/javafx-simple-example-of.html
     DirectoryChooser dirChooser = new DirectoryChooser();
-    dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-    File file = dirChooser.showDialog(mainStage);
+    //dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    File file = dirChooser.showDialog(this.mainStage);
     return file;
   }
 
 
-  public File openFileChooser(Stage mainStage) {
+  public File openFileChooser() {
     FileChooser fileChooser = new FileChooser();
 
     fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     fileChooser.getExtensionFilters().add(new ExtensionFilter("Images", "*jpg", "*.jpeg", "*.png"));
 
-    File file = fileChooser.showOpenDialog(mainStage);
+    File file = fileChooser.showOpenDialog(this.mainStage);
 
     return file;
   }
 
 
-  public ListView<File> createFileListView() {
-    ListView<File> listView = new ListView<File>(this.listViewController.getItems());
+  private ListView<Picture> createFileListView() {
+    ListView<Picture> listView = new ListView<>(this.listViewController.getItems());
     this.listViewController.setView(listView);  // must call this
     
     listView.setEditable(true);
@@ -183,7 +189,7 @@ public class MainView extends Application {
     ContextMenu contextMenu = new ContextMenu();
     contextMenu.getItems().addAll(rename, move, delete);
     
-    listView.setCellFactory(new FileListViewCallback(contextMenu));
+    listView.setCellFactory(new FileListViewCallback(this, contextMenu));
 
     listView.getSelectionModel().selectedItemProperty().addListener(this.listViewController);
 
@@ -198,18 +204,26 @@ public class MainView extends Application {
   public FileListViewController getListViewController() {
     return this.listViewController;
   }
-  
+
+  /*
   public ImageView getPictureImageView() {
     return this.pictureImageView;
   }
-  
+  */
+
+  public PictureViewer getPictureViewer() {
+    return pictureViewer;
+  }
+
   public BackendService getBackendService() {
     return this.backendService;
   }
-  
+
+  /*
   public void setPictureName(String name) {
     this.pictureName.setText(name);
   }
+  */
 
   @Override
   public void stop() {

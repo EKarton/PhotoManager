@@ -1,22 +1,25 @@
 package frontend.gui;
 
+import backend.models.Picture;
 import java.io.File;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.util.Callback;
 
-public class FileListViewCallback implements Callback<ListView<File>, ListCell<File>> {
+public class FileListViewCallback implements Callback<ListView<Picture>, ListCell<Picture>> {
   
   private ContextMenu contextMenu;
+  private MainView view;
   
-  public FileListViewCallback(ContextMenu contextMenu) {
+  public FileListViewCallback(MainView view, ContextMenu contextMenu) {
     this.contextMenu = contextMenu;
+    this.view = view;
   }
   
   @Override
-  public ListCell<File> call(ListView<File> param) {
-    ListCell<File> cell = new FileListCell();
+  public ListCell<Picture> call(ListView<Picture> param) {
+    ListCell<Picture> cell = new FileListCell(view);
     cell.setContextMenu(this.contextMenu);
     return cell;
   }

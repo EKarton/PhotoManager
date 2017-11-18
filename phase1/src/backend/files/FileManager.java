@@ -96,7 +96,17 @@ public class FileManager {
    * @return true if the name was changed, false otherwise
    */
   public boolean renameFile(String path, String newName) {
-    return renameFile(new File(path), newName);
+    File file = new File(path);
+
+    if (file.isFile()) {
+
+      File newFileDest = new File(file.getParent(), newName + "." + getFileExtension(path));
+
+      return file
+          .renameTo(newFileDest);
+    }
+
+    return false;
   }
 
   public boolean renameFile(File file, String newName) {

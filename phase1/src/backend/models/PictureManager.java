@@ -12,7 +12,7 @@ import java.util.Observer;
 /**
  * A class used to keep track of the pictures.
  */
-public class PictureManager extends Observable implements Observer {
+public class PictureManager implements Observer {
 
   /**
    * A list of pictures that this class keeps track of.
@@ -82,9 +82,6 @@ public class PictureManager extends Observable implements Observer {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
-
-        this.clearChanged();
-        this.notifyObservers(tag);// notify a Tag change
       }
     }
   }
@@ -165,9 +162,10 @@ public class PictureManager extends Observable implements Observer {
 
         if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
           String fileNameWithoutExtension = newPicture.getFullFileName();
-          if (fileNameWithoutExtension.contains("."))
+          if (fileNameWithoutExtension.contains(".")) {
             fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
-
+          }
+          String oldAbsolutePath = oldPicture.getAbsolutePath();
           boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
           System.out.println(a);
         }

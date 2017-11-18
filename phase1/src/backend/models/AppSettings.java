@@ -37,16 +37,18 @@ public class AppSettings implements Serializable {
   private static final String defualtFileName = "Config";
 
   /**
-   * Adds all Pictures from the PictureManager
+   * Adds all Pictures to the PictureManager
    * 
    * @param manager a PictureManager
    */
   public void addHistoricalPictures(PictureManager manager) {
-    for (Picture picture : historicalPictures) {
-      for (Picture picture1 : manager.getPictures()) {
-        if (picture1.equals(picture)) {
-          manager.untrackPicture(picture1);
-          manager.addPicture(picture);
+    if (historicalPictures.size() != 0) {
+      for (Picture picture : historicalPictures) {
+        for (Picture picture1 : manager.getPictures()) {
+          if (!picture1.equals(picture)) {
+            manager.untrackPicture(picture1);
+            manager.addPicture(picture);
+          }
         }
       }
     }
@@ -117,5 +119,14 @@ public class AppSettings implements Serializable {
     input.close();
 
     return settings;
+  }
+
+  /**
+   * get historical pictures
+   * 
+   * @return historical pictures in a list
+   */
+  public List<Picture> getHistoricalPicture() {
+    return new ArrayList<Picture>(this.historicalPictures);
   }
 }

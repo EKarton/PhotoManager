@@ -41,7 +41,7 @@ public class Picture extends Observable implements Serializable, Observer {
   /**
    * A List of all historical Full file names
    */
-  private ArrayList<String> historicalFullNames;
+  private ArrayList<String> historicalTagLessNames;
 
 
   /**
@@ -52,7 +52,7 @@ public class Picture extends Observable implements Serializable, Observer {
   public Picture(String absolutePath) {
     this.tags = new ArrayList<Tag>();
     this.historicalTags = new ArrayList<Tag>();
-    this.historicalFullNames = new ArrayList<String>();
+    this.historicalTagLessNames = new ArrayList<String>();
     this.setPictureProperties(absolutePath);
   }
 
@@ -83,7 +83,7 @@ public class Picture extends Observable implements Serializable, Observer {
         }
       }
     }
-
+    this.historicalTagLessNames.add(this.taglessName);
   }
 
 
@@ -115,7 +115,7 @@ public class Picture extends Observable implements Serializable, Observer {
       Picture oldPic = this.clone();
 
       this.taglessName = taglessName;
-      this.historicalFullNames.add(getFullFileName());
+      this.historicalTagLessNames.add(this.taglessName);// TODO: testing
 
       super.setChanged();
       super.notifyObservers(oldPic);
@@ -138,7 +138,7 @@ public class Picture extends Observable implements Serializable, Observer {
       Picture oldPic = this.clone();
       this.tags.add(tag);
       this.historicalTags.add(tag);
-      this.historicalFullNames.add(getFullFileName());
+      // this.historicalTagLessNames.add(getFullFileName());
 
       tag.addObserver(this);
 
@@ -160,7 +160,7 @@ public class Picture extends Observable implements Serializable, Observer {
     if (tags.contains(tag)) {
       Picture oldPic = this.clone();
       tags.remove(tag);
-      this.historicalFullNames.add(getFullFileName());
+      // this.historicalTagLessNames.add(getFullFileName());
       tag.deleteObserver(this);
 
       super.setChanged();
@@ -207,7 +207,7 @@ public class Picture extends Observable implements Serializable, Observer {
         }
       }
 
-      this.historicalFullNames.add(getFullFileName());
+      // this.historicalTagLessNames.add(getFullFileName());
     }
   }
 
@@ -219,6 +219,9 @@ public class Picture extends Observable implements Serializable, Observer {
     return "Abs path: " + getAbsolutePath();
   }
 
+  /**
+   * two Picture Object are considered equal if they have the same absolutePath
+   */
   @Override
   public boolean equals(Object o) {
     if (o instanceof Picture) {
@@ -301,5 +304,14 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   public ArrayList<Tag> getHistoricalTags() {
     return new ArrayList<Tag>(this.historicalTags);
+  }
+
+  /**
+   * get all historical names of a picture (tagless) in a list
+   * 
+   * @return all historical names in a list
+   */
+  public ArrayList<String> getHistoricalTaglessNames() {
+    return new ArrayList<String>(this.historicalTagLessNames);
   }
 }

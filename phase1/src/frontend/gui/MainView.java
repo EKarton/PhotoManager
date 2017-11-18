@@ -34,6 +34,7 @@ public class MainView extends Application {
   private MainController mainController;
   private ImageView pictureImageView;
   private Label pictureName;
+  private Label tagsLabel;
   private Stage mainStage;
 
   /**
@@ -127,7 +128,7 @@ public class MainView extends Application {
     Menu redo = new Menu("Redo");
     MenuItem redoItem = new MenuItem("Redo");
     redoItem.setOnAction(this.actionEventController::redo);
-    redoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));  //TODO shift ctrl
+    redoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
     redo.getItems().add(redoItem);
 
     menuBar.getMenus().addAll(open, save, undo, redo);
@@ -149,11 +150,15 @@ public class MainView extends Application {
     this.pictureImageView = new ImageView();
     
     pictureImageView.prefWidth(3 * (MainView.WIDTH / 4));
+//    pictureImageView.setFitWidth(3 * (MainView.WIDTH / 4));
     
     pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
-   
-    pictureBox.getChildren().addAll(pictureName, this.pictureImageView);
     
+    tagsLabel = new Label();
+    pictureName.setFont(Font.font ("Verdana", 15));
+    tagsLabel.setPadding(new Insets(0, 0, 5, 5));
+   
+    pictureBox.getChildren().addAll(pictureName, this.pictureImageView, this.tagsLabel);
     return pictureBox;
   }
 
@@ -224,6 +229,10 @@ public class MainView extends Application {
   
   public void setPictureName(String name) {
     this.pictureName.setText(name);
+  }
+  
+  public void setTagsLabel(String tags) {
+    this.tagsLabel.setText(tags);
   }
 
   @Override

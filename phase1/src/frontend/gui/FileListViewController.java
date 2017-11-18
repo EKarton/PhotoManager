@@ -40,10 +40,13 @@ public class FileListViewController extends Controller implements ChangeListener
       Image image = new Image(new FileInputStream(newValue.getAbsolutePath()));
       this.getMainView().getPictureImageView().setImage(image);
       this.getMainView().setPictureName(newValue.getTaglessName());
+      this.getMainView().setTagsLabel(newValue.getTags().toString());
+      
     } catch (FileNotFoundException e) {
       // This should never happen but if it does just set the image to be nothing
       this.getMainView().getPictureImageView().setImage(null);
       this.getMainView().setPictureName("");
+      this.getMainView().setTagsLabel("");
     }
   }
 

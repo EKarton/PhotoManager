@@ -1,8 +1,8 @@
 package backend.tests.commands;
 
+import backend.commands.AddPictureCommand;
 import backend.models.Picture;
 import backend.models.PictureManager;
-import backend.commands.AddPictureCommand;
 
 class AddPictureCommandTest {
 
@@ -27,17 +27,5 @@ class AddPictureCommandTest {
     command.execute();
 
     assert(manager.getPictures().size() == 1);
-  }
-
-  @org.junit.jupiter.api.Test
-  void getLogMessage() {
-    Picture picture = new Picture(picturePath);
-    PictureManager manager = new PictureManager();
-    AddPictureCommand command = new AddPictureCommand(picture, manager);
-    assert(command.getLogMessage().equals(""));//TODO: EMIILIO!!!!
-    command.execute();
-    assert(command.getLogMessage().equals(""));
-    command.undo();
-    assert(command.getLogMessage().equals(""));
   }
 }

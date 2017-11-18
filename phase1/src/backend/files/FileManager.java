@@ -18,7 +18,7 @@ public class FileManager {
    * @return the list of files
    * @throws IOException
    */
-  private List<File> getImageList(String directory, int depth) throws IOException{
+  private List<File> getImageList(String directory, int depth) throws IOException {
     List<File> files = Files
         .find(Paths.get(directory), depth,
             (filePath, fileAttr) -> fileAttr.isRegularFile()
@@ -27,7 +27,7 @@ public class FileManager {
 
     return files;
   }
-  
+
   /**
    * Returns a list of all files under a directory (recursively) that are images
    * 
@@ -67,8 +67,10 @@ public class FileManager {
    * @return true if the image was deleted correctly, false otherwise
    */
   public boolean deleteFile(String path) {
-    File file = new File(path);
+    return deleteFile(new File(path));
+  }
 
+  public boolean deleteFile(File file) {
     if (file.isFile()) {
       return file.delete();
     }
@@ -94,14 +96,27 @@ public class FileManager {
    * @return true if the name was changed, false otherwise
    */
   public boolean renameFile(String path, String newName) {
-    File file = new File(path);
+    return renameFile(new File(path), newName);
+  }
 
+  public boolean renameFile(File file, String newName) {
     if (file.isFile()) {
-      return file
-          .renameTo(new File(file.getParent() + "/" + newName + "." + getFileExtension(path)));
+      return file.renameTo(this.getRenamedFile(file, newName));
     }
 
     return false;
+  }
+  
+  /**
+   * Returns a new file which is <code>file</code> but with its
+   * name changed to <code>newName</code>
+   * 
+   * @param file
+   * @param newName
+   * @return
+   */
+  public File getRenamedFile(File file, String newName) {
+    return new File(file.getParent(), newName + "." + getFileExtension(file.getAbsolutePath()));
   }
 
   /**
@@ -109,12 +124,18 @@ public class FileManager {
    * 
    * @param path the path of the file
    * @param destination the path of the destination to move the file
-   * @return true if the file was moved, false otherwise
+   * @return true if the file was moved, false otherwise (this includes if the file was moved to the same place)
    */
   public boolean moveFile(String path, String destination) {
-    File file = new File(path);
-
-    if (file.isFile()) {
+    return moveFile(new File(path), destination);
+  }
+  
+  public boolean moveFile(File file, String destination) {
+    /* if the user is trying to move it to the same place
+     * we simply won't move it and return false. This is because a return false of true
+     * means the file was "moved", as in changed it's location
+     */
+    if (file.isFile() && !file.getParent().equals(destination)) { 
       return file.renameTo(new File(destination, file.getName()));
     }
 

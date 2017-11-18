@@ -1,5 +1,7 @@
 package backend.commands;
 
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import backend.models.Picture;
 
 /**
@@ -29,7 +31,6 @@ public class RenamePictureCommand implements Command {
    * @param newName The new name for this picture.
    */
   public RenamePictureCommand(Picture picture, String newName) {
-    this.oldName = picture.getTaglessName();
     this.picture = picture;
     this.newName = newName;
   }
@@ -51,13 +52,8 @@ public class RenamePictureCommand implements Command {
     picture.setTaglessName(newName);
   }
 
-  /**
-   * Returns a log message for this command
-   * 
-   * @return A log message for this command
-   */
   @Override
-  public String getLogMessage() {
-    return "RenamePicture(" + picture + ") from (" + oldName + ") to (" + newName + ")";
+  public LogRecord getLogRecord() {
+    return new LogRecord(Level.INFO, "Renamed Picture " + oldName + " to " + newName);
   }
 }

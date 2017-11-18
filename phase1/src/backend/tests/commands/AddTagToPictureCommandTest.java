@@ -1,8 +1,8 @@
 package backend.tests.commands;
 
+import backend.commands.AddTagToPictureCommand;
 import backend.models.Picture;
 import backend.models.Tag;
-import backend.commands.AddTagToPictureCommand;
 import org.junit.jupiter.api.Test;
 
 class AddTagToPictureCommandTest {
@@ -27,16 +27,4 @@ class AddTagToPictureCommandTest {
     command.execute();
     assert(picture.containsTag(tag));
   }
-
-  @Test
-  void getLogMessage() {
-    Picture picture = new Picture(picturePath);
-    Tag tag = new Tag("Grandma");
-    AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
-    command.execute();
-    assert(command.getLogMessage().equals(""));
-    command.undo();
-    assert(command.getLogMessage().equals(""));//TODO: EMILIO!!!
-  }
-
 }

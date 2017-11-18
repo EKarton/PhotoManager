@@ -34,6 +34,10 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   private ArrayList<Tag> tags;
 
+  private ArrayList<Tag> historicalTags;
+
+  private ArrayList<String> historicalFullNames;
+
 
   /**
    * Creates an instance of Picture
@@ -41,6 +45,8 @@ public class Picture extends Observable implements Serializable, Observer {
    */
   public Picture(String absolutePath) {
     this.tags = new ArrayList<Tag>();
+    this.historicalTags = new ArrayList<Tag>();
+    this.historicalFullNames = new ArrayList<String>();
 
     File file = new File(absolutePath);
 
@@ -130,6 +136,7 @@ public class Picture extends Observable implements Serializable, Observer {
       Picture oldPic = this.clone();
 
       this.taglessName = taglessName;
+      this.historicalFullNames.add(getFullFileName());
 
       super.setChanged();
       super.notifyObservers(oldPic);
@@ -140,6 +147,10 @@ public class Picture extends Observable implements Serializable, Observer {
 
   public ArrayList<Tag> getTags() {
     return new ArrayList<Tag>(this.tags);
+  }
+
+  public ArrayList<Tag> getHistoricalTags(){
+    return new ArrayList<Tag>(this.historicalTags);
   }
 
   /**
@@ -153,6 +164,9 @@ public class Picture extends Observable implements Serializable, Observer {
     if (lengthOfNewFileName < 255 && !tags.contains(tag)){
       Picture oldPic = this.clone();
       this.tags.add(tag);
+      this.historicalTags.add(tag);
+      this.historicalFullNames.add(getFullFileName());
+
       tag.addObserver(this);
 
       super.setChanged();
@@ -170,6 +184,7 @@ public class Picture extends Observable implements Serializable, Observer {
     if (tags.contains(tag)){
       Picture oldPic = this.clone();
       tags.remove(tag);
+      this.historicalFullNames.add(getFullFileName());
       tag.deleteObserver(this);
 
       super.setChanged();
@@ -206,6 +221,8 @@ public class Picture extends Observable implements Serializable, Observer {
           this.addTag(currTag);
         }
       }
+
+      this.historicalFullNames.add(getFullFileName());
     }
   }
 

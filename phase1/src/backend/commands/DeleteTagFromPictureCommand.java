@@ -1,5 +1,8 @@
 package backend.commands;
 
+import backend.models.PictureManager;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.Tag;
 
@@ -36,8 +39,7 @@ public class DeleteTagFromPictureCommand implements Command {
    */
   @Override
   public void undo() {
-    if (!picture.containsTag(tag))
-      picture.addTag(tag);
+    picture.addTag(tag);
   }
 
   /**
@@ -46,17 +48,11 @@ public class DeleteTagFromPictureCommand implements Command {
    */
   @Override
   public void execute() {
-    if (picture.containsTag(tag))
-      picture.deleteTag(tag);
+    picture.deleteTag(tag);
   }
 
-  /**
-   * Returns a log message for this command
-   * 
-   * @return A log message for this command
-   */
   @Override
-  public String getLogMessage() {
-    return "RemoveTag (" + tag + ") from picture (" + picture + ")";
+  public LogRecord getLogRecord() {
+    return new LogRecord(Level.FINE, "Removed " + tag + " from " + picture.getTaglessName());
   }
 }

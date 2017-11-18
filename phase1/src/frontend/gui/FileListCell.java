@@ -1,5 +1,6 @@
 package frontend.gui;
 
+import backend.commands.RenamePictureCommand;
 import backend.models.Picture;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -44,7 +45,7 @@ public class FileListCell extends ListCell<Picture>{
     
     this.setText(null);  // remove display of text
     
-    textField = new TextField(name.substring(0, name.lastIndexOf(".")));
+    textField = new TextField(this.getItem().getTaglessName());
     textField.setOnKeyPressed(this::handleTextFieldInput);
     
     this.setGraphic(textField);  // display a textfield
@@ -68,32 +69,10 @@ public class FileListCell extends ListCell<Picture>{
       if(text != "") {
 
         Picture picture = this.getItem();
-        picture.setTaglessName(text);
+        RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, text);
+        view.getBackendService().getCommandManager().addCommand(renamePictureCommand);
+        renamePictureCommand.execute();
         this.view.getPictureViewer().setPicture(this.getItem());
-
-        /*
-
-        this.view.getPictureImageView().setImage(null);
-        Picture picture = this.getItem();
-        picture.setTaglessName(text);
-
-        try {
-          InputStream inputStream = new FileInputStream(picture.getAbsolutePath());
-
-          BufferedImage bufferedImage = ImageIO.read(inputStream);
-          Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-          this.view.getPictureImageView().setImage(image);
-          this.view.setPictureName(picture.getFullFileName());
-
-          inputStream.close();
-        }
-        catch (FileNotFoundException e) {
-          e.printStackTrace();
-        }
-        catch (IOException e) {
-          e.printStackTrace();
-        }
-        */
 
         this.cancelEdit();
       }

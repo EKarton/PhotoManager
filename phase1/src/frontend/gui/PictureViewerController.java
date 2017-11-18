@@ -4,6 +4,7 @@ import backend.models.Tag;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 
 public class PictureViewerController extends Controller {
 
@@ -18,6 +19,14 @@ public class PictureViewerController extends Controller {
 
   public void addTag(ActionEvent e){
     System.out.println("Add tag");
+
+    // Show the dialog
+    TextInputDialog dialog = new TextInputDialog("Specify new tag name here");
+    dialog.showAndWait();
+    String newTagName = dialog.getEditor().getText();
+
+    Tag newTag = new Tag(newTagName);
+    viewer.getPicture().addTag(newTag);
   }
 
   public void deleteTag(ActionEvent e){
@@ -55,6 +64,19 @@ public class PictureViewerController extends Controller {
     System.out.println("View historical names");
 
     String historicalTagsText = "";
+    for (String name : viewer.getPicture().getHistoricalTaglessNames())
+      historicalTagsText += name + "\n";
+
+    TextDialog window = new TextDialog(historicalTagsText);
+    window.setTitle("Historical names");
+    window.setHeaderText("Complete historical names for this picture.");
+    window.show();
+  }
+
+  public void viewHistoricalTags(ActionEvent e){
+    System.out.println("View historical tags");
+
+    String historicalTagsText = "";
     for (Tag tag : viewer.getPicture().getHistoricalTags())
       historicalTagsText += tag.getLabel() + "\n";
 
@@ -62,9 +84,5 @@ public class PictureViewerController extends Controller {
     window.setTitle("Historical tags");
     window.setHeaderText("Complete historical tags for this picture.");
     window.show();
-  }
-
-  public void viewHistoricalTags(ActionEvent e){
-    System.out.println("View historical tags");
   }
 }

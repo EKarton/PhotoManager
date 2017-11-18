@@ -42,7 +42,7 @@ public class MainView extends Application {
    * @param args
    * @return
    */
-  public static void startMainView(String[] args) {
+  public static void main(String[] args) {
     launch(args);
   }
 
@@ -130,27 +130,6 @@ public class MainView extends Application {
     return menuBar;
   }
 
-  /*
-  private VBox createPictureViewer() {
-    VBox pictureBox = new VBox();
-    
-    pictureName = new Label();
-    pictureName.setFont(Font.font ("Verdana", 20));
-    pictureName.setPadding(new Insets(0, 0, 5, 0));
-    
-    this.pictureImageView = new ImageView();
-    pictureImageView.setFitHeight(HEIGHT);
-    pictureImageView.setFitWidth((3 * WIDTH) / 4);
-    //pictureImageView.setFitWidth((3 * WIDTH) / 4);
-    //pictureImageView.setFitHeight(MainView.HEIGHT);
-    pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
-    
-    pictureBox.getChildren().addAll(pictureName, this.pictureImageView);
-    
-    return pictureBox;
-  }
-  */
-
   public File openDirectoryChooser() {
     // http://java-buddy.blogspot.ca/2013/03/javafx-simple-example-of.html
     DirectoryChooser dirChooser = new DirectoryChooser();
@@ -158,19 +137,6 @@ public class MainView extends Application {
     File file = dirChooser.showDialog(this.mainStage);
     return file;
   }
-
-
-  public File openFileChooser() {
-    FileChooser fileChooser = new FileChooser();
-
-    fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-    fileChooser.getExtensionFilters().add(new ExtensionFilter("Images", "*jpg", "*.jpeg", "*.png"));
-
-    File file = fileChooser.showOpenDialog(this.mainStage);
-
-    return file;
-  }
-
 
   private ListView<Picture> createFileListView() {
     ListView<Picture> listView = new ListView<>(this.listViewController.getItems());
@@ -206,12 +172,6 @@ public class MainView extends Application {
     return this.listViewController;
   }
 
-  /*
-  public ImageView getPictureImageView() {
-    return this.pictureImageView;
-  }
-  */
-
   public PictureViewer getPictureViewer() {
     return pictureViewer;
   }
@@ -219,12 +179,6 @@ public class MainView extends Application {
   public BackendService getBackendService() {
     return this.backendService;
   }
-
-  /*
-  public void setPictureName(String name) {
-    this.pictureName.setText(name);
-  }
-  */
 
   @Override
   public void stop() {

@@ -1,5 +1,6 @@
 package frontend.gui;
 
+import java.io.File;
 import javax.naming.NoInitialContextException;
 import backend.models.PictureManager;
 import javafx.event.ActionEvent;
@@ -18,26 +19,28 @@ public class ActionEventController extends Controller {
     super(mainView);
   }
 
-  private void addDirectory(String directory, boolean recursive) {
-    try {
-      PictureManager pictureManager = new PictureManager(directory, recursive);
-      this.getMainView().getMainController().setPictureManager(pictureManager);
-      this.getMainView().getListViewController().setItems(pictureManager.getPictures());
-    } catch (Exception exception) {
-      this.getMainView().getListViewController().setItems(null);
+  private void openDirectory(boolean recursive) {
+    File file = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage());
+
+    if (file != null) {
+      String directory = file.getAbsolutePath();
+      
+      try {
+        PictureManager pictureManager = new PictureManager(directory, recursive);
+        this.getMainView().getMainController().setPictureManager(pictureManager);
+        this.getMainView().getListViewController().setItems(pictureManager.getPictures());
+      } catch (Exception exception) {
+        this.getMainView().getListViewController().setItems(null);
+      }
     }
   }
 
   public void openDirectory(ActionEvent e) {
-    String directory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage())
-        .getAbsolutePath();
-    this.addDirectory(directory, false);
+    this.openDirectory(false);
   }
 
   public void openDirectoryRecursively(ActionEvent e) {
-    String directory = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage())
-        .getAbsolutePath();
-    this.addDirectory(directory, true);
+    this.openDirectory(true);
   }
 
   public void openLog(ActionEvent e) {

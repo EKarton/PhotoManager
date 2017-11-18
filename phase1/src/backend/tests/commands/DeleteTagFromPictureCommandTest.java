@@ -6,7 +6,8 @@ import backend.models.Tag;
 import org.junit.jupiter.api.Test;
 
 class DeleteTagFromPictureCommandTest {
-  private final String picturePath = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
+  private final String picturePath =
+      "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
 
   @Test
   void undo() {
@@ -15,7 +16,7 @@ class DeleteTagFromPictureCommandTest {
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
     command.undo();
-    assert(picture.containsTag(tag));
+    assert (picture.containsTag(tag) == false);
   }
 
   @Test
@@ -24,6 +25,6 @@ class DeleteTagFromPictureCommandTest {
     Tag tag = new Tag("Grandma");
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
-    assert(picture.containsTag(tag) == false);
+    assert (picture.containsTag(tag));
   }
 }

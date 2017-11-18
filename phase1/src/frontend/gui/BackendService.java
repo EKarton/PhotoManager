@@ -18,28 +18,24 @@ public class BackendService {
       commandManager = new CommandManager();
       pictureManager = new PictureManager();
       appSettings = new AppSettings();
-
-      appSettings.addPicToManager(pictureManager);
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public void resetBackendService(String directory, boolean isRecursive){
-    try{
+  public void resetBackendService(String directory, boolean isRecursive) {
+    try {
       pictureManager = new PictureManager(directory, isRecursive);
       appSettings.addPicToManager(pictureManager);
-    }
-    catch (IOException e){
+    } catch (IOException e) {
       System.out.println(e);
     }
   }
-  
+
   public CommandManager getCommandManager() {
     return this.commandManager;
   }
-  
+
   public PictureManager pictureManager() {
     return this.pictureManager;
   }

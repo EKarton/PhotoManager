@@ -19,6 +19,11 @@ public class PictureManager implements Observer {
   private ArrayList<Picture> pictures = new ArrayList<Picture>();
 
   /**
+   * A list of all tags that's used by all pictures.
+   */
+  private ArrayList<Tag> availableTags = new ArrayList<Tag>();
+
+  /**
    * Populate the picture manager with pictures under a certain directory
    *
    * @param directoryPath A directory path
@@ -37,6 +42,7 @@ public class PictureManager implements Observer {
       Picture picture = new Picture(file.getAbsolutePath());
       pictures.add(picture);
       picture.addObserver(this);
+      this.addAvailableTags(picture);
     }
   }
 
@@ -79,6 +85,7 @@ public class PictureManager implements Observer {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
+        this.refreshAvailableTags();
       }
     }
   }
@@ -94,6 +101,7 @@ public class PictureManager implements Observer {
     if (!pictures.contains(picture)) {
       pictures.add(picture);
       picture.addObserver(this);
+      this.addAvailableTags(picture);
     }
   }
 
@@ -180,4 +188,33 @@ public class PictureManager implements Observer {
       }
     }
   }
+
+  private void refreshAvailableTags() {
+    for (Tag tag : this.getAvailableTags()) {
+      boolean usefulTag = false;
+      for (Picture picture : this.pictures) {
+        if (picture.containsTag(tag)) {
+          usefulTag = true;
+          break;
+        }
+      }
+      if (!usefulTag) {
+        this.availableTags.remove(tag);
+      }
+    }
+  }
+
+  private void addAvailableTags(Picture picture) {
+    for (Tag tag : picture.getTags()) {
+      if (!this.availableTags.contains(tag)) {
+        this.availableTags.add(tag);
+      }
+    }
+  }
+
+
+  public ArrayList<Tag> getAvailableTags() {
+    return new ArrayList<Tag>(availableTags);
+  }
+
 }

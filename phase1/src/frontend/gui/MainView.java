@@ -203,9 +203,12 @@ public class MainView extends Application {
 
     MenuItem move = new MenuItem("Move");
     move.setOnAction(this.listViewController::move);
+    
+    MenuItem openInOS = new MenuItem("Open in File Viewer");
+    openInOS.setOnAction(this.listViewController::openInOSFileViewer);
 
     ContextMenu contextMenu = new ContextMenu();
-    contextMenu.getItems().addAll(rename, move);
+    contextMenu.getItems().addAll(rename, move, openInOS);
     
     listView.setCellFactory(new FileListViewCallback(this.listViewController, contextMenu));
 

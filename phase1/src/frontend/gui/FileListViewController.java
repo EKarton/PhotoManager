@@ -1,5 +1,8 @@
 package frontend.gui;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import backend.models.Picture;
 import javafx.beans.value.ChangeListener;
@@ -46,5 +49,17 @@ public class FileListViewController extends Controller implements ChangeListener
   
   public void setListView(ListView<Picture> listView) {
     this.listView = listView;
+  }
+
+  public void openInOSFileViewer(ActionEvent e) {
+    // https://stackoverflow.com/a/12340147
+    if (Desktop.isDesktopSupported()) {
+      File file = new File(this.listView.getSelectionModel().getSelectedItem().getDirectoryPath());
+      try {
+        Desktop.getDesktop().open(file);
+      } catch (IOException e1) {
+        // this should never happen - at this point a picture cannot be possibly be a file
+      }
+    }
   }
 }

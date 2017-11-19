@@ -1,6 +1,5 @@
 package frontend.gui;
 
-import backend.commands.RenamePictureCommand;
 import backend.models.Picture;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;

@@ -2,11 +2,8 @@ package frontend.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import backend.models.Picture;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 public class PictureViewerController extends Controller implements ChangeListener<Boolean>{
@@ -62,19 +59,7 @@ public class PictureViewerController extends Controller implements ChangeListene
 //      alert.show();
 //    }
 //  }
-//
-//  public void viewHistoricalNames(ActionEvent e){
-//    System.out.println("View historical names");
-//
-//    String historicalTagsText = "";
-//    for (String name : viewer.getPicture().getHistoricalTaglessNames())
-//      historicalTagsText += name + "\n";
-//
-//    TextDialog window = new TextDialog(historicalTagsText);
-//    window.setTitle("Historical names");
-//    window.setHeaderText("Complete historical names for this picture.");
-//    window.show();
-//  }
+
   
   public List<String> getHistoricalNames(){
     List<String> names = new ArrayList<String>();

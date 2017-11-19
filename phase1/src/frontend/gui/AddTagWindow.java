@@ -1,7 +1,6 @@
 package frontend.gui;
 
 import backend.models.Picture;
-import backend.models.Tag;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,7 +8,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.StageStyle;
 
 public class AddTagWindow extends Dialog{

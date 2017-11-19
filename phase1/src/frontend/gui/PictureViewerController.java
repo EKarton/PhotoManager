@@ -65,30 +65,29 @@ public class PictureViewerController extends Controller implements ChangeListene
   // }
   
   public void createNewTag(ActionEvent e) {
-    System.out.println("EMILIO!!!");
     String text = this.pictureViewer.getNewTagText();
     
     if (text != "") {
       Tag tag = new Tag(text);
       this.mainView.getBackendService().getPictureManager().addTagToCollection(tag);
       this.pictureViewer.resetNewTagText();
-      Picture picture = this.pictureViewer.getPicture();
-      AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, tag);
-      this.mainView.getBackendService().getCommandManager().addCommand(cmd);
-      cmd.execute();
 
-      this.pictureViewer.getTagsCombobox().getItems().clear();
-      this.pictureViewer.getTagsCombobox().getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+      this.pictureViewer.updateDisplay();
     }
   }
   
   public void addTag(ActionEvent e) {
-    String text = this.pictureViewer.getNewTagText();
+    Tag newTag = this.pictureViewer.getSelectedAddTag();
 
-    if (text != "") {
-      Tag newTag = new Tag(text);
-      this.pictureViewer.getPicture().addTag(newTag);
-    }
+    if (newTag == null)
+      return;
+
+    Picture picture = this.pictureViewer.getPicture();
+    AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, newTag);
+    this.mainView.getBackendService().getCommandManager().addCommand(cmd);
+    cmd.execute();
+
+    this.pictureViewer.updateDisplay();
   }
 
   public List<String> getHistoricalNames() {

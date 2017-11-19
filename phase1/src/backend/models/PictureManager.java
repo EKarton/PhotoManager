@@ -194,8 +194,7 @@ public class PictureManager implements Observer {
         if (fileNameWithoutExtension.contains("."))
           fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
 
-        boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
-        System.out.println(a);
+        manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
       }
 
       // Remove it from the picture manager if it is outside the current directory

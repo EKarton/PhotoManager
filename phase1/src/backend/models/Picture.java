@@ -314,4 +314,8 @@ public class Picture extends Observable implements Serializable, Observer {
   public ArrayList<String> getHistoricalTaglessNames() {
     return new ArrayList<String>(this.historicalTagLessNames);
   }
+  
+  public String getFileExtension() {
+    return this.fileExt;
+  }
 }

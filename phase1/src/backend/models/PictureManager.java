@@ -24,6 +24,11 @@ public class PictureManager implements Observer {
   private ArrayList<Tag> availableTags = new ArrayList<Tag>();
 
   /**
+   * the current directory of this manager.
+   */
+  private String currDir;
+
+  /**
    * Populate the picture manager with pictures under a certain directory
    *
    * @param directoryPath A directory path
@@ -31,6 +36,7 @@ public class PictureManager implements Observer {
    */
   public PictureManager(String directoryPath, boolean recursive) throws IOException {
     FileManager manager = new FileManager();
+    this.currDir = directoryPath;
 
     List<File> files;
     if (recursive)
@@ -225,6 +231,10 @@ public class PictureManager implements Observer {
    */
   public ArrayList<Tag> getAvailableTags() {
     return new ArrayList<Tag>(availableTags);
+  }
+
+  public Object getCurrDir() {
+    return this.currDir;
   }
 
 }

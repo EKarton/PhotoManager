@@ -4,7 +4,6 @@ import java.io.IOException;
 import backend.commands.CommandManager;
 import backend.models.AppSettings;
 import backend.models.PictureManager;
-import javafx.application.Platform;
 
 /**
  * A service class used to simplify the calls to the backend services.
@@ -15,10 +14,8 @@ public class BackendService {
   private AppSettings appSettings;
 
   /**
-   * Constructs a new BackendService.
-   * When the app settings was not found /corrupted /
-   * locked by another application,
-   * it will create a new app settings file.
+   * Constructs a new BackendService. When the app settings was not found /corrupted / locked by
+   * another application, it will create a new app settings file.
    */
   public BackendService() {
     try {
@@ -26,29 +23,31 @@ public class BackendService {
       this.pictureManager = new PictureManager();
       this.appSettings = AppSettings.loadFromFile();
       this.appSettings.addPicToManager(pictureManager);
-    }
-    catch (IOException | ClassNotFoundException e) {
+    } catch (IOException | ClassNotFoundException e) {
       this.appSettings = new AppSettings();
     }
   }
 
   /**
-   * Resets the backend service by supplying the PictureManager
-   * with a new set of pictures in a specific location in the OS.
+   * Resets the backend service by supplying the PictureManager with a new set of pictures in a
+   * specific location in the OS.
+   * 
    * @param directory The directory to grab pictures from
    * @param isRecursive True if to grab pictures recursively; else false.
    */
   public void resetBackendService(String directory, boolean isRecursive) {
     try {
-      this.pictureManager = new PictureManager(directory, isRecursive);
-      this.appSettings.addPicToManager(pictureManager);
-    }
-    catch (IOException e) {
+      if (!directory.equals(this.pictureManager.getCurrDir())) {
+        this.pictureManager = new PictureManager(directory, isRecursive);
+        this.appSettings.addPicToManager(pictureManager);
+      }
+    } catch (IOException e) {
     }
   }
 
   /**
    * Returns the current command manager.
+   * 
    * @return The current command manager.
    */
   public CommandManager getCommandManager() {
@@ -57,6 +56,7 @@ public class BackendService {
 
   /**
    * Returns the current picture manager
+   * 
    * @return The current picture manager.
    */
   public PictureManager getPictureManager() {
@@ -65,6 +65,7 @@ public class BackendService {
 
   /**
    * Returns the current app settings for this app.
+   * 
    * @return The current app settings
    */
   public AppSettings getAppSettings() {
@@ -72,16 +73,14 @@ public class BackendService {
   }
 
   /**
-   * Saves the app settings object called Config.
-   * It will also update the app settings by appending
+   * Saves the app settings object called Config. It will also update the app settings by appending
    * it with the list of pictures from the PictureManager
    */
   public void save() {
     try {
       this.appSettings.addPicFromManager(this.pictureManager);
       this.appSettings.save();
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       // This should never happen, but if it does just don't save
     }
   }

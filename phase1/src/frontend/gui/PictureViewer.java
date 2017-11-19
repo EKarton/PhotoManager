@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import backend.models.Picture;
 import backend.models.Tag;
@@ -191,6 +193,16 @@ public class PictureViewer extends BorderPane {
     for (Tag tag : picture.getTags())
       tagsString += " " + tag.getLabel();
     this.tags.setText(tagsString);
-  }
 
+    addTag.getItems().clear();
+
+    List<Tag> tagsNotOnPic = new ArrayList<Tag>();
+    List<Tag> availableTags = this.mainView.getBackendService().getPictureManager().getAvailableTags();
+    for (Tag availTag : availableTags) {
+      if (!picture.containsTag(availTag)) {
+        tagsNotOnPic.add(availTag);
+      }
+    }
+    addTag.getItems().addAll(tagsNotOnPic);
+  }
 }

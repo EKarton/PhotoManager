@@ -49,6 +49,7 @@ public class PictureViewer extends BorderPane {
     HBox nameControls = new HBox();
     oldNames = new ComboBox<String>();
     oldNames.setPadding(new Insets(0, 10, 0, 0));
+    oldNames.setOnAction(this.controller::setNameSelected);
 
     Button changeName = new Button("Change Name");
     changeName.setOnAction(this.controller::changeName);
@@ -93,6 +94,7 @@ public class PictureViewer extends BorderPane {
         BufferedImage bufferedImage = ImageIO.read(inputStream);
         Image image = SwingFXUtils.toFXImage(bufferedImage, null);
         this.imageView.setImage(image);
+        inputStream.close();
 
         //Image image = new Image(new FileInputStream(this.picture.getAbsolutePath()));
         //this.imageView.setImage(image);

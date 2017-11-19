@@ -10,6 +10,7 @@ public class PictureViewerController extends Controller implements ChangeListene
 
   private MainView mainView;
   private PictureViewer pictureViewer;
+  private String nameSelected;
 
   public PictureViewerController(MainView mainView, PictureViewer viewer) {
     super(mainView, mainView.getBackendService());
@@ -72,11 +73,14 @@ public class PictureViewerController extends Controller implements ChangeListene
   }
   
   public void changeName(ActionEvent e) {
-    String newName = this.pictureViewer.getOldNameSelected();
-    if(newName != null) {
-      this.mainView.getBackendService().rename(this.pictureViewer.getPicture(), newName);
+    if(this.nameSelected != null) {
+      this.mainView.getBackendService().rename(this.pictureViewer.getPicture(), this.nameSelected);
       this.mainView.getListViewController().setItems(this.mainView.getBackendService().getPictureManager().getPictures());
     }
+  }
+  
+  public void setNameSelected(String name) {
+    this.nameSelected = name;
   }
 
 

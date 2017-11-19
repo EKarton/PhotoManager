@@ -32,6 +32,9 @@ public class PictureViewer extends BorderPane {
   private TextArea tags;
   private TextField newTagTextField;
   private ComboBox<Tag> addTag;
+  private ComboBox<Tag> removeTagSelect;
+  private ComboBox<Tag> deleteTagSelect;
+
   
   public PictureViewer(MainView mainView) {
     this.controller = new PictureViewerController(mainView, this);
@@ -88,7 +91,18 @@ public class PictureViewer extends BorderPane {
     addTag.getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
     addTag.setOnAction(this.controller::addTag);
     
-    hb.getChildren().addAll(createTags, newTagTextField, addTagLabel, addTag);
+    Label deleteTag = new Label("Delete Tag from Manager");
+    this.deleteTagSelect = new ComboBox<Tag>();
+    deleteTagSelect.getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+    deleteTagSelect.setOnAction(this.controller::deleteTag);
+    
+    Label removeTag = new Label("Remove Tag from Image");
+    this.removeTagSelect = new ComboBox<Tag>();
+    this.removeTagSelect.getItems().addAll(this.picture.getTags());
+    this.removeTagSelect.setOnAction(this.controller::removeTag);
+    
+    
+    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, addTagLabel, addTag);
     hb.setSpacing(10);
     
     
@@ -97,6 +111,14 @@ public class PictureViewer extends BorderPane {
     this.setBottom(tagControls);
     
     updatePictureViewer(null);  // starts with nothing shown
+  }
+  
+  public Tag getSelectedRemoveTag() {
+    return this.removeTagSelect.getSelectionModel().getSelectedItem();
+  }
+  
+  public Tag getSelectedDeleteTag() {
+    return this.deleteTagSelect.getSelectionModel().getSelectedItem();
   }
   
   public String getNewTagText() {

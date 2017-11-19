@@ -42,13 +42,11 @@ public class AppSettings implements Serializable {
    * @param manager a PictureManager
    */
   public void addPicToManager(PictureManager manager) {
-    if (historicalPictures.size() != 0) {
-      for (Picture picture : historicalPictures) {
-        for (Picture picture1 : manager.getPictures()) {
-          if (picture1.equals(picture)) {
-            manager.untrackPicture(picture1);
-            manager.addPicture(picture);
-          }
+    for (Picture picture : historicalPictures) {
+      for (Picture picture1 : manager.getPictures()) {
+        if (picture1.equals(picture)) {
+          manager.untrackPicture(picture1);
+          manager.addPicture(picture);
         }
       }
     }

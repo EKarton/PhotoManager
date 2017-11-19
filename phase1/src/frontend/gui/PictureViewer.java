@@ -120,19 +120,33 @@ public class PictureViewer extends BorderPane {
       this.oldNames.getItems().setAll(this.controller.getHistoricalNames());
       
       try {
+        // Get the image
         InputStream inputStream = new FileInputStream(picture.getAbsolutePath());
 
         BufferedImage bufferedImage = ImageIO.read(inputStream);
         Image image = SwingFXUtils.toFXImage(bufferedImage, null);
         this.imageView.setImage(image);
         inputStream.close();
-        
+
+        // Set the title
         this.pictureName.setText(this.picture.getTaglessName());
-        
-        String tagText = "";
-        for(Tag tag : this.picture.getTags()) {
-          tagText += tag.getLabel() + " ";
+
+        // Display the tags
+        String tagsString = "";
+        for (Tag tag : picture.getTags())
+          tagsString += " " + tag.getLabel();
+        this.tags.setText(tagsString);
+
+        // Update the combo box with tags not in the picture
+        addTag.getItems().clear();
+        List<Tag> tagsNotOnPic = new ArrayList<Tag>();
+        List<Tag> availableTags = this.mainView.getBackendService().getPictureManager().getAvailableTags();
+        for (Tag availTag : availableTags) {
+          if (!picture.containsTag(availTag)) {
+            tagsNotOnPic.add(availTag);
+          }
         }
+        addTag.getItems().addAll(tagsNotOnPic);
         
       } catch (FileNotFoundException e) {
         this.picture = null;
@@ -167,20 +181,6 @@ public class PictureViewer extends BorderPane {
   }
 
   public void updateDisplay(){
-    String tagsString = "";
-    for (Tag tag : picture.getTags())
-      tagsString += " " + tag.getLabel();
-    this.tags.setText(tagsString);
-
-    addTag.getItems().clear();
-
-    List<Tag> tagsNotOnPic = new ArrayList<Tag>();
-    List<Tag> availableTags = this.mainView.getBackendService().getPictureManager().getAvailableTags();
-    for (Tag availTag : availableTags) {
-      if (!picture.containsTag(availTag)) {
-        tagsNotOnPic.add(availTag);
-      }
-    }
-    addTag.getItems().addAll(tagsNotOnPic);
+    updatePictureViewer(this.picture);
   }
 }

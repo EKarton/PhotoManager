@@ -9,6 +9,6 @@ smith244 : Write file management code to move, rename and delete files
 smith244 : Create some serializable classes to represent different types of logs
 smith244 : Write code to read and write to serial files
 smith244 : Create the gui
-kartonoe : Created data models to represent the Picture and the Tags
+kartonoe : Created classes used to represent the Picture and the Tags
 kartonoe : Created a PictureManager (an observer) that will observe any changes in the mappings / tags / pictures, and performs IO changes to accomodate those changes.
-kartonoe : Created the Command manager and its associated Command classed used to undo / redo actions the user has done in the GUI (this is done by following the Command Design pattern).
+kartonoe : Created the Command manager and its associated Command classes used to undo / redo actions the user has done in the GUI (such as undoing a name change).

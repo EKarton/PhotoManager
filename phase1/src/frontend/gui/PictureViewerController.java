@@ -65,6 +65,7 @@ public class PictureViewerController extends Controller implements ChangeListene
   // }
   
   public void createNewTag(ActionEvent e) {
+    System.out.println("EMILIO!!!");
     String text = this.pictureViewer.getNewTagText();
     
     if (text != "") {

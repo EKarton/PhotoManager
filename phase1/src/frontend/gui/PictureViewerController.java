@@ -65,7 +65,6 @@ public class PictureViewerController extends Controller implements ChangeListene
   // }
   
   public void createNewTag(ActionEvent e) {
-    System.out.println("EMILIO!!!");
     String text = this.pictureViewer.getNewTagText();
     
     if (text != "") {
@@ -76,9 +75,6 @@ public class PictureViewerController extends Controller implements ChangeListene
       AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, tag);
       this.mainView.getBackendService().getCommandManager().addCommand(cmd);
       cmd.execute();
-
-      this.pictureViewer.getTagsCombobox().getItems().clear();
-      this.pictureViewer.getTagsCombobox().getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
     }
   }
   

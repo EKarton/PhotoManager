@@ -11,7 +11,6 @@ import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -29,7 +28,6 @@ public class PictureViewer extends BorderPane {
   private PictureViewerController controller;
   private Picture picture;
   private MainView mainView;
-  private CheckBox showTags;
   private ComboBox<String> oldNames;
   private TextArea tags;
   private TextField newTagTextField;
@@ -45,10 +43,7 @@ public class PictureViewer extends BorderPane {
     this.pictureName = new Label();
     this.pictureName.setFont(Font.font("Verdana", 20));
     this.pictureName.setPadding(new Insets(0, 0, 5, 0));
- 
-    showTags = new CheckBox("Show Tags");
-    showTags.selectedProperty().addListener(this.controller);
-    
+   
     HBox nameControls = new HBox();
     oldNames = new ComboBox<String>();
     oldNames.setPadding(new Insets(0, 10, 0, 0));
@@ -62,7 +57,6 @@ public class PictureViewer extends BorderPane {
     BorderPane title = new BorderPane();
     title.setPrefWidth(3 * (MainView.WIDTH / 4));
     title.setLeft(pictureName);
-    title.setCenter(showTags);
     title.setRight(nameControls);
 
     this.setTop(title);
@@ -121,7 +115,6 @@ public class PictureViewer extends BorderPane {
     } else {
       this.setVisible(true);
       
-      showTags.setSelected(false);  // set back to default
       this.oldNames.getItems().setAll(this.controller.getHistoricalNames());
       
       try {
@@ -138,7 +131,6 @@ public class PictureViewer extends BorderPane {
         for(Tag tag : this.picture.getTags()) {
           tagText += tag.getLabel() + " ";
         }
-        this.showTags.setText(tagText);
         
       } catch (FileNotFoundException e) {
         this.picture = null;
@@ -166,10 +158,6 @@ public class PictureViewer extends BorderPane {
   
   public String getOldNameSelected() {
     return this.oldNames.getSelectionModel().getSelectedItem();
-  }
-
-  public ComboBox<Tag> getTagsCombobox(){
-    return this.addTag;
   }
 
 }

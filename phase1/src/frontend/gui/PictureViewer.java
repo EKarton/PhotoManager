@@ -1,10 +1,14 @@
 package frontend.gui;
 
+import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import backend.models.Picture;
+import java.io.IOException;
+import java.io.InputStream;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -16,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
+import javax.imageio.ImageIO;
 
 public class PictureViewer extends BorderPane {
   private Label pictureName;
@@ -83,11 +88,19 @@ public class PictureViewer extends BorderPane {
       this.oldNames.getItems().setAll(this.controller.getHistoricalNames());
       
       try {
-        Image image = new Image(new FileInputStream(this.picture.getAbsolutePath()));
+        InputStream inputStream = new FileInputStream(picture.getAbsolutePath());
+
+        BufferedImage bufferedImage = ImageIO.read(inputStream);
+        Image image = SwingFXUtils.toFXImage(bufferedImage, null);
         this.imageView.setImage(image);
+
+        //Image image = new Image(new FileInputStream(this.picture.getAbsolutePath()));
+        //this.imageView.setImage(image);
         this.pictureName.setText(this.picture.getTaglessName());
       } catch (FileNotFoundException e) {
         this.picture = null;
+      } catch (IOException e) {
+        e.printStackTrace();
       }
     }
   }

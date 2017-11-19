@@ -42,4 +42,12 @@ public class BackendService {
   public AppSettings getAppSettings() {
     return this.appSettings;
   }
+  
+  public void save() {
+    try {
+      this.appSettings.save();
+    } catch (IOException e) {
+      // This should never happen, but if it does just don't save
+    }
+  }
 }

@@ -1,6 +1,5 @@
 package frontend.gui;
 
-import java.io.IOException;
 import javax.naming.NoInitialContextException;
 import javafx.event.ActionEvent;
 
@@ -36,13 +35,9 @@ public class MenuBarController extends Controller{
       dialog.show();
     }
   }
-
+  
   public void save(ActionEvent e) {
-    try {
-      this.getBackendService().getAppSettings().save();
-    } catch (IOException e1) {
-      // This should never happen, but if it does just don't save
-    }
+    this.getBackendService().save();
   }
 
   public void undo(ActionEvent e) {

@@ -239,7 +239,6 @@ public class MainView extends Application {
 
   @Override
   public void stop() {
-    // TODO stop and do save stuff
-    
+    this.getBackendService().save();
   }
 }

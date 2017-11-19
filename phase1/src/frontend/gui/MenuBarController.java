@@ -1,5 +1,6 @@
 package frontend.gui;
 
+import java.io.File;
 import javax.naming.NoInitialContextException;
 import javafx.event.ActionEvent;
 
@@ -13,10 +14,12 @@ public class MenuBarController extends Controller{
   }
 
   public void openDirectory(ActionEvent e) {
-    String directory = this.getMainView().openDirectoryChooser().getAbsolutePath();
-    this.getBackendService().resetBackendService(directory, false);
-
-    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());
+    File file = this.getMainView().openDirectoryChooser();
+    
+    if (file != null) {
+      this.getBackendService().resetBackendService(file.getAbsolutePath(), false);
+      this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());
+    }    
   }
 
   public void openDirectoryRecursively(ActionEvent e) {

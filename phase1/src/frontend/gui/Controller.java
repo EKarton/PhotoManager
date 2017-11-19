@@ -6,9 +6,11 @@ public class Controller {
 
   private MainView mainView;
   private FileManager fileManager;
+  private BackendService backendService;
   
-  public Controller(MainView mainView) {
+  public Controller(MainView mainView, BackendService backendService) {
     this.mainView = mainView;
+    this.backendService = backendService;
     this.fileManager = new FileManager();
   }
 
@@ -17,7 +19,11 @@ public class Controller {
   }
 
   public FileManager getFileManager() {
-    return fileManager;
+    return this.fileManager;
+  }
+  
+  public BackendService getBackendService() {
+    return this.backendService;
   }
 
 }

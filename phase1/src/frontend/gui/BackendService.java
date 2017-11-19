@@ -1,11 +1,9 @@
 package frontend.gui;
 
+import java.io.IOException;
 import backend.commands.CommandManager;
 import backend.models.AppSettings;
 import backend.models.PictureManager;
-import java.io.IOException;
-import java.util.Observable;
-import java.util.Observer;
 import javafx.application.Platform;
 
 public class BackendService {
@@ -19,7 +17,8 @@ public class BackendService {
       pictureManager = new PictureManager();
       appSettings = new AppSettings();
     } catch (IOException e) {
-      e.printStackTrace();
+      // TODO add fail safe
+      Platform.exit();
     }
   }
 
@@ -28,7 +27,7 @@ public class BackendService {
       pictureManager = new PictureManager(directory, isRecursive);
       appSettings.addPicToManager(pictureManager);
     } catch (IOException e) {
-      System.out.println(e);
+      //TODO add fail safe
     }
   }
 
@@ -36,7 +35,11 @@ public class BackendService {
     return this.commandManager;
   }
 
-  public PictureManager pictureManager() {
+  public PictureManager getPictureManager() {
     return this.pictureManager;
+  }
+  
+  public AppSettings getAppSettings() {
+    return this.appSettings;
   }
 }

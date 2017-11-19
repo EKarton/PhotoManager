@@ -12,7 +12,7 @@ public class PictureViewerController extends Controller {
   private PictureViewer viewer;
 
   public PictureViewerController(MainView mainView, PictureViewer viewer) {
-    super(mainView);
+    super(mainView, mainView.getBackendService());
     this.mainView = mainView;
     this.viewer = viewer;
   }

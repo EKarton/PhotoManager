@@ -9,16 +9,16 @@ import javafx.util.Callback;
 public class FileListViewCallback implements Callback<ListView<Picture>, ListCell<Picture>> {
   
   private ContextMenu contextMenu;
-  private MainView view;
+  private FileListViewController controller;
   
-  public FileListViewCallback(MainView view, ContextMenu contextMenu) {
+  public FileListViewCallback(FileListViewController controller, ContextMenu contextMenu) {
     this.contextMenu = contextMenu;
-    this.view = view;
+    this.controller = controller;
   }
   
   @Override
   public ListCell<Picture> call(ListView<Picture> param) {
-    ListCell<Picture> cell = new FileListCell(this.view);
+    ListCell<Picture> cell = new FileListCell(this.controller);
     cell.setContextMenu(this.contextMenu);
     return cell;
   }

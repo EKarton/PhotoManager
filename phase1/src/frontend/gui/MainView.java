@@ -29,7 +29,7 @@ public class MainView extends Application {
   public static final int HEIGHT = 600;
 
   /** Controller for all action event handling */
-  private MainViewController mainViewController;
+  private MenuBarController menuBarController;
   private FileListViewController listViewController;
   private BackendService backendService;
   private ImageView pictureImageView;
@@ -53,12 +53,13 @@ public class MainView extends Application {
    * where else
    */
   public MainView() {
-    // create the controller for all action event handling
+    
     this.backendService = new BackendService();
 
     pictureViewer = new PictureViewer(this);
 
-    this.mainViewController = new MainViewController(this, backendService);
+  //create the controller for all action event handling
+    this.menuBarController = new MenuBarController(this, backendService);
     this.listViewController = new FileListViewController(this, backendService);
   }
 
@@ -75,14 +76,10 @@ public class MainView extends Application {
 
     ListView<Picture> listView = createFileListView();
 
-    listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);  // TODO we may not need this
-
     HBox hBox = new HBox();
     hBox.setMinWidth(MainView.WIDTH);
     hBox.getChildren().add(listView);
-    hBox.getChildren().add(pictureViewer);
-
-    //hBox.getChildren().add(this.createPictureViewer());
+    hBox.getChildren().add(pictureViewer);  // TODO what about create method
 
     root.setCenter(hBox);
 
@@ -106,18 +103,18 @@ public class MainView extends Application {
     Menu openDir = new Menu("Open Directory");
     MenuItem openDirNonRec = new MenuItem("Open Directory");
     MenuItem openDirRec = new MenuItem("Open Directory Recursively");
-    openDirNonRec.setOnAction(this.mainViewController::openDirectory);
-    openDirRec.setOnAction(this.mainViewController::openDirectoryRecursively);
+    openDirNonRec.setOnAction(this.menuBarController::openDirectory);
+    openDirRec.setOnAction(this.menuBarController::openDirectoryRecursively);
     openDir.getItems().addAll(openDirNonRec, openDirRec);
 
     MenuItem openLog = new MenuItem("Open Log");
-    openLog.setOnAction(this.mainViewController::openLog);
+    openLog.setOnAction(this.menuBarController::openLog);
     open.getItems().addAll(openDir, openLog);
 
     Menu save = new Menu("Save");
     MenuItem saveItem = new MenuItem("Save");
 
-    saveItem.setOnAction(this.mainViewController::save);
+    saveItem.setOnAction(this.menuBarController::save);
 
     // add a key combination
     saveItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
@@ -126,7 +123,7 @@ public class MainView extends Application {
 
     Menu undo = new Menu("Undo");
     MenuItem undoItem = new MenuItem("Undo");
-    undoItem.setOnAction(this.mainViewController::undo);
+    undoItem.setOnAction(this.menuBarController::undo);
 
     undoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
     
@@ -135,7 +132,7 @@ public class MainView extends Application {
     Menu redo = new Menu("Redo");
     MenuItem redoItem = new MenuItem("Redo");
 
-    redoItem.setOnAction(this.mainViewController::redo);
+    redoItem.setOnAction(this.menuBarController::redo);
 
     redoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
 
@@ -193,9 +190,8 @@ public class MainView extends Application {
 
   public ListView<Picture> createFileListView() {
     ListView<Picture> listView = new ListView<Picture>(this.listViewController.getItems());
-
-    this.listViewController.setView(listView);  // must call this
     
+    // TODO maybe can just us prefered size
     listView.setMaxWidth(MainView.WIDTH / 4);
     listView.setMinWidth(MainView.WIDTH / 4);
     
@@ -213,7 +209,7 @@ public class MainView extends Application {
     ContextMenu contextMenu = new ContextMenu();
     contextMenu.getItems().addAll(rename, move, delete);
     
-    listView.setCellFactory(new FileListViewCallback(this, contextMenu));
+    listView.setCellFactory(new FileListViewCallback(this.listViewController, contextMenu));
 
     listView.getSelectionModel().selectedItemProperty().addListener(this.listViewController);
 
@@ -236,24 +232,14 @@ public class MainView extends Application {
   public ImageView getPictureImageView() {
     return this.pictureImageView;
   }
-    
-  //TODO check this
-//  public MainController getMainController() {
-//    return this.mainController;
-//  }
 
   public BackendService getBackendService() {
     return this.backendService;
   }
-  
-  public void setTagsLabel(String tags) {
-    this.tagsLabel.setText(tags);
-  }
 
   @Override
   public void stop() {
-    // TODO stop
-//    save
+    // TODO stop and do save stuff
     
   }
 }

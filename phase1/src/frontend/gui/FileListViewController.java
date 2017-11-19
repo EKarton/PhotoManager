@@ -1,10 +1,8 @@
 package frontend.gui;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import backend.models.Picture;
-import backend.models.PictureManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -15,12 +13,9 @@ import javafx.scene.control.ListView;
 public class FileListViewController extends Controller implements ChangeListener<Picture> {
   private ObservableList<Picture> items;
   private ListView<Picture> listView;
-
-  private BackendService service; // TODO what is this
   
   public FileListViewController(MainView mainView, BackendService service) {
-    super(mainView);
-    this.service = service;
+    super(mainView, service);
     List<Picture> defaultEmptyList = new ArrayList<>();
     this.items = FXCollections.observableList(defaultEmptyList);
   }
@@ -35,11 +30,7 @@ public class FileListViewController extends Controller implements ChangeListener
 
   @Override
   public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
-    Picture selectedPicture = newValue;
-    if (selectedPicture == null)
-      selectedPicture = oldValue;
-
-    this.getMainView().getPictureViewer().setPicture(selectedPicture);
+    this.getMainView().getPictureViewer().setPicture(newValue);
   }
 
   public void rename(ActionEvent e) {
@@ -51,34 +42,13 @@ public class FileListViewController extends Controller implements ChangeListener
     Picture selectedPicture = this.listView.getSelectionModel().getSelectedItem();
     selectedPicture.setDirectoryPath(newDirectory);
 
-    this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());
-    
-    //TODO check this - this is what I had before
-    /*
-     *   private void openDirectory(boolean recursive) {
-    File file = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage());
-
-    if (file != null) {
-      String directory = file.getAbsolutePath();
-      
-      try {
-        PictureManager pictureManager = new PictureManager(directory, recursive);
-        this.getMainView().getMainController().setPictureManager(pictureManager);
-        this.getMainView().getListViewController().setItems(pictureManager.getPictures());
-      } catch (Exception exception) {
-        this.getMainView().getListViewController().setItems(null);
-      }
-    }*/
+    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());  // update the list
   }
 
   public void delete(ActionEvent e) {
     Picture pictureSelected = this.listView.getSelectionModel().getSelectedItem();
-    this.service.pictureManager().untrackPicture(pictureSelected);
+    this.getBackendService().getPictureManager().untrackPicture(pictureSelected);  // TODO make sure this deletes it
 
-    this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());  // TODO before I just removed
-  }
-
-  public void setView(ListView<Picture> listView) {
-    this.listView = listView;
+    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());  // update the list
   }
 }

@@ -62,7 +62,7 @@ public class FileListCell extends ListCell<Picture>{
         
         this.controller.getMainView().getBackendService().getCommandManager().addCommand(renamePictureCommand);
         renamePictureCommand.execute();
-        this.controller.getMainView().getPictureViewer().setPicture(this.getItem());
+        this.controller.getMainView().getPictureViewer().updatePictureViewer(picture);
 
         this.commitEdit(this.getItem());
       }

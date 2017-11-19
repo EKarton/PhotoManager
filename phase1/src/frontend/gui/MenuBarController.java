@@ -7,30 +7,33 @@ import javafx.event.ActionEvent;
 /**
  * This is a controller to handle all action events from MenuBar
  */
-public class MenuBarController extends Controller{
+public class MenuBarController extends Controller {
 
   public MenuBarController(MainView mainView, BackendService backendService) {
     super(mainView, backendService);
   }
 
   public void openDirectory(ActionEvent e) {
-    File file = this.getMainView().openDirectoryChooser();
-    
-    if (file != null) {
-      this.getBackendService().resetBackendService(file.getAbsolutePath(), false);
-      this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());
-    }    
+    this.openDirectory(false);
   }
 
   public void openDirectoryRecursively(ActionEvent e) {
-    String directory = this.getMainView().openDirectoryChooser().getAbsolutePath();
-    this.getBackendService().resetBackendService(directory, true);
+    this.openDirectory(true);
+  }
 
-    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());
+  private void openDirectory(boolean recursive) {
+    File file = this.getMainView().openDirectoryChooser();
+
+    if (file != null) {
+      String directory = file.getAbsolutePath();
+
+      this.getBackendService().resetBackendService(directory, recursive);
+      this.getMainView().getListViewController()
+          .setItems(this.getBackendService().getPictureManager().getPictures());
+    }
   }
 
   public void openLog(ActionEvent e) {
-    // TODO see what this does
     String logs = this.getBackendService().getCommandManager().getLogs();
     if (logs != "") {
       TextDialog dialog = new TextDialog(logs);
@@ -38,7 +41,7 @@ public class MenuBarController extends Controller{
       dialog.show();
     }
   }
-  
+
   public void save(ActionEvent e) {
     this.getBackendService().save();
   }
@@ -46,14 +49,14 @@ public class MenuBarController extends Controller{
   public void undo(ActionEvent e) {
     try {
       this.getBackendService().getCommandManager().undoRecentCommand();
+    } catch (NoInitialContextException e1) {
     }
-    catch (NoInitialContextException e1) {  }
   }
 
   public void redo(ActionEvent e) {
     try {
       this.getBackendService().getCommandManager().redoRecentCommand();
+    } catch (NoInitialContextException e1) {
     }
-    catch (NoInitialContextException e1) { }
   }
 }

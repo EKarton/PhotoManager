@@ -15,7 +15,7 @@ import javafx.scene.control.ListView;
 public class FileListViewController extends Controller implements ChangeListener<Picture> {
   private ObservableList<Picture> items;
   private ListView<Picture> listView;
-  
+
   public FileListViewController(MainView mainView, BackendService service) {
     super(mainView, service);
     this.items = FXCollections.observableList(service.getPictureManager().getPictures());
@@ -30,23 +30,27 @@ public class FileListViewController extends Controller implements ChangeListener
   }
 
   @Override
-  public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
-    this.getMainView().getPictureViewer().setPicture(newValue);
+  public void changed(ObservableValue<? extends Picture> observable, Picture oldValue,
+      Picture newValue) {
+    if (newValue != null) {  // since we set it to null in edit mode
+      this.getMainView().getPictureViewer().updatePictureViewer(newValue);
+    }
   }
 
   public void rename(ActionEvent e) {
+    listView.layout();
     this.listView.edit(this.listView.getSelectionModel().getSelectedIndex());
-    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());
   }
 
   public void move(ActionEvent e) {
     String newDirectory = this.getMainView().openDirectoryChooser().getAbsolutePath();
     Picture selectedPicture = this.listView.getSelectionModel().getSelectedItem();
     selectedPicture.setDirectoryPath(newDirectory);
- 
-    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());  // update the list
+
+    this.getMainView().getListViewController()
+        .setItems(this.getBackendService().getPictureManager().getPictures()); // update the list
   }
-  
+
   public void setListView(ListView<Picture> listView) {
     this.listView = listView;
   }

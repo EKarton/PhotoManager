@@ -72,14 +72,15 @@ public class PictureViewerController extends Controller implements ChangeListene
       this.mainView.getBackendService().getPictureManager().addTagToCollection(tag);
       this.pictureViewer.resetNewTagText();
 
-      this.pictureViewer.getTagsCombobox().getItems().clear();
-      this.pictureViewer.getTagsCombobox().getItems().addAll(
-      this.mainView.getBackendService().getPictureManager().getAvailableTags());
+      this.pictureViewer.updateDisplay();
     }
   }
   
   public void addTag(ActionEvent e) {
     Tag newTag = this.pictureViewer.getSelectedAddTag();
+
+    if (newTag == null)
+      return;
 
     Picture picture = this.pictureViewer.getPicture();
     AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, newTag);

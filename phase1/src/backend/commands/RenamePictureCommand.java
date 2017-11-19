@@ -34,6 +34,7 @@ public class RenamePictureCommand implements Command {
    */
   public RenamePictureCommand(Picture picture, String newName) {
     this.picture = picture;
+    this.oldName = picture.getTaglessName();
     this.newName = newName;
   }
 

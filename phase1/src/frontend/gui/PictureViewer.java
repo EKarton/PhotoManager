@@ -15,12 +15,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class PictureViewer extends BorderPane {
@@ -32,6 +32,8 @@ public class PictureViewer extends BorderPane {
   private CheckBox showTags;
   private ComboBox<String> oldNames;
   private TextArea tags;
+  private TextField newTagTextField;
+  private ComboBox<Tag> addTag;
   
   public PictureViewer(MainView mainView) {
     this.controller = new PictureViewerController(mainView, this);
@@ -43,8 +45,7 @@ public class PictureViewer extends BorderPane {
     this.pictureName = new Label();
     this.pictureName.setFont(Font.font("Verdana", 20));
     this.pictureName.setPadding(new Insets(0, 0, 5, 0));
-
-      
+ 
     showTags = new CheckBox("Show Tags");
     showTags.selectedProperty().addListener(this.controller);
     
@@ -82,9 +83,33 @@ public class PictureViewer extends BorderPane {
     tags.setPrefWidth(3 * (MainView.WIDTH / 4));
     tagControls.setTop(tags);
     
+    Label createTags = new Label("Create Tag:");
+    newTagTextField = new TextField ();
+    newTagTextField.onActionProperty().set(this.controller::createNewTag);
+    HBox hb = new HBox();
+    
+    Label addTagLabel = new Label("Add Tag");
+    addTag = new ComboBox<Tag>();
+    addTag.getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+    addTag.setOnAction(this.controller::addTag);
+    
+    hb.getChildren().addAll(createTags, newTagTextField, addTagLabel, addTag);
+    hb.setSpacing(10);
+    
+    
+    tagControls.setBottom(hb);
+    
     this.setBottom(tagControls);
     
     updatePictureViewer(null);  // starts with nothing shown
+  }
+  
+  public String getNewTagText() {
+    return this.newTagTextField.getText();
+  }
+  
+  public void resetNewTagText() {
+    this.newTagTextField.setText("");
   }
 
   public void updatePictureViewer(Picture newPicture) {
@@ -132,6 +157,10 @@ public class PictureViewer extends BorderPane {
   
   public Picture getPicture() {
     return this.picture;
+  }
+  
+  public Tag getSelectedAddTag() {
+    return this.addTag.getSelectionModel().getSelectedItem();
   }
   
   public String getOldNameSelected() {

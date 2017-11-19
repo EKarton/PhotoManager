@@ -81,6 +81,7 @@ public class PictureViewer extends BorderPane {
     tags = new TextArea();
     tags.setEditable(false);
     tags.setPrefWidth(3 * (MainView.WIDTH / 4));
+    tags.setPrefHeight(MainView.HEIGHT / 8);
     tagControls.setTop(tags);
     
     Label createTags = new Label("Create Tag:");

@@ -17,7 +17,7 @@ public class FileListViewController extends Controller implements ChangeListener
   public FileListViewController(MainView mainView, BackendService service) {
     super(mainView, service);
     List<Picture> defaultEmptyList = new ArrayList<>();
-    this.items = FXCollections.observableList(defaultEmptyList);
+    this.items = FXCollections.observableList(service.getPictureManager().getPictures());
   }
 
   public ObservableList<Picture> getItems() {
@@ -35,6 +35,7 @@ public class FileListViewController extends Controller implements ChangeListener
 
   public void rename(ActionEvent e) {
     this.listView.edit(this.listView.getSelectionModel().getSelectedIndex());
+    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());
   }
 
   public void move(ActionEvent e) {

@@ -45,7 +45,7 @@ public class AppSettings implements Serializable {
     if (historicalPictures.size() != 0) {
       for (Picture picture : historicalPictures) {
         for (Picture picture1 : manager.getPictures()) {
-          if (!picture1.equals(picture)) {
+          if (picture1.equals(picture)) {
             manager.untrackPicture(picture1);
             manager.addPicture(picture);
           }

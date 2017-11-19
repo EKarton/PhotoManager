@@ -3,8 +3,12 @@ package frontend.gui;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import backend.models.Picture;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -20,6 +24,7 @@ public class PictureViewer extends BorderPane {
   private Picture picture;
   private MainView mainView;
   private CheckBox showTags;
+  private ComboBox<String> oldNames;
 
   public PictureViewer(MainView mainView) {
     this.controller = new PictureViewerController(mainView, this);
@@ -32,13 +37,24 @@ public class PictureViewer extends BorderPane {
     this.pictureName.setFont(Font.font("Verdana", 20));
     this.pictureName.setPadding(new Insets(0, 0, 5, 0));
 
+      
     showTags = new CheckBox("Show Tags");
     showTags.selectedProperty().addListener(this.controller);
+    
+    HBox nameControls = new HBox();
+    oldNames = new ComboBox<String>();
+    oldNames.setPadding(new Insets(0, 10, 0, 0));
+
+    Button changeName = new Button("Change Name");
+    changeName.setOnAction(this.controller::changeName);
+    
+    nameControls.getChildren().addAll(oldNames, changeName);
 
     BorderPane title = new BorderPane();
     title.setPrefWidth(3 * (MainView.WIDTH / 4));
     title.setLeft(pictureName);
-    title.setRight(showTags);
+    title.setCenter(showTags);
+    title.setRight(nameControls);
 
     this.setTop(title);
 
@@ -64,6 +80,7 @@ public class PictureViewer extends BorderPane {
       this.setVisible(true);
       
       showTags.setSelected(false);  // set back to default
+      this.oldNames.getItems().setAll(this.controller.getHistoricalNames());
       
       try {
         Image image = new Image(new FileInputStream(this.picture.getAbsolutePath()));
@@ -81,6 +98,14 @@ public class PictureViewer extends BorderPane {
     } else {
       this.pictureName.setText(this.picture.getTaglessName());
     }
+  }
+  
+  public Picture getPicture() {
+    return this.picture;
+  }
+  
+  public String getOldNameSelected() {
+    return this.oldNames.getSelectionModel().getSelectedItem();
   }
 
 }

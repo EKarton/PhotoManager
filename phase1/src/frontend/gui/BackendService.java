@@ -2,7 +2,9 @@ package frontend.gui;
 
 import java.io.IOException;
 import backend.commands.CommandManager;
+import backend.commands.RenamePictureCommand;
 import backend.models.AppSettings;
+import backend.models.Picture;
 import backend.models.PictureManager;
 
 /**
@@ -12,12 +14,15 @@ public class BackendService {
   private CommandManager commandManager;
   private PictureManager pictureManager;
   private AppSettings appSettings;
+  private MainView mainView;
 
   /**
    * Constructs a new BackendService. When the app settings was not found /corrupted / locked by
    * another application, it will create a new app settings file.
    */
-  public BackendService() {
+  public BackendService(MainView mainView) {
+    this.mainView = mainView;
+    
     try {
       this.commandManager = new CommandManager();
       this.pictureManager = new PictureManager();
@@ -84,4 +89,14 @@ public class BackendService {
       // This should never happen, but if it does just don't save
     }
   }
+
+  public void rename(Picture picture, String newName) {
+    RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
+
+    this.mainView.getBackendService().getCommandManager()
+        .addCommand(renamePictureCommand);
+    renamePictureCommand.execute();
+    this.mainView.getPictureViewer().updatePictureViewer(picture);
+  }
+
 }

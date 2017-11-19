@@ -58,11 +58,7 @@ public class FileListCell extends ListCell<Picture>{
    
       if(text != "") {
         Picture picture = this.getItem();
-        RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, text);
-        
-        this.controller.getMainView().getBackendService().getCommandManager().addCommand(renamePictureCommand);
-        renamePictureCommand.execute();
-        this.controller.getMainView().getPictureViewer().updatePictureViewer(picture);
+        this.controller.getBackendService().rename(picture, text);
 
         this.commitEdit(this.getItem());
       }

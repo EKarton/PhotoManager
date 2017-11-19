@@ -47,7 +47,7 @@ public class MainView extends Application {
    */
   public MainView() {
     
-    this.backendService = new BackendService();
+    this.backendService = new BackendService(this);
   //create the controller for all action event handling
     this.menuBarController = new MenuBarController(this, backendService);
     this.listViewController = new FileListViewController(this, backendService);

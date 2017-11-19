@@ -1,12 +1,13 @@
 package frontend.gui;
 
-import backend.models.Tag;
+import java.util.ArrayList;
+import java.util.List;
+import backend.models.Picture;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextInputDialog;
 
 public class PictureViewerController extends Controller implements ChangeListener<Boolean>{
 
@@ -74,19 +75,25 @@ public class PictureViewerController extends Controller implements ChangeListene
 //    window.setHeaderText("Complete historical names for this picture.");
 //    window.show();
 //  }
-//
-//  public void viewHistoricalTags(ActionEvent e){
-//    System.out.println("View historical tags");
-//
-//    String historicalTagsText = "";
-//    for (Tag tag : viewer.getPicture().getHistoricalTags())
-//      historicalTagsText += tag.getLabel() + "\n";
-//
-//    TextDialog window = new TextDialog(historicalTagsText);
-//    window.setTitle("Historical tags");
-//    window.setHeaderText("Complete historical tags for this picture.");
-//    window.show();
-//  }
+  
+  public List<String> getHistoricalNames(){
+    List<String> names = new ArrayList<String>();
+    
+    for (String name : this.pictureViewer.getPicture().getHistoricalTaglessNames()){
+      names.add(name);
+    }
+    
+    return names;
+  }
+  
+  public void changeName(ActionEvent e) {
+    String newName = this.pictureViewer.getOldNameSelected();
+    if(newName != null) {
+      this.mainView.getBackendService().rename(this.pictureViewer.getPicture(), newName);
+      this.mainView.getListViewController().setItems(this.mainView.getBackendService().getPictureManager().getPictures());
+    }
+  }
+
 
   @Override
   public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,

@@ -1,5 +1,7 @@
 package frontend.gui;
 
+import backend.commands.AddTagToPictureCommand;
+import backend.models.Picture;
 import java.util.ArrayList;
 import java.util.List;
 import backend.models.Tag;
@@ -67,8 +69,15 @@ public class PictureViewerController extends Controller implements ChangeListene
     
     if (text != "") {
       Tag tag = new Tag(text);
-       this.mainView.getBackendService().getPictureManager().addTagToCollection(tag);
-       this.pictureViewer.resetNewTagText();
+      this.mainView.getBackendService().getPictureManager().addTagToCollection(tag);
+      this.pictureViewer.resetNewTagText();
+      Picture picture = this.pictureViewer.getPicture();
+      AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, tag);
+      this.mainView.getBackendService().getCommandManager().addCommand(cmd);
+      cmd.execute();
+
+      this.pictureViewer.getTagsCombobox().getItems().clear();
+      this.pictureViewer.getTagsCombobox().getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
     }
   }
   

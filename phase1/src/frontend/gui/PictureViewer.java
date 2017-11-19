@@ -167,4 +167,8 @@ public class PictureViewer extends BorderPane {
     return this.oldNames.getSelectionModel().getSelectedItem();
   }
 
+  public ComboBox<Tag> getTagsCombobox(){
+    return this.addTag;
+  }
+
 }

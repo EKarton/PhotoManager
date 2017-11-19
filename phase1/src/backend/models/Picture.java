@@ -330,6 +330,6 @@ public class Picture extends Observable implements Serializable, Observer {
    * @return the name with tags
    */
   public String getTaggedName() {
-    return this.getFullFileName().replace("." + this.fileExt, "");
+    return this.getFullFileName().replace(this.fileExt, "");
   }
 }

@@ -21,19 +21,19 @@ public class FileListCell extends ListCell<Picture>{
  
   private TextField textField;
 
-  private MainView view;
+  private MainView view;  //TODO should it have this
 
   public FileListCell(MainView view){
     this.view = view;
   }
     
   @Override
-  public void updateItem(Picture picture, boolean empty) {
-    super.updateItem(picture, empty);
+  public void updateItem(Picture item, boolean empty) {
+    super.updateItem(item, empty);
     if (empty) {
       setText(null);
     } else {
-      setText(picture.getFullFileName());
+      setText(item.getTaglessName());
     }
   }
   
@@ -45,7 +45,9 @@ public class FileListCell extends ListCell<Picture>{
     
     this.setText(null);  // remove display of text
     
-    textField = new TextField(this.getItem().getTaglessName());
+    textField = new TextField(this.getItem().getTaglessName());  // TODO make sure this works, I had below
+//    textField = new TextField(name);
+    
     textField.setOnKeyPressed(this::handleTextFieldInput);
     
     this.setGraphic(textField);  // display a textfield
@@ -57,7 +59,6 @@ public class FileListCell extends ListCell<Picture>{
   public void cancelEdit() {
     super.cancelEdit();
     this.setGraphic(null);
-    this.setText(this.getItem().getFullFileName());
   }
   
   private void handleTextFieldInput(KeyEvent keyEvent) {
@@ -67,14 +68,13 @@ public class FileListCell extends ListCell<Picture>{
       String text = textField.getText();
    
       if(text != "") {
-
         Picture picture = this.getItem();
         RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, text);
         view.getBackendService().getCommandManager().addCommand(renamePictureCommand);
         renamePictureCommand.execute();
         this.view.getPictureViewer().setPicture(this.getItem());
 
-        this.cancelEdit();
+        this.commitEdit(this.getItem());
       }
     }
     else if(keyCode == KeyCode.ESCAPE) {

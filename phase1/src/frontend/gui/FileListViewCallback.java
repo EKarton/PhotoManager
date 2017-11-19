@@ -1,7 +1,6 @@
 package frontend.gui;
 
 import backend.models.Picture;
-import java.io.File;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -19,7 +18,7 @@ public class FileListViewCallback implements Callback<ListView<Picture>, ListCel
   
   @Override
   public ListCell<Picture> call(ListView<Picture> param) {
-    ListCell<Picture> cell = new FileListCell(view);
+    ListCell<Picture> cell = new FileListCell(this.view);
     cell.setContextMenu(this.contextMenu);
     return cell;
   }

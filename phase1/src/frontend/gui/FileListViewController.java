@@ -1,34 +1,26 @@
 package frontend.gui;
 
-import backend.models.Picture;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import backend.models.Picture;
+import backend.models.PictureManager;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
-import javax.imageio.ImageIO;
 
 public class FileListViewController extends Controller implements ChangeListener<Picture> {
   private ObservableList<Picture> items;
   private ListView<Picture> listView;
 
-  private BackendService service;
+  private BackendService service; // TODO what is this
   
   public FileListViewController(MainView mainView, BackendService service) {
     super(mainView);
     this.service = service;
-    
     List<Picture> defaultEmptyList = new ArrayList<>();
     this.items = FXCollections.observableList(defaultEmptyList);
   }
@@ -48,27 +40,6 @@ public class FileListViewController extends Controller implements ChangeListener
       selectedPicture = oldValue;
 
     this.getMainView().getPictureViewer().setPicture(selectedPicture);
-
-    /*
-
-    try {
-
-      this.getMainView().getPictureViewer().setPicture(selectedPicture);
-
-      InputStream inputStream = new FileInputStream(newValue.getAbsolutePath());
-      BufferedImage bufferedImage = ImageIO.read(inputStream);
-      Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-      this.getMainView().getPictureImageView().setImage(image);
-      this.getMainView().setPictureName(newValue.getFullFileName());
-
-      inputStream.close();
-    } catch (FileNotFoundException e) {
-      // This should never happen but if it does just set the image to be nothing
-      this.getMainView().getPictureImageView().setImage(null);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    */
   }
 
   public void rename(ActionEvent e) {
@@ -81,13 +52,30 @@ public class FileListViewController extends Controller implements ChangeListener
     selectedPicture.setDirectoryPath(newDirectory);
 
     this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());
+    
+    //TODO check this - this is what I had before
+    /*
+     *   private void openDirectory(boolean recursive) {
+    File file = this.getMainView().openDirectoryChooser(this.getMainView().getMainStage());
+
+    if (file != null) {
+      String directory = file.getAbsolutePath();
+      
+      try {
+        PictureManager pictureManager = new PictureManager(directory, recursive);
+        this.getMainView().getMainController().setPictureManager(pictureManager);
+        this.getMainView().getListViewController().setItems(pictureManager.getPictures());
+      } catch (Exception exception) {
+        this.getMainView().getListViewController().setItems(null);
+      }
+    }*/
   }
 
   public void delete(ActionEvent e) {
     Picture pictureSelected = this.listView.getSelectionModel().getSelectedItem();
     this.service.pictureManager().untrackPicture(pictureSelected);
 
-    this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());
+    this.getMainView().getListViewController().setItems(this.service.pictureManager().getPictures());  // TODO before I just removed
   }
 
   public void setView(ListView<Picture> listView) {

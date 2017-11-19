@@ -1,14 +1,7 @@
 package frontend.gui;
 
-import backend.models.Picture;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.Observer;
-import javafx.beans.Observable;
-import javafx.event.ActionEvent;
-import javafx.stage.DirectoryChooser;
 import javax.naming.NoInitialContextException;
+import javafx.event.ActionEvent;
 
 /**
  * This is a controller to handle all action events from the MainView

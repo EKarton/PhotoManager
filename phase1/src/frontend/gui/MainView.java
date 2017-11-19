@@ -1,7 +1,7 @@
 package frontend.gui;
 
-import backend.models.Picture;
 import java.io.File;
+import backend.models.Picture;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,6 +12,9 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -31,9 +34,8 @@ public class MainView extends Application {
   private BackendService backendService;
   private ImageView pictureImageView;
   private Label pictureName;
-
   private PictureViewer pictureViewer;
-
+  private Label tagsLabel;
   private Stage mainStage;
 
   /**
@@ -72,7 +74,9 @@ public class MainView extends Application {
     root.setTop(createMenuBar()); // add the menu bar on top
 
     ListView<Picture> listView = createFileListView();
-    listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);
+
+    listView.setPrefSize(WIDTH / 4, MainView.HEIGHT);  // TODO we may not need this
+
     HBox hBox = new HBox();
     hBox.setMinWidth(MainView.WIDTH);
     hBox.getChildren().add(listView);
@@ -112,17 +116,29 @@ public class MainView extends Application {
 
     Menu save = new Menu("Save");
     MenuItem saveItem = new MenuItem("Save");
+
     saveItem.setOnAction(this.mainViewController::save);
+
+    // add a key combination
+    saveItem.setAccelerator(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN));
+    
     save.getItems().add(saveItem);
 
     Menu undo = new Menu("Undo");
     MenuItem undoItem = new MenuItem("Undo");
     undoItem.setOnAction(this.mainViewController::undo);
+
+    undoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN));
+    
     undo.getItems().add(undoItem);
 
     Menu redo = new Menu("Redo");
     MenuItem redoItem = new MenuItem("Redo");
+
     redoItem.setOnAction(this.mainViewController::redo);
+
+    redoItem.setAccelerator(new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN));
+
     redo.getItems().add(redoItem);
 
     menuBar.getMenus().addAll(open, save, undo, redo);
@@ -130,17 +146,58 @@ public class MainView extends Application {
     return menuBar;
   }
 
+  private VBox createPictureViewer() {
+    VBox pictureBox = new VBox();
+    
+    pictureName = new Label();
+    pictureName.setFont(Font.font ("Verdana", 20));
+    pictureName.setPadding(new Insets(0, 0, 5, 0));
+
+    //TODO get label binding to work
+//    ObservableValue<String> observable
+//    pictureName.textProperty().bind();
+    
+    this.pictureImageView = new ImageView();
+    
+    pictureImageView.prefWidth(3 * (MainView.WIDTH / 4));
+//    pictureImageView.setFitWidth(3 * (MainView.WIDTH / 4));
+    
+    pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
+    
+    tagsLabel = new Label();
+    pictureName.setFont(Font.font ("Verdana", 15));
+    tagsLabel.setPadding(new Insets(0, 0, 5, 5));
+   
+    pictureBox.getChildren().addAll(pictureName, this.pictureImageView, this.tagsLabel);
+    return pictureBox;
+  }
+
   public File openDirectoryChooser() {
-    // http://java-buddy.blogspot.ca/2013/03/javafx-simple-example-of.html
     DirectoryChooser dirChooser = new DirectoryChooser();
-    //dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     File file = dirChooser.showDialog(this.mainStage);
     return file;
   }
 
-  private ListView<Picture> createFileListView() {
-    ListView<Picture> listView = new ListView<>(this.listViewController.getItems());
+  public File openFileChooser() {
+    FileChooser fileChooser = new FileChooser();
+
+    fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+    fileChooser.getExtensionFilters().add(new ExtensionFilter("Images", "*jpg", "*.jpeg", "*.png"));
+
+    File file = fileChooser.showOpenDialog(this.mainStage);
+
+    return file;
+  }
+
+
+  public ListView<Picture> createFileListView() {
+    ListView<Picture> listView = new ListView<Picture>(this.listViewController.getItems());
+
     this.listViewController.setView(listView);  // must call this
+    
+    listView.setMaxWidth(MainView.WIDTH / 4);
+    listView.setMinWidth(MainView.WIDTH / 4);
     
     listView.setEditable(true);
 
@@ -171,17 +228,32 @@ public class MainView extends Application {
   public FileListViewController getListViewController() {
     return this.listViewController;
   }
-
+  
   public PictureViewer getPictureViewer() {
     return pictureViewer;
+}
+  
+  public ImageView getPictureImageView() {
+    return this.pictureImageView;
   }
+    
+  //TODO check this
+//  public MainController getMainController() {
+//    return this.mainController;
+//  }
 
   public BackendService getBackendService() {
     return this.backendService;
   }
+  
+  public void setTagsLabel(String tags) {
+    this.tagsLabel.setText(tags);
+  }
 
   @Override
   public void stop() {
-    // This is where we can put custom shut down code
+    // TODO stop
+//    save
+    
   }
 }

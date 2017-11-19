@@ -3,22 +3,17 @@ package frontend.gui;
 import java.io.File;
 import backend.models.Picture;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -31,12 +26,10 @@ public class MainView extends Application {
   /** Controller for all action event handling */
   private MenuBarController menuBarController;
   private FileListViewController listViewController;
-  private BackendService backendService;
-  private ImageView pictureImageView;
-  private Label pictureName;
-  private PictureViewer pictureViewer;
-  private Label tagsLabel;
+  private BackendService backendService;  
   private Stage mainStage;
+  private PictureViewer pictureViewer;
+  private ListView<Picture> listView;
 
   /**
    * Launches the main view
@@ -55,9 +48,6 @@ public class MainView extends Application {
   public MainView() {
     
     this.backendService = new BackendService();
-
-    pictureViewer = new PictureViewer(this);  // TODO move this
-
   //create the controller for all action event handling
     this.menuBarController = new MenuBarController(this, backendService);
     this.listViewController = new FileListViewController(this, backendService);
@@ -79,6 +69,8 @@ public class MainView extends Application {
     HBox hBox = new HBox();
     hBox.setMinWidth(MainView.WIDTH);
     hBox.getChildren().add(listView);
+    
+    this.pictureViewer = new PictureViewer(this);
     hBox.getChildren().add(pictureViewer);  // TODO what about create method
 
     root.setCenter(hBox);
@@ -143,32 +135,6 @@ public class MainView extends Application {
     return menuBar;
   }
 
-  private VBox createPictureViewer() {
-    VBox pictureBox = new VBox();
-    
-    pictureName = new Label();
-    pictureName.setFont(Font.font ("Verdana", 20));
-    pictureName.setPadding(new Insets(0, 0, 5, 0));
-
-    //TODO get label binding to work
-//    ObservableValue<String> observable
-//    pictureName.textProperty().bind();
-    
-    this.pictureImageView = new ImageView();
-    
-    pictureImageView.prefWidth(3 * (MainView.WIDTH / 4));
-//    pictureImageView.setFitWidth(3 * (MainView.WIDTH / 4));
-    
-    pictureImageView.setPreserveRatio(true); // this lets us nicely scale the image
-    
-    tagsLabel = new Label();
-    pictureName.setFont(Font.font ("Verdana", 15));
-    tagsLabel.setPadding(new Insets(0, 0, 5, 5));
-   
-    pictureBox.getChildren().addAll(pictureName, this.pictureImageView, this.tagsLabel);
-    return pictureBox;
-  }
-
   public File openDirectoryChooser() {
     DirectoryChooser dirChooser = new DirectoryChooser();
     dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -189,10 +155,9 @@ public class MainView extends Application {
 
 
   public ListView<Picture> createFileListView() {
-    ListView<Picture> listView = new ListView<Picture>(this.listViewController.getItems());
+    listView = new ListView<Picture>(this.listViewController.getItems());
     this.listViewController.setListView(listView);
     
-    // TODO maybe can just us prefered size
     listView.setMaxWidth(MainView.WIDTH / 4);
     listView.setMinWidth(MainView.WIDTH / 4);
     
@@ -226,14 +191,6 @@ public class MainView extends Application {
     return this.listViewController;
   }
   
-  public PictureViewer getPictureViewer() {
-    return pictureViewer;
-}
-  
-  public ImageView getPictureImageView() {
-    return this.pictureImageView;
-  }
-
   public BackendService getBackendService() {
     return this.backendService;
   }
@@ -241,5 +198,13 @@ public class MainView extends Application {
   @Override
   public void stop() {
     this.getBackendService().save();
+  }
+  
+  public PictureViewer getPictureViewer() {
+    return this.pictureViewer;
+  }
+  
+  public ListView<Picture> getListView(){
+    return this.listView;
   }
 }

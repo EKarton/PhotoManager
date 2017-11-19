@@ -46,7 +46,7 @@ public class FileListViewController extends Controller implements ChangeListener
     String newDirectory = this.getMainView().openDirectoryChooser().getAbsolutePath();
     Picture selectedPicture = this.listView.getSelectionModel().getSelectedItem();
     selectedPicture.setDirectoryPath(newDirectory);
-
+    
     this.getMainView().getListViewController()
         .setItems(this.getBackendService().getPictureManager().getPictures()); // update the list
   }

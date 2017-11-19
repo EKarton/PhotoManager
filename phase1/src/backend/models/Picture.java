@@ -115,7 +115,9 @@ public class Picture extends Observable implements Serializable, Observer {
       Picture oldPic = this.clone();
 
       this.taglessName = taglessName;
-      this.historicalTagLessNames.add(this.taglessName);// TODO: testing
+
+      if (!this.historicalTagLessNames.contains(taglessName))
+        this.historicalTagLessNames.add(this.taglessName);
 
       super.setChanged();
       super.notifyObservers(oldPic);

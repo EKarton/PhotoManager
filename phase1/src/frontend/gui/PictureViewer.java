@@ -3,24 +3,25 @@ package frontend.gui;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import backend.models.Picture;
 import java.io.IOException;
 import java.io.InputStream;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javax.imageio.ImageIO;
+import backend.models.Picture;
+import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import javax.imageio.ImageIO;
 
 public class PictureViewer extends BorderPane {
   private Label pictureName;
@@ -30,7 +31,8 @@ public class PictureViewer extends BorderPane {
   private MainView mainView;
   private CheckBox showTags;
   private ComboBox<String> oldNames;
-
+  private TextArea tags;
+  
   public PictureViewer(MainView mainView) {
     this.controller = new PictureViewerController(mainView, this);
     this.mainView = mainView;
@@ -73,6 +75,14 @@ public class PictureViewer extends BorderPane {
 
     this.setCenter(imageContainer);
     
+    BorderPane tagControls = new BorderPane();
+    tags = new TextArea();
+    tags.setEditable(false);
+    tags.setPrefWidth(3 * (MainView.WIDTH / 4));
+    tagControls.setTop(tags);
+    
+    this.setBottom(tagControls);
+    
     updatePictureViewer(null);  // starts with nothing shown
   }
 
@@ -93,10 +103,14 @@ public class PictureViewer extends BorderPane {
         BufferedImage bufferedImage = ImageIO.read(inputStream);
         Image image = SwingFXUtils.toFXImage(bufferedImage, null);
         this.imageView.setImage(image);
-
-        //Image image = new Image(new FileInputStream(this.picture.getAbsolutePath()));
-        //this.imageView.setImage(image);
         this.pictureName.setText(this.picture.getTaglessName());
+        
+        String tagText = "";
+        for(Tag tag : this.picture.getTags()) {
+          tagText += tag.getLabel() + " ";
+        }
+        this.showTags.setText(tagText);
+        
       } catch (FileNotFoundException e) {
         this.picture = null;
       } catch (IOException e) {

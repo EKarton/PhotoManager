@@ -111,7 +111,7 @@ public class Picture extends Observable implements Serializable, Observer {
   public boolean setTaglessName(String taglessName) {
     // Make sure the name does not exceed maximum char length.
     String fullFileName = this.tagsToString() + taglessName + this.fileExt;
-    if (fullFileName.length() <= 255) {
+    if (taglessName.length() > 0 && fullFileName.length() <= 255) {
       Picture oldPic = this.clone();
 
       this.taglessName = taglessName;

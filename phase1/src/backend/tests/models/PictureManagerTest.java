@@ -7,6 +7,7 @@ import backend.models.Picture;
 import backend.models.PictureManager;
 import backend.models.Tag;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -139,5 +140,27 @@ class PictureManagerTest {
     assert(newFile2.exists());
     assert(newFile.exists() == false);
     assert(file.exists()) == false;
+  }
+
+  @Test
+  void moveFileOne() throws IOException {
+    PictureManager manager = new PictureManager("C:\\Users\\Emilio K\\Desktop\\New folder", true);
+    Picture pic = manager.getPictures().get(0);
+    int curSize = manager.getPictures().size();
+
+    pic.setDirectoryPath("C:\\Users\\Emilio K\\Desktop");
+    int newSize = manager.getPictures().size();
+    assert(newSize == curSize - 1);
+  }
+
+  @Test
+  void moveFileTwo() throws IOException {
+    PictureManager manager = new PictureManager("C:\\Users\\Emilio K\\Desktop\\New folder", false);
+    Picture pic = manager.getPictures().get(0);
+    int curSize = manager.getPictures().size();
+
+    pic.setDirectoryPath("C:\\Users\\Emilio K\\Desktop\\New folder\\New folder");
+    int newSize = manager.getPictures().size();
+    assert(newSize == curSize - 1);
   }
 }

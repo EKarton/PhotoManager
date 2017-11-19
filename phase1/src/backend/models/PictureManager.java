@@ -26,7 +26,9 @@ public class PictureManager implements Observer {
   /**
    * the current directory of this manager.
    */
-  private String currDir;
+  private String currDir = "";
+
+  private boolean isRecursive = false;
 
   /**
    * Populate the picture manager with pictures under a certain directory
@@ -37,6 +39,7 @@ public class PictureManager implements Observer {
   public PictureManager(String directoryPath, boolean recursive) throws IOException {
     FileManager manager = new FileManager();
     this.currDir = directoryPath;
+    this.isRecursive = recursive;
 
     List<File> files;
     if (recursive)
@@ -197,7 +200,12 @@ public class PictureManager implements Observer {
 
       // Remove it from the picture manager if it is outside the current directory
       boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
-      if (!isUnderCurDir)
+      if (!isUnderCurDir && isRecursive)
+        this.untrackPicture(newPicture);
+
+      // Remove it if the manager does not handle pictures non-recursively
+      boolean isDirectoryEqual = newPicture.getDirectoryPath().equals(this.currDir);
+      if (!isDirectoryEqual && !isRecursive)
         this.untrackPicture(newPicture);
     }
   }

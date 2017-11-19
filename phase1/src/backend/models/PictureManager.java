@@ -192,6 +192,11 @@ public class PictureManager implements Observer {
 
         boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
       }
+
+      // Remove it from the picture manager if it is outside the current directory
+      boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
+      if (!isUnderCurDir)
+        this.untrackPicture(newPicture);
     }
   }
 
@@ -233,8 +238,7 @@ public class PictureManager implements Observer {
     return new ArrayList<Tag>(availableTags);
   }
 
-  public Object getCurrDir() {
+  public String getCurrDir() {
     return this.currDir;
   }
-
 }

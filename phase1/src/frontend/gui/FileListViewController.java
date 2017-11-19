@@ -1,6 +1,5 @@
 package frontend.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import backend.models.Picture;
 import javafx.beans.value.ChangeListener;
@@ -16,7 +15,6 @@ public class FileListViewController extends Controller implements ChangeListener
   
   public FileListViewController(MainView mainView, BackendService service) {
     super(mainView, service);
-    List<Picture> defaultEmptyList = new ArrayList<>();
     this.items = FXCollections.observableList(service.getPictureManager().getPictures());
   }
 
@@ -42,7 +40,7 @@ public class FileListViewController extends Controller implements ChangeListener
     String newDirectory = this.getMainView().openDirectoryChooser().getAbsolutePath();
     Picture selectedPicture = this.listView.getSelectionModel().getSelectedItem();
     selectedPicture.setDirectoryPath(newDirectory);
-
+ 
     this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());  // update the list
   }
   

@@ -45,11 +45,8 @@ public class FileListViewController extends Controller implements ChangeListener
 
     this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());  // update the list
   }
-
-  public void delete(ActionEvent e) {
-    Picture pictureSelected = this.listView.getSelectionModel().getSelectedItem();
-    this.getBackendService().getPictureManager().untrackPicture(pictureSelected);  // TODO make sure this deletes it
-
-    this.getMainView().getListViewController().setItems(this.getBackendService().getPictureManager().getPictures());  // update the list
+  
+  public void setListView(ListView<Picture> listView) {
+    this.listView = listView;
   }
 }

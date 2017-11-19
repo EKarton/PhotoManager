@@ -56,7 +56,7 @@ public class MainView extends Application {
     
     this.backendService = new BackendService();
 
-    pictureViewer = new PictureViewer(this);
+    pictureViewer = new PictureViewer(this);  // TODO move this
 
   //create the controller for all action event handling
     this.menuBarController = new MenuBarController(this, backendService);
@@ -190,6 +190,7 @@ public class MainView extends Application {
 
   public ListView<Picture> createFileListView() {
     ListView<Picture> listView = new ListView<Picture>(this.listViewController.getItems());
+    this.listViewController.setListView(listView);
     
     // TODO maybe can just us prefered size
     listView.setMaxWidth(MainView.WIDTH / 4);
@@ -203,11 +204,8 @@ public class MainView extends Application {
     MenuItem move = new MenuItem("Move");
     move.setOnAction(this.listViewController::move);
 
-    MenuItem delete = new MenuItem("Delete");
-    delete.setOnAction(this.listViewController::delete);
-
     ContextMenu contextMenu = new ContextMenu();
-    contextMenu.getItems().addAll(rename, move, delete);
+    contextMenu.getItems().addAll(rename, move);
     
     listView.setCellFactory(new FileListViewCallback(this.listViewController, contextMenu));
 

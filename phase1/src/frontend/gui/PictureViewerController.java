@@ -79,8 +79,8 @@ public class PictureViewerController extends Controller implements ChangeListene
     }
   }
   
-  public void setNameSelected(String name) {
-    this.nameSelected = name;
+  public void setNameSelected(ActionEvent e) {
+    this.nameSelected = this.pictureViewer.getOldNameSelected();
   }
 
 

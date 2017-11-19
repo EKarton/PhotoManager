@@ -10,7 +10,8 @@ import javafx.scene.input.KeyEvent;
 public class FileListCell extends ListCell<Picture>{
  
   private TextField textField;
-  FileListViewController controller;
+  private FileListViewController controller;
+  private String oldName;
 
   public FileListCell(FileListViewController controller){
     this.controller = controller;
@@ -30,11 +31,11 @@ public class FileListCell extends ListCell<Picture>{
   public void startEdit() {
     super.startEdit();
     
-    String name = this.getText();
+    this.oldName = this.getText();
     
     this.setText(null);  // remove display of text
     
-    textField = new TextField(name);
+    textField = new TextField(this.oldName);
     textField.setOnKeyPressed(this::handleTextFieldInput);
     
     this.setGraphic(textField);  // display a textfield
@@ -46,6 +47,7 @@ public class FileListCell extends ListCell<Picture>{
   public void cancelEdit() {
     super.cancelEdit();
     this.setGraphic(null);
+    this.setText(this.oldName);
   }
   
   private void handleTextFieldInput(KeyEvent keyEvent) {

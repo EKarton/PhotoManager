@@ -182,7 +182,8 @@ public class PictureManager implements Observer {
     FileManager manager = new FileManager();
     if (pictures.contains(newPicture)) {
       if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-        manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
+        boolean b = manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
+        System.out.println(b);
       }
 
       if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
@@ -191,6 +192,7 @@ public class PictureManager implements Observer {
           fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
 
         boolean a = manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
+        System.out.println(a);
       }
 
       // Remove it from the picture manager if it is outside the current directory

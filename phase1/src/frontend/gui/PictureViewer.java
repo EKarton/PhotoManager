@@ -69,6 +69,7 @@ public class PictureViewer extends BorderPane {
     imageView.fitHeightProperty().bind(imageContainer.heightProperty());
 
     tagsViewer = new TagsViewer();
+    tagsViewer.setVisible(false);
 
     this.setTop(title);
     this.setCenter(imageContainer);
@@ -84,6 +85,11 @@ public class PictureViewer extends BorderPane {
   public void setPicture(Picture picture) {
     this.picture = picture;
     renderPicture();
+
+    if (this.picture != null)
+      tagsViewer.setVisible(true);
+    else
+      tagsViewer.setVisible(false);
   }
 
   public void renderPicture(){

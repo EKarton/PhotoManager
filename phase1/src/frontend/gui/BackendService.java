@@ -22,7 +22,7 @@ public class BackendService {
    */
   public BackendService(MainView mainView) {
     this.mainView = mainView;
-    
+
     try {
       this.commandManager = new CommandManager();
       this.pictureManager = new PictureManager();
@@ -93,10 +93,10 @@ public class BackendService {
   public void rename(Picture picture, String newName) {
     RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
 
-    this.mainView.getBackendService().getCommandManager()
-        .addCommand(renamePictureCommand);
+    this.mainView.getBackendService().getCommandManager().addCommand(renamePictureCommand);
     renamePictureCommand.execute();
     this.mainView.getPictureViewer().updatePictureViewer(picture);
   }
+
 
 }

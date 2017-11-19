@@ -102,8 +102,7 @@ public class FileManager {
 
       File newFileDest = new File(file.getParent(), newName + "." + getFileExtension(path));
 
-      return file
-          .renameTo(newFileDest);
+      return file.renameTo(newFileDest);
     }
 
     return false;
@@ -156,7 +155,6 @@ public class FileManager {
     if (file.isFile() && !file.getParent().equals(destination)) {
       return file.renameTo(new File(destination, file.getName()));
     }
-
     return false;
   }
 }

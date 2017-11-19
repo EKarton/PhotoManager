@@ -12,12 +12,27 @@ import backend.models.Tag;
  */
 public class RenameTagCommand implements Command {
 
+  /**
+   * the Tag to be renmaed
+   */
   private Tag thisTag;
 
+  /**
+   * the new name of the tag
+   */
   private String newTagName;
 
+  /**
+   * the old name o the tag
+   */
   private String oldTagName;
 
+  /**
+   * Construtor that takes in the tag to be renamed and a new name for this tag
+   * 
+   * @param tagToBeRenamed
+   * @param newName
+   */
   public RenameTagCommand(Tag tagToBeRenamed, String newName) {
     this.thisTag = tagToBeRenamed;
     this.newTagName = newName;

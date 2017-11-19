@@ -100,6 +100,17 @@ public class PictureManager implements Observer {
   }
 
   /**
+   * add a new tag to the availableTags.
+   * 
+   * @param tag
+   */
+  public void addTagToCollection(Tag tag) {
+    if (!availableTags.contains(tag)) {
+      this.availableTags.add(tag);
+    }
+  }
+
+  /**
    * Adds a unique picture to this class. It will also add this as an observer to the new picture.
    * If the picture already exist, it will not add it. To see if a picture exist, refer to the
    * Picture.equals() to see if two pictures are equal

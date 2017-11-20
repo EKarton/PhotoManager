@@ -172,12 +172,14 @@ public class PictureViewer extends BorderPane {
         // Display the tags available for all (for removal)
         //this.deleteTagSelect.setSelectionModel(null);
         //this.deleteTagSelect.getItems().clear();
-        this.deleteTagSelect.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+        //this.deleteTagSelect.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+        this.deleteTagSelect.setItems(FXCollections.observableArrayList(this.mainView.getBackendService().getPictureManager().getAvailableTags()));
 
         // Display the tags for only this picture
         //this.removeTagSelect.setSelectionModel(null);
         //this.removeTagSelect.getItems().clear();
-        this.removeTagSelect.getItems().setAll(this.picture.getTags());
+        this.removeTagSelect.setItems(FXCollections.observableArrayList(this.picture.getTags()));
+        //this.removeTagSelect.getItems().setAll(this.picture.getTags());
 
         // Display the tags
         String tagsString = "";
@@ -194,8 +196,8 @@ public class PictureViewer extends BorderPane {
           }
         }
 
-        //addTag.getItems().clear();
-        addTag.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+        addTag.setItems(FXCollections.observableArrayList(this.mainView.getBackendService().getPictureManager().getAvailableTags()));
+        //addTag.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
         
       } catch (FileNotFoundException e) {
         this.picture = null;

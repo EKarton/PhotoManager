@@ -8,17 +8,26 @@ import backend.models.Picture;
 import backend.models.PictureManager;
 
 /**
- * A service class used to simplify the calls to the backend services.
+ * This class is used by the view to make calls to the backend (model)
  */
 public class BackendService {
+  /** The CommandManager used by our program */
   private CommandManager commandManager;
+
+  /** The PictureManager used by our program to manager all of the user's photos */
   private PictureManager pictureManager;
+
+  /** Holds the configuration data used by our program */
   private AppSettings appSettings;
+
+  /** The main view of our program. MainView runs the JavaFX GUI */
   private MainView mainView;
 
   /**
    * Constructs a new BackendService. When the app settings was not found /corrupted / locked by
    * another application, it will create a new app settings file.
+   * 
+   * @param mainView the main view used by this program
    */
   public BackendService(MainView mainView) {
     this.mainView = mainView;
@@ -27,8 +36,11 @@ public class BackendService {
       this.commandManager = new CommandManager();
       this.pictureManager = new PictureManager();
       this.appSettings = AppSettings.loadFromFile();
+
+      // try to use previously existing app settings
       this.appSettings.addPicToManager(pictureManager);
     } catch (IOException | ClassNotFoundException e) {
+      // if it fails and we don't have app settings, make new app settings
       this.appSettings = new AppSettings();
     }
   }
@@ -37,8 +49,8 @@ public class BackendService {
    * Resets the backend service by supplying the PictureManager with a new set of pictures in a
    * specific location in the OS.
    * 
-   * @param directory The directory to grab pictures from
-   * @param isRecursive True if to grab pictures recursively; else false.
+   * @param directory The directory to get pictures from
+   * @param isRecursive True if you want to collect pictures recursively, otherwise false
    */
   public void resetBackendService(String directory, boolean isRecursive) {
     try {
@@ -47,6 +59,7 @@ public class BackendService {
         this.appSettings.addPicToManager(pictureManager);
       }
     } catch (IOException e) {
+      // This should never occur
     }
   }
 

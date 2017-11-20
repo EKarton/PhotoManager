@@ -39,6 +39,8 @@ public class PictureViewer extends BorderPane {
   private ComboBox<Tag> addTag;
   private ComboBox<Tag> removeTagSelect;
   private ComboBox<Tag> deleteTagSelect;
+  private HBox nameControls;
+  private HBox tagControlBox;
 
   
   public PictureViewer(MainView mainView) {
@@ -52,7 +54,7 @@ public class PictureViewer extends BorderPane {
     this.pictureName.setFont(Font.font("Verdana", 20));
     this.pictureName.setPadding(new Insets(0, 0, 5, 0));
    
-    HBox nameControls = new HBox();
+    nameControls = new HBox();
 
     seeHistoricalTagsBttn = new Button("See historical tags");
     seeHistoricalTagsBttn.setOnAction(this.controller::seeHistoricalTags);
@@ -93,7 +95,8 @@ public class PictureViewer extends BorderPane {
     Label createTags = new Label("Create Tag:");
     newTagTextField = new TextField ();
     newTagTextField.onActionProperty().set(this.controller::createNewTag);
-    HBox hb = new HBox();
+
+    tagControlBox = new HBox();
     
     Label addTagLabel = new Label("Add Tag");
     addTag = new ComboBox<Tag>();
@@ -108,12 +111,12 @@ public class PictureViewer extends BorderPane {
     Label removeTag = new Label("Remove Tag from Image");
     this.removeTagSelect = new ComboBox<Tag>();
     this.removeTagSelect.setOnAction(this.controller::removeTag);
+
+
+    tagControlBox.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, removeTag, removeTagSelect, addTagLabel, addTag);
+    tagControlBox.setSpacing(10);
     
-    
-    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, removeTag, removeTagSelect, addTagLabel, addTag);
-    hb.setSpacing(10);
-    
-    tagControls.setBottom(hb);
+    tagControls.setBottom(tagControlBox);
     
     this.setBottom(tagControls);
     
@@ -150,7 +153,8 @@ public class PictureViewer extends BorderPane {
       this.setVisible(false);
     } else {
       this.setVisible(true);
-      
+
+      this.oldNames.getItems().clear();
       this.oldNames.getItems().setAll(this.controller.getHistoricalNames());
       
       try {
@@ -187,6 +191,7 @@ public class PictureViewer extends BorderPane {
             tagsNotOnPic.add(availTag);
           }
         }
+
         addTag.getItems().clear();
         addTag.getItems().setAll(tagsNotOnPic);
         

@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.imageio.ImageIO;
 import backend.models.Picture;
 import backend.models.Tag;
@@ -100,13 +102,11 @@ public class PictureViewer extends BorderPane {
     
     Label removeTag = new Label("Remove Tag from Image");
     this.removeTagSelect = new ComboBox<Tag>();
-    this.removeTagSelect.getItems().addAll(this.picture.getTags());
     this.removeTagSelect.setOnAction(this.controller::removeTag);
     
     
-    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, addTagLabel, addTag);
+    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, removeTag, removeTagSelect, addTagLabel, addTag);
     hb.setSpacing(10);
-    
     
     tagControls.setBottom(hb);
     
@@ -153,6 +153,12 @@ public class PictureViewer extends BorderPane {
         // Set the title
         this.pictureName.setText(this.picture.getTaglessName());
 
+        // Display the tags available for all (for removal)
+        this.deleteTagSelect.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+
+        // Display the tags for only this picture
+        this.removeTagSelect.getItems().setAll(this.picture.getTags());
+
         // Display the tags
         String tagsString = "";
         for (Tag tag : picture.getTags())
@@ -196,10 +202,6 @@ public class PictureViewer extends BorderPane {
   
   public String getOldNameSelected() {
     return this.oldNames.getSelectionModel().getSelectedItem();
-  }
-
-  public ComboBox<Tag> getTagsCombobox(){
-    return this.addTag;
   }
 
   public void updateDisplay(){

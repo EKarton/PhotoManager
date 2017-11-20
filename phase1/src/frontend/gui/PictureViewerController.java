@@ -24,10 +24,12 @@ public class PictureViewerController extends Controller implements ChangeListene
   
    public void deleteTag(ActionEvent e){
      this.getBackendService().getPictureManager().deleteTag(this.pictureViewer.getSelectedDeleteTag());
+     this.pictureViewer.updateDisplay();
    }
    
    public void removeTag(ActionEvent e) {
      this.pictureViewer.getPicture().deleteTag(this.pictureViewer.getSelectedRemoveTag());
+     this.pictureViewer.updateDisplay();
    }
   
   public void createNewTag(ActionEvent e) {

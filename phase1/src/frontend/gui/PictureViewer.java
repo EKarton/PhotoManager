@@ -170,11 +170,13 @@ public class PictureViewer extends BorderPane {
         this.pictureName.setText(this.picture.getTaglessName());
 
         // Display the tags available for all (for removal)
-        this.deleteTagSelect.getItems().clear();
+        //this.deleteTagSelect.setSelectionModel(null);
+        //this.deleteTagSelect.getItems().clear();
         this.deleteTagSelect.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
 
         // Display the tags for only this picture
-        this.removeTagSelect.getItems().clear();
+        //this.removeTagSelect.setSelectionModel(null);
+        //this.removeTagSelect.getItems().clear();
         this.removeTagSelect.getItems().setAll(this.picture.getTags());
 
         // Display the tags
@@ -192,8 +194,8 @@ public class PictureViewer extends BorderPane {
           }
         }
 
-        addTag.getItems().clear();
-        addTag.getItems().setAll(tagsNotOnPic);
+        //addTag.getItems().clear();
+        addTag.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
         
       } catch (FileNotFoundException e) {
         this.picture = null;

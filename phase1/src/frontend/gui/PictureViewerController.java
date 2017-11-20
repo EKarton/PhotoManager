@@ -88,7 +88,6 @@ public class PictureViewerController extends Controller implements ChangeListene
   @Override
   public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
       Boolean newValue) {
-    this.pictureViewer.showHideTags(newValue);
     this.getMainView().getListView().requestFocus(); // put focus back to ListView
   }
 

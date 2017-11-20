@@ -5,9 +5,16 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
-// http://code.makery.ch/blog/javafx-dialogs-official/
+/**
+ * http://code.makery.ch/blog/javafx-dialogs-official/ A text dialog
+ */
 public class TextDialog extends Alert {
 
+  /**
+   * Construct the TextDialog
+   * 
+   * @param content the message to dispay
+   */
   public TextDialog(String content) {
     super(AlertType.INFORMATION);
 
@@ -24,7 +31,6 @@ public class TextDialog extends Alert {
     expContent.setMaxWidth(Double.MAX_VALUE);
     expContent.add(textArea, 0, 0);
 
-    // Set expandable Exception into the dialog pane.
     this.getDialogPane().setContent(expContent);
   }
 }

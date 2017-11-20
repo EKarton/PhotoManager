@@ -1,7 +1,6 @@
 package backend.tests.models;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import backend.files.FileManager;
 import backend.models.Picture;
 import backend.models.PictureManager;
@@ -22,14 +21,14 @@ class PictureManagerTest {
     manager.addPicture(picture1);
     manager.addPicture(picture2);
     manager.addPicture(picture3);
-    assert(manager.getPictures().get(0) == picture1);
-    assert(manager.getPictures().get(1) == picture2);
+    assert (manager.getPictures().get(0) == picture1);
+    assert (manager.getPictures().get(1) == picture2);
 
     manager.addPicture(picture1);
     manager.addPicture(picture2);
     manager.addPicture(picture3);
-    assert(manager.getPictures().get(0) == picture1);
-    assert(manager.getPictures().get(1) == picture2);
+    assert (manager.getPictures().get(0) == picture1);
+    assert (manager.getPictures().get(1) == picture2);
   }
 
   @Test
@@ -45,8 +44,8 @@ class PictureManagerTest {
     List<Picture> pictureList1 = manager.getPictureWithTag(new Tag("Grandma"));
     List<Picture> pictureList2 = manager.getPictureWithTag(picture1.getTags().get(0));
 
-    assert(pictureList1.size() == 1);
-    assert(pictureList2.size() == 1);
+    assert (pictureList1.size() == 1);
+    assert (pictureList2.size() == 1);
   }
 
   @Test
@@ -61,16 +60,16 @@ class PictureManagerTest {
 
     manager.deleteTag(picture1.getTags().get(0));
 
-    assert(manager.getPictures().size() == 3);
-    assert(picture1.getTags().size() == 0);
-    assert(picture2.getTags().size() == 0);
-    assert(picture3.getTags().size() == 1);
+    assert (manager.getPictures().size() == 3);
+    assert (picture1.getTags().size() == 0);
+    assert (picture2.getTags().size() == 0);
+    assert (picture3.getTags().size() == 1);
 
     manager.deleteTag(new Tag("Grandma"));
-    assert(manager.getPictures().size() == 3);
-    assert(picture1.getTags().size() == 0);
-    assert(picture2.getTags().size() == 0);
-    assert(picture3.getTags().size() == 1);
+    assert (manager.getPictures().size() == 3);
+    assert (picture1.getTags().size() == 0);
+    assert (picture2.getTags().size() == 0);
+    assert (picture3.getTags().size() == 1);
   }
 
   @Test
@@ -83,13 +82,13 @@ class PictureManagerTest {
     manager.addPicture(picture2);
     manager.addPicture(picture3);
 
-    assert(manager.getPictures().size() == 2);
+    assert (manager.getPictures().size() == 2);
 
     manager.addPicture(picture1);
     manager.addPicture(picture2);
     manager.addPicture(picture3);
 
-    assert(manager.getPictures().size() == 2);
+    assert (manager.getPictures().size() == 2);
   }
 
   @Test
@@ -97,9 +96,9 @@ class PictureManagerTest {
     Picture picture1 = new Picture("C:\\Grandma\\wasd @Grandma.png");
     PictureManager manager = new PictureManager();
     manager.addPicture(picture1);
-    assert(picture1.countObservers() == 1);
+    assert (picture1.countObservers() == 1);
     manager.untrackPicture(picture1);
-    assert(picture1.countObservers() == 0);
+    assert (picture1.countObservers() == 0);
   }
 
   @Test
@@ -109,9 +108,9 @@ class PictureManagerTest {
     Picture picture3 = new Picture("C:\\Grandma\\chick @Grandma.png");
     PictureManager manager = new PictureManager();
     manager.addPicture(picture1);
-    assert(manager.contains(picture1));
-    assert(manager.contains(picture2));
-    assert(!manager.contains(picture3));
+    assert (manager.contains(picture1));
+    assert (manager.contains(picture2));
+    assert (!manager.contains(picture3));
   }
 
   @Test
@@ -125,21 +124,22 @@ class PictureManagerTest {
     // When the picture's name is changed
     picture.setTaglessName("chicken");
     File file = new File("C:\\Users\\Emilio K\\Desktop\\New folder\\chicken.jpg");
-    assert(file.exists());
+    assert (file.exists());
 
     // When the picture's list of tags are changed
     Tag newTag = new Tag("cute");
     picture.addTag(newTag);
     File newFile = new File("C:\\Users\\Emilio K\\Desktop\\New folder\\chicken @cute.jpg");
-    assert(newFile.exists());
-    assert(file.exists()) == false;
+    assert (newFile.exists());
+    assert (file.exists()) == false;
 
     // When the picture's directory is changed
     picture.setDirectoryPath("C:\\Users\\Emilio K\\Desktop\\New folder\\New folder");
-    File newFile2 = new File("C:\\Users\\Emilio K\\Desktop\\New folder\\New folder\\chicken @cute.jpg");
-    assert(newFile2.exists());
-    assert(newFile.exists() == false);
-    assert(file.exists()) == false;
+    File newFile2 =
+        new File("C:\\Users\\Emilio K\\Desktop\\New folder\\New folder\\chicken @cute.jpg");
+    assert (newFile2.exists());
+    assert (newFile.exists() == false);
+    assert (file.exists()) == false;
   }
 
   @Test
@@ -150,7 +150,7 @@ class PictureManagerTest {
 
     pic.setDirectoryPath("C:\\Users\\Emilio K\\Desktop");
     int newSize = manager.getPictures().size();
-    assert(newSize == curSize - 1);
+    assert (newSize == curSize - 1);
   }
 
   @Test
@@ -161,6 +161,6 @@ class PictureManagerTest {
 
     pic.setDirectoryPath("C:\\Users\\Emilio K\\Desktop\\New folder\\New folder");
     int newSize = manager.getPictures().size();
-    assert(newSize == curSize - 1);
+    assert (newSize == curSize - 1);
   }
 }

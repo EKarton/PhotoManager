@@ -1,0 +1,4 @@
+dengzhou: back end implementation, code cleanup and more.
+
+smith244 : front end implementation, gui
+File reading and writing. File managing including renaming/moving and deleting files.

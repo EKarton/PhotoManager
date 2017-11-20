@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 class RenamePictureCommandTest {
 
-  private final String picturePath = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
+  private final String picturePath =
+      "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
 
   @Test
   void undo() {
@@ -14,7 +15,7 @@ class RenamePictureCommandTest {
     RenamePictureCommand command = new RenamePictureCommand(picture, "chicken");
     command.execute();
     command.undo();
-    assert(picture.getTaglessName().equals("chick"));
+    assert (picture.getTaglessName().equals("chick"));
   }
 
   @Test
@@ -22,6 +23,6 @@ class RenamePictureCommandTest {
     Picture picture = new Picture(picturePath);
     RenamePictureCommand command = new RenamePictureCommand(picture, "chicken");
     command.execute();
-    assert(picture.getTaglessName().equals("chicken"));
+    assert (picture.getTaglessName().equals("chicken"));
   }
 }

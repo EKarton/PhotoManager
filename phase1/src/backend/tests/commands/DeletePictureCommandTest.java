@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 class DeletePictureCommandTest {
 
-  private final String picturePath = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
+  private final String picturePath =
+      "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
 
   @Test
   void undo() {
@@ -20,7 +21,7 @@ class DeletePictureCommandTest {
     DeletePictureCommand deletePictureCommand = new DeletePictureCommand(picture, manager);
     deletePictureCommand.execute();
     deletePictureCommand.undo();
-    assert(manager.getPictures().contains(picture));
+    assert (manager.getPictures().contains(picture));
   }
 
   @Test
@@ -32,6 +33,6 @@ class DeletePictureCommandTest {
 
     DeletePictureCommand deletePictureCommand = new DeletePictureCommand(picture, manager);
     deletePictureCommand.execute();
-    assert(!manager.getPictures().contains(picture));
+    assert (!manager.getPictures().contains(picture));
   }
 }

@@ -187,8 +187,8 @@ public class MainView extends Application {
     listView.setMaxWidth(MainView.WIDTH / 4);
     listView.setMinWidth(MainView.WIDTH / 4);
 
-    listView.setEditable(true);  // make it editable
-    
+    listView.setEditable(true); // make it editable
+
     // Add in context menu items
     MenuItem rename = new MenuItem("Rename");
     rename.setOnAction(this.listViewController::rename);
@@ -219,7 +219,7 @@ public class MainView extends Application {
   public Stage getMainStage() {
     return this.mainStage;
   }
-  
+
   /**
    * Get the list view controller
    * 
@@ -245,6 +245,7 @@ public class MainView extends Application {
 
   /**
    * Get picture viewer
+   * 
    * @return
    */
   public PictureViewer getPictureViewer() {
@@ -253,6 +254,7 @@ public class MainView extends Application {
 
   /**
    * Get list view
+   * 
    * @return the list view
    */
   public ListView<Picture> getListView() {

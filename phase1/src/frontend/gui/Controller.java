@@ -7,7 +7,7 @@ public abstract class Controller {
   private MainView mainView;
   private FileManager fileManager;
   private BackendService backendService;
-  
+
   /**
    * Constucts a controller
    * 
@@ -37,9 +37,10 @@ public abstract class Controller {
   public FileManager getFileManager() {
     return this.fileManager;
   }
-  
+
   /**
    * Get the backend service used by this program
+   * 
    * @return
    */
   public BackendService getBackendService() {

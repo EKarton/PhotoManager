@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 
 class AddTagToPictureCommandTest {
 
-  private final String picturePath = "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
+  private final String picturePath =
+      "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
 
   @Test
   void undo() {
@@ -16,7 +17,7 @@ class AddTagToPictureCommandTest {
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
     command.undo();
-    assert(picture.containsTag(tag) == false);
+    assert (picture.containsTag(tag) == false);
   }
 
   @Test
@@ -25,6 +26,6 @@ class AddTagToPictureCommandTest {
     Tag tag = new Tag("Grandma");
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
-    assert(picture.containsTag(tag));
+    assert (picture.containsTag(tag));
   }
 }

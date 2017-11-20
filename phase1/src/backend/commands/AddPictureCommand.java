@@ -6,8 +6,7 @@ import backend.models.Picture;
 import backend.models.PictureManager;
 
 /**
- * A class used to specify an addition of a picture to a manager.
- * Has a severity level of FINE
+ * A class used to specify an addition of a picture to a manager. Has a severity level of FINE
  */
 public class AddPictureCommand implements Command {
 
@@ -49,7 +48,7 @@ public class AddPictureCommand implements Command {
     manager.addPicture(picture);
   }
 
-  
+
   @Override
   public LogRecord getLogRecord() {
     return new LogRecord(Level.FINE, "added Picture " + picture.getTaglessName());

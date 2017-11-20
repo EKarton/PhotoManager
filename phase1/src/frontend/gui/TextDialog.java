@@ -6,9 +6,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 
 // http://code.makery.ch/blog/javafx-dialogs-official/
-public class TextDialog extends Alert{
+public class TextDialog extends Alert {
 
-  public TextDialog(String content){
+  public TextDialog(String content) {
     super(AlertType.INFORMATION);
 
     TextArea textArea = new TextArea(content);

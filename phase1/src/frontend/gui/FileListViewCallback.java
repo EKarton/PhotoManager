@@ -15,8 +15,8 @@ public class FileListViewCallback implements Callback<ListView<Picture>, ListCel
    * The context menu. This is a menu for renaming and moving the files
    */
   private ContextMenu contextMenu;
-  
-  /** The list view controller*/
+
+  /** The list view controller */
   private FileListViewController controller;
 
   /**

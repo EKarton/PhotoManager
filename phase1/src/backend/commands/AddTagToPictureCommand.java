@@ -6,8 +6,7 @@ import backend.models.Picture;
 import backend.models.Tag;
 
 /**
- * A command class used to add a tag to a picture.
- * Has a severity level of FINE.
+ * A command class used to add a tag to a picture. Has a severity level of FINE.
  */
 public class AddTagToPictureCommand implements Command {
 
@@ -22,8 +21,8 @@ public class AddTagToPictureCommand implements Command {
   private Picture picture;
 
   /**
-   * Creates an instance of AddTagToPictureCommand. Note that the tag specified should exist in
-   * the picture.
+   * Creates an instance of AddTagToPictureCommand. Note that the tag specified should exist in the
+   * picture.
    * 
    * @param picture A picture
    * @param tag A tag to add to the picture

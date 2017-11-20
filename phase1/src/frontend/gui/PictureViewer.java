@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javax.imageio.ImageIO;
 import backend.models.Picture;
 import backend.models.Tag;
@@ -31,6 +33,7 @@ public class PictureViewer extends BorderPane {
   private Picture picture;
   private MainView mainView;
   private ComboBox<String> oldNames;
+  private Button seeHistoricalTagsBttn;
   private TextArea tags;
   private TextField newTagTextField;
   private ComboBox<Tag> addTag;
@@ -50,6 +53,10 @@ public class PictureViewer extends BorderPane {
     this.pictureName.setPadding(new Insets(0, 0, 5, 0));
    
     HBox nameControls = new HBox();
+
+    seeHistoricalTagsBttn = new Button("See historical tags");
+    seeHistoricalTagsBttn.setOnAction(this.controller::seeHistoricalTags);
+
     oldNames = new ComboBox<String>();
     oldNames.setPadding(new Insets(0, 10, 0, 0));
     oldNames.setOnAction(this.controller::setNameSelected);
@@ -57,7 +64,7 @@ public class PictureViewer extends BorderPane {
     Button changeName = new Button("Change Name");
     changeName.setOnAction(this.controller::changeName);
     
-    nameControls.getChildren().addAll(oldNames, changeName);
+    nameControls.getChildren().addAll(seeHistoricalTagsBttn, oldNames, changeName);
 
     BorderPane title = new BorderPane();
     title.setPrefWidth(3 * (MainView.WIDTH / 4));
@@ -100,13 +107,11 @@ public class PictureViewer extends BorderPane {
     
     Label removeTag = new Label("Remove Tag from Image");
     this.removeTagSelect = new ComboBox<Tag>();
-    this.removeTagSelect.getItems().addAll(this.picture.getTags());
     this.removeTagSelect.setOnAction(this.controller::removeTag);
     
     
-    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, addTagLabel, addTag);
+    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, removeTag, removeTagSelect, addTagLabel, addTag);
     hb.setSpacing(10);
-    
     
     tagControls.setBottom(hb);
     
@@ -116,11 +121,18 @@ public class PictureViewer extends BorderPane {
   }
   
   public Tag getSelectedRemoveTag() {
-    return this.removeTagSelect.getSelectionModel().getSelectedItem();
+    int index = this.removeTagSelect.getSelectionModel().getSelectedIndex();
+    if (index == -1 || index >= this.picture.getTags().size())
+      return null;
+    return this.picture.getTags().get(index);
   }
   
   public Tag getSelectedDeleteTag() {
-    return this.deleteTagSelect.getSelectionModel().getSelectedItem();
+
+    int index = this.deleteTagSelect.getSelectionModel().getSelectedIndex();
+    if (index == -1 || index >= this.mainView.getBackendService().getPictureManager().getAvailableTags().size())
+      return null;
+    return this.mainView.getBackendService().getPictureManager().getAvailableTags().get(index);
   }
   
   public String getNewTagText() {
@@ -153,6 +165,14 @@ public class PictureViewer extends BorderPane {
         // Set the title
         this.pictureName.setText(this.picture.getTaglessName());
 
+        // Display the tags available for all (for removal)
+        this.deleteTagSelect.getItems().clear();
+        this.deleteTagSelect.getItems().setAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+
+        // Display the tags for only this picture
+        this.removeTagSelect.getItems().clear();
+        this.removeTagSelect.getItems().setAll(this.picture.getTags());
+
         // Display the tags
         String tagsString = "";
         for (Tag tag : picture.getTags())
@@ -160,7 +180,6 @@ public class PictureViewer extends BorderPane {
         this.tags.setText(tagsString);
 
         // Update the combo box with tags not in the picture
-        addTag.getItems().clear();
         List<Tag> tagsNotOnPic = new ArrayList<Tag>();
         List<Tag> availableTags = this.mainView.getBackendService().getPictureManager().getAvailableTags();
         for (Tag availTag : availableTags) {
@@ -168,7 +187,8 @@ public class PictureViewer extends BorderPane {
             tagsNotOnPic.add(availTag);
           }
         }
-        addTag.getItems().addAll(tagsNotOnPic);
+        addTag.getItems().clear();
+        addTag.getItems().setAll(tagsNotOnPic);
         
       } catch (FileNotFoundException e) {
         this.picture = null;
@@ -191,15 +211,14 @@ public class PictureViewer extends BorderPane {
   }
   
   public Tag getSelectedAddTag() {
-    return this.addTag.getSelectionModel().getSelectedItem();
+    int index = this.addTag.getSelectionModel().getSelectedIndex();
+    if (index == -1 || index >= this.mainView.getBackendService().getPictureManager().getAvailableTags().size())
+      return null;
+    return this.mainView.getBackendService().getPictureManager().getAvailableTags().get(index);
   }
   
   public String getOldNameSelected() {
     return this.oldNames.getSelectionModel().getSelectedItem();
-  }
-
-  public ComboBox<Tag> getTagsCombobox(){
-    return this.addTag;
   }
 
   public void updateDisplay(){

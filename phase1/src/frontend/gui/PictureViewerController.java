@@ -21,20 +21,26 @@ public class PictureViewerController extends Controller implements ChangeListene
     this.pictureViewer = viewer;
   }
 
-  
-   public void deleteTag(ActionEvent e){
-     this.getBackendService().getPictureManager().deleteTag(this.pictureViewer.getSelectedDeleteTag());
-     this.pictureViewer.updateDisplay();
-   }
-   
-   public void removeTag(ActionEvent e) {
-     this.pictureViewer.getPicture().deleteTag(this.pictureViewer.getSelectedRemoveTag());
-     this.pictureViewer.updateDisplay();
-   }
-  
+
+  public void deleteTag(ActionEvent e) {
+    Tag tag = this.pictureViewer.getSelectedDeleteTag();
+    if (tag != null) {
+      this.getBackendService().getPictureManager().deleteTag(tag);
+    }
+    this.pictureViewer.updateDisplay();
+  }
+
+  public void removeTag(ActionEvent e) {
+    Tag tag = this.pictureViewer.getSelectedRemoveTag();
+    if (tag != null) {
+      this.pictureViewer.getPicture().deleteTag(tag);
+    }
+    this.pictureViewer.updateDisplay();
+  }
+
   public void createNewTag(ActionEvent e) {
     String text = this.pictureViewer.getNewTagText();
-    
+
     if (text != "") {
       Tag tag = new Tag(text);
       this.mainView.getBackendService().getPictureManager().addTagToCollection(tag);
@@ -43,17 +49,16 @@ public class PictureViewerController extends Controller implements ChangeListene
       this.pictureViewer.updateDisplay();
     }
   }
-  
+
   public void addTag(ActionEvent e) {
     Tag newTag = this.pictureViewer.getSelectedAddTag();
 
-    if (newTag == null)
-      return;
-
-    Picture picture = this.pictureViewer.getPicture();
-    AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, newTag);
-    this.mainView.getBackendService().getCommandManager().addCommand(cmd);
-    cmd.execute();
+    if (newTag != null) {
+      Picture picture = this.pictureViewer.getPicture();
+      AddTagToPictureCommand cmd = new AddTagToPictureCommand(picture, newTag);
+      this.mainView.getBackendService().getCommandManager().addCommand(cmd);
+      cmd.execute();
+    }
 
     this.pictureViewer.updateDisplay();
   }
@@ -85,5 +90,14 @@ public class PictureViewerController extends Controller implements ChangeListene
       Boolean newValue) {
     this.pictureViewer.showHideTags(newValue);
     this.getMainView().getListView().requestFocus(); // put focus back to ListView
+  }
+
+  public void seeHistoricalTags(ActionEvent actionEvent) {
+    String historicalTags_String = "";
+    for (Tag t : this.pictureViewer.getPicture().getHistoricalTags()) {
+      historicalTags_String += t.getLabel() + "\n";
+    }
+    TextDialog dialog = new TextDialog(historicalTags_String);
+    dialog.show();
   }
 }

@@ -5,22 +5,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
 import backend.models.Picture;
 import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class PictureViewer extends BorderPane {
@@ -29,9 +30,13 @@ public class PictureViewer extends BorderPane {
   private PictureViewerController controller;
   private Picture picture;
   private MainView mainView;
-  private CheckBox showTags;
   private ComboBox<String> oldNames;
   private TextArea tags;
+  private TextField newTagTextField;
+  private ComboBox<Tag> addTag;
+  private ComboBox<Tag> removeTagSelect;
+  private ComboBox<Tag> deleteTagSelect;
+
   
   public PictureViewer(MainView mainView) {
     this.controller = new PictureViewerController(mainView, this);
@@ -43,11 +48,7 @@ public class PictureViewer extends BorderPane {
     this.pictureName = new Label();
     this.pictureName.setFont(Font.font("Verdana", 20));
     this.pictureName.setPadding(new Insets(0, 0, 5, 0));
-
-      
-    showTags = new CheckBox("Show Tags");
-    showTags.selectedProperty().addListener(this.controller);
-    
+   
     HBox nameControls = new HBox();
     oldNames = new ComboBox<String>();
     oldNames.setPadding(new Insets(0, 10, 0, 0));
@@ -61,7 +62,6 @@ public class PictureViewer extends BorderPane {
     BorderPane title = new BorderPane();
     title.setPrefWidth(3 * (MainView.WIDTH / 4));
     title.setLeft(pictureName);
-    title.setCenter(showTags);
     title.setRight(nameControls);
 
     this.setTop(title);
@@ -80,11 +80,55 @@ public class PictureViewer extends BorderPane {
     tags = new TextArea();
     tags.setEditable(false);
     tags.setPrefWidth(3 * (MainView.WIDTH / 4));
+    tags.setPrefHeight(50);
     tagControls.setTop(tags);
+    
+    Label createTags = new Label("Create Tag:");
+    newTagTextField = new TextField ();
+    newTagTextField.onActionProperty().set(this.controller::createNewTag);
+    HBox hb = new HBox();
+    
+    Label addTagLabel = new Label("Add Tag");
+    addTag = new ComboBox<Tag>();
+    addTag.getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+    addTag.setOnAction(this.controller::addTag);
+    
+    Label deleteTag = new Label("Delete Tag from Manager");
+    this.deleteTagSelect = new ComboBox<Tag>();
+    deleteTagSelect.getItems().addAll(this.mainView.getBackendService().getPictureManager().getAvailableTags());
+    deleteTagSelect.setOnAction(this.controller::deleteTag);
+    
+    Label removeTag = new Label("Remove Tag from Image");
+    this.removeTagSelect = new ComboBox<Tag>();
+    this.removeTagSelect.getItems().addAll(this.picture.getTags());
+    this.removeTagSelect.setOnAction(this.controller::removeTag);
+    
+    
+    hb.getChildren().addAll(createTags, newTagTextField, deleteTag, deleteTagSelect, addTagLabel, addTag);
+    hb.setSpacing(10);
+    
+    
+    tagControls.setBottom(hb);
     
     this.setBottom(tagControls);
     
     updatePictureViewer(null);  // starts with nothing shown
+  }
+  
+  public Tag getSelectedRemoveTag() {
+    return this.removeTagSelect.getSelectionModel().getSelectedItem();
+  }
+  
+  public Tag getSelectedDeleteTag() {
+    return this.deleteTagSelect.getSelectionModel().getSelectedItem();
+  }
+  
+  public String getNewTagText() {
+    return this.newTagTextField.getText();
+  }
+  
+  public void resetNewTagText() {
+    this.newTagTextField.setText("");
   }
 
   public void updatePictureViewer(Picture newPicture) {
@@ -95,24 +139,36 @@ public class PictureViewer extends BorderPane {
     } else {
       this.setVisible(true);
       
-      showTags.setSelected(false);  // set back to default
       this.oldNames.getItems().setAll(this.controller.getHistoricalNames());
       
       try {
+        // Get the image
         InputStream inputStream = new FileInputStream(picture.getAbsolutePath());
 
         BufferedImage bufferedImage = ImageIO.read(inputStream);
         Image image = SwingFXUtils.toFXImage(bufferedImage, null);
         this.imageView.setImage(image);
         inputStream.close();
-        
+
+        // Set the title
         this.pictureName.setText(this.picture.getTaglessName());
-        
-        String tagText = "";
-        for(Tag tag : this.picture.getTags()) {
-          tagText += tag.getLabel() + " ";
+
+        // Display the tags
+        String tagsString = "";
+        for (Tag tag : picture.getTags())
+          tagsString += " " + tag.getLabel();
+        this.tags.setText(tagsString);
+
+        // Update the combo box with tags not in the picture
+        addTag.getItems().clear();
+        List<Tag> tagsNotOnPic = new ArrayList<Tag>();
+        List<Tag> availableTags = this.mainView.getBackendService().getPictureManager().getAvailableTags();
+        for (Tag availTag : availableTags) {
+          if (!picture.containsTag(availTag)) {
+            tagsNotOnPic.add(availTag);
+          }
         }
-        this.showTags.setText(tagText);
+        addTag.getItems().addAll(tagsNotOnPic);
         
       } catch (FileNotFoundException e) {
         this.picture = null;
@@ -134,8 +190,19 @@ public class PictureViewer extends BorderPane {
     return this.picture;
   }
   
+  public Tag getSelectedAddTag() {
+    return this.addTag.getSelectionModel().getSelectedItem();
+  }
+  
   public String getOldNameSelected() {
     return this.oldNames.getSelectionModel().getSelectedItem();
   }
 
+  public ComboBox<Tag> getTagsCombobox(){
+    return this.addTag;
+  }
+
+  public void updateDisplay(){
+    updatePictureViewer(this.picture);
+  }
 }

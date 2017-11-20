@@ -22,10 +22,10 @@ import javafx.stage.Stage;
  */
 public class MainView extends Application {
   /** The width of the view */
-  public static final int WIDTH = 1080;
+  public static final int WIDTH = 1404;
 
   /** The width of the height */
-  public static final int HEIGHT = 600;
+  public static final int HEIGHT = 780;
 
   /** Controller for all action event handling in the menu bar */
   private MenuBarController menuBarController;

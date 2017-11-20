@@ -91,11 +91,14 @@ public class BackendService {
   }
 
   public void rename(Picture picture, String newName) {
-    RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
 
-    this.mainView.getBackendService().getCommandManager().addCommand(renamePictureCommand);
-    renamePictureCommand.execute();
-    this.mainView.getPictureViewer().updatePictureViewer(picture);
+    if (!newName.contains("@")) {
+      RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
+
+      this.mainView.getBackendService().getCommandManager().addCommand(renamePictureCommand);
+      renamePictureCommand.execute();
+      this.mainView.getPictureViewer().updatePictureViewer(picture);
+    }
   }
 
 

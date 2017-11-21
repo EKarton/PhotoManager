@@ -1,0 +1,23 @@
+smith244
+- learnt JavaFX and taught the rest of the team
+- File reading and writing
+- Serialization and deserialization of serial files
+- File management - renaming, moving and deleting files
+- Built most of the frontend gui, in the end emilio kartono also contribitued to the gui
+- Documented all the frontend code
+- Made sure all code was formatted in the final copy
+
+dengzhou
+- Added backend implementations
+- Made the logger
+- Implemented commands
+- Documented all backend code
+- Wrote shell script to compile our program
+- Added readme for instructions on how to run the program
+
+Emelio Kartonoe
+- Created a Business Requirements document that will outline specifically what the program will do and achieve
+- Created classes used to represent the Picture and the Tags
+- Created a PictureManager (an observer) that will observe any changes in the mappings / tags / pictures, and performs IO changes to accomodate those 
+- Created the Command manager and its associated Command classes used to undo / redo actions the user has done in the GUI (such as undoing a name change)
+- Helped incorporate together the gui and backend by contribituing to the controller and debugging along the way

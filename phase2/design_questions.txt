@@ -1,0 +1,16 @@
+# Phase 1 Design Questions
+
+Which part(s) of the program are responsible for reading the contents of the
+starting directory?
+
+What happens when a new tag is created?
+
+Which class is keeping track of the association between tags and files?
+
+How will we store the log of changes? Will it be a simple text file or will we serialize data and write it into a binary file?
+
+How do we deal with the issue that would arise if the user deleted or moved or changed the file name of a file while our program is not running?
+
+What happens when a tag is deleted? 
+
+How do we tell when a new file is added if it is not added through our program?

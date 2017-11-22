@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A class used to keep track of the pictures.
@@ -28,7 +30,15 @@ public class PictureManager implements Observer {
    */
   private String currDir = "";
 
+  /**
+   * true if the manager recursively adds all pictures under that directory.
+   */
   private boolean isRecursive = false;
+
+  /**
+   * the compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
+   */
+  private static final Pattern fileNameSpec = Pattern.compile("\\w+(\\s\\w+)*(\\s@\\w+)*");
 
   /**
    * Populate the picture manager with pictures under a certain directory
@@ -66,18 +76,13 @@ public class PictureManager implements Observer {
    * @return
    */
   private boolean nameCheck(File file) {
-    String fullFileName = file.getName();
-    String nameWithoutFileExtension = fullFileName.split("\\.")[0].trim();
-    if (!file.getName().contains("@")) {
-      return true; // valid name
-    } else {
-      String[] nameParts = nameWithoutFileExtension.split("@");
-      if (nameParts.length == 0) {
-        return false; // Example : "@" is not a valid name
-      } else {
-        return (!nameParts[0].equals(""));// Example: "@abc" is not a valid name
-      }
+    String nameWithoutFileExtension = file.getName().split("\\.")[0].trim();
+    Matcher m = fileNameSpec.matcher(nameWithoutFileExtension);
+    System.out.println(m.matches());
+    if (m.matches()) {
+      return true;
     }
+    return false;
   }
 
   /**

@@ -137,7 +137,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       Picture oldPic = this.clone();
       this.tags.add(tag);
       this.historicalTags.add(tag);
-      // this.historicalTagLessNames.add(getFullFileName());
 
       tag.addObserver(this);
 
@@ -157,7 +156,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     if (tags.contains(tag)) {
       Picture oldPic = this.clone();
       tags.remove(tag);
-      // this.historicalTagLessNames.add(getFullFileName());
       tag.deleteObserver(this);
 
       super.setChanged();

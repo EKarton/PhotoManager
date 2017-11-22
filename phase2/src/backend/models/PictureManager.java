@@ -37,6 +37,8 @@ public class PictureManager implements Observer {
 
   /**
    * the compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
+   * Example: "@.jpg" is not a valid name file name cannot contain any special letter (except for
+   * tags and file extension)
    */
   private static final Pattern fileNameSpec = Pattern.compile("\\w+(\\s\\w+)*(\\s@\\w+)*");
 
@@ -68,9 +70,7 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * check if the file contains a valid name
-   * 
-   * Example: "@.jpg" is not a valid name
+   * check if the file contains a valid name using regex
    * 
    * @param file
    * @return
@@ -219,7 +219,7 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * helper function for updating picture, chages will be reflected on the OS
+   * helper function for updating picture, changes will be reflected on the OS
    * 
    * @param newPicture
    * @param oldPicture
@@ -227,29 +227,20 @@ public class PictureManager implements Observer {
   private void updatePicture(Picture newPicture, Picture oldPicture) {
     FileManager manager = new FileManager();
     if (pictures.contains(newPicture)) {
-      if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-        boolean b = manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
-        System.out.println(b);
-      }
-
       if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-        String fileNameWithoutExtension = newPicture.getFullFileName();
-        if (fileNameWithoutExtension.contains("."))
-          fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
-
-        manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
+        String fullName = newPicture.getFullFileName();
+        if (fullName.contains(".")) {
+          fullName = fullName.split("\\.")[0];
+        }
+        manager.renameFile(oldPicture.getAbsolutePath(), fullName);
       }
 
-      // Remove it from the picture manager if it is outside the current
-      // directory
+      // Remove it from the picture manager if it is outside the current directory
       boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
-      if (!isUnderCurDir && isRecursive)
-        this.untrackPicture(newPicture);
-
       // Remove it if the manager does not handle pictures non-recursively
-      boolean isDirectoryEqual = newPicture.getDirectoryPath().equals(this.currDir);
-      if (!isDirectoryEqual && !isRecursive)
+      if (!isUnderCurDir && !isRecursive) {
         this.untrackPicture(newPicture);
+      }
     }
   }
 
@@ -291,6 +282,10 @@ public class PictureManager implements Observer {
     return new ArrayList<Tag>(availableTags);
   }
 
+  
+  /**
+   * @return the current directory of this PitctureManager.
+   */
   public String getCurrDir() {
     return this.currDir;
   }

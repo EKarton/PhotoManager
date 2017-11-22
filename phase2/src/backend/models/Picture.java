@@ -65,15 +65,18 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     this.fileExt = "." + fullFileName.split("\\.")[1].trim();
     String nameWithoutFileExtension = fullFileName.split("\\.")[0].trim();
 
+    // Parsing the tagless name and its tags.
     if (!file.getName().contains("@")) {
       this.taglessName = nameWithoutFileExtension.trim();
-    } else {
+    }
+    else {
       String[] nameParts = nameWithoutFileExtension.split("@");
       this.taglessName = nameParts[0].trim();
       for (int i = 1; i < nameParts.length; i++) {
         Tag newTag = new Tag(nameParts[i].trim());
         if (!tags.contains(newTag)) {
-          tags.add(newTag);
+          this.tags.add(newTag);
+          this.historicalTags.add(newTag);
           newTag.addObserver(this);
         }
       }
@@ -88,19 +91,20 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    */
   public void setDirectoryPath(String directoryPath) {
     Picture oldPic = this.clone();
-
     this.directoryPath = directoryPath;
-
     super.setChanged();
     super.notifyObservers(oldPic);
   }
 
   /**
    * Set the tagless name of this picture. It will notify all the observers that it has changed.
+   * If the new tagless name is equal to the current tagless name, it will not do anything.
    * It will send a copy of its old Picture instance to the observers.
    * @param taglessName The new tagless name of this picture.
    */
   public void setTaglessName(String taglessName) {
+    if (this.taglessName.equals(taglessName))
+      return;
 
     StringBuilder builder = new StringBuilder();
     for (Tag tag : this.tags) {
@@ -111,7 +115,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     String fullFileName = builder + taglessName + this.fileExt;
     if (taglessName.length() > 0 && fullFileName.length() <= 255) {
       Picture oldPic = this.clone();
-
       this.taglessName = taglessName;
 
       if (!this.historicalTagLessNames.contains(taglessName))
@@ -132,7 +135,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    * @param tag The tag to add to this instance
    */
   public void addTag(Tag tag) {
-    int lengthOfNewFileName = (this.getFullFileName() + " @" + tag.getLabel()).length();
+    int lengthOfNewFileName = this.getFullFileName().length() + tag.getLabel().length() + 1;
     if (lengthOfNewFileName < 255 && !tags.contains(tag)) {
       Picture oldPic = this.clone();
       this.tags.add(tag);
@@ -157,7 +160,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       Picture oldPic = this.clone();
       tags.remove(tag);
       tag.deleteObserver(this);
-
       super.setChanged();
       super.notifyObservers(oldPic);
     }

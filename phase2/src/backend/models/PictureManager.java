@@ -49,15 +49,14 @@ public class PictureManager implements Observer {
    * @throws IOException Thrown when the directory does not exist.
    */
   public PictureManager(String directoryPath, boolean recursive) throws IOException {
-    FileManager manager = new FileManager();
     this.currDir = directoryPath;
     this.isRecursive = recursive;
 
     List<File> files;
     if (recursive)
-      files = manager.getImageListRec(directoryPath);
+      files = FileManager.getImageListRec(directoryPath);
     else
-      files = manager.getImageList(directoryPath);
+      files = FileManager.getImageList(directoryPath);
 
     for (File file : files) {
       if (this.nameCheck(file)) {
@@ -226,26 +225,12 @@ public class PictureManager implements Observer {
    */
   private void updatePicture(Picture newPicture, Picture oldPicture) {
     if (pictures.contains(newPicture)) {
-<<<<<<< HEAD
       if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-        String fullName = newPicture.getFullFileName();
-        if (fullName.contains(".")) {
-          fullName = fullName.split("\\.")[0];
-        }
-        manager.renameFile(oldPicture.getAbsolutePath(), fullName);
-=======
-      if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-        boolean b = FileManager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
-        System.out.println(b);
-      }
+        String fileName = newPicture.getFullFileName();
+        if (fileName.contains("."))
+          fileName = fileName.split("\\.")[0];
 
-      if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-        String fileNameWithoutExtension = newPicture.getFullFileName();
-        if (fileNameWithoutExtension.contains("."))
-          fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
-
-        FileManager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
->>>>>>> 49f2ae01f3b11df9a48c2f345fbbd0284ded228f
+        FileManager.renameFile(oldPicture.getAbsolutePath(), fileName);
       }
 
       // Remove it from the picture manager if it is outside the current directory

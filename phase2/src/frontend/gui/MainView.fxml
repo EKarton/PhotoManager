@@ -14,23 +14,25 @@
 		<MenuBar>
 			<Menu mnemonicParsing="false" text="Open">
 				<Menu mnemonicParsing="false" text="Open Directory">
-					<MenuItem mnemonicParsing="false" text="Open Directory" />
-					<MenuItem mnemonicParsing="false" text="Open Directory Recursivley" />
+					<MenuItem mnemonicParsing="false" text="Open Directory" onAction="#openDirectory"/>
+					<MenuItem mnemonicParsing="false" text="Open Directory Recursivley" onAction="#openDirectryRecursively"/>
 				</Menu>
-				<MenuItem mnemonicParsing="false" text="Open Log" />
+				<MenuItem mnemonicParsing="false" text="Open Log" onAction="#openLog"/>
 			</Menu>
 			<Menu mnemonicParsing="flase" text="Manage Tags">
-				<MenuItem mnemonicParsing="false" text="Open Directory" />
+				<MenuItem mnemonicParsing="false" text="Manage Tags" onAction="#manageTags"/>
 			</Menu>
 			<Menu mnemonicParsing="false" text="Save">
-				<MenuItem mnemonicParsing="false" text="Save" />
+				<MenuItem mnemonicParsing="false" text="Save" onAction="#manageTags"/>
 			</Menu>
 			<Menu mnemonicParsing="false" text="Undo">
-				<MenuItem mnemonicParsing="false" text="Undo" />
+				<MenuItem mnemonicParsing="false" text="Undo" onAction="#undo"/>
 			</Menu>
 			<Menu mnemonicParsing="false" text="Redo">
-				<MenuItem mnemonicParsing="false" text="Redo" />
+				<MenuItem mnemonicParsing="false" text="Redo" onAction="#redo"/>
 			</Menu>
 		</MenuBar>
 	</top>
+
+
 </BorderPane>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane prefHeight="720" prefWidth="1080"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="frontend.gui.MainController">
+
+	<!-- Create the menu bar -->
+	<top>
+		<MenuBar>
+			<Menu mnemonicParsing="false" text="Open">
+				<Menu mnemonicParsing="false" text="Open Directory">
+					<MenuItem mnemonicParsing="false" text="Open Directory" />
+					<MenuItem mnemonicParsing="false" text="Open Directory Recursivley" />
+				</Menu>
+				<MenuItem mnemonicParsing="false" text="Open Log" />
+			</Menu>
+			<Menu mnemonicParsing="flase" text="Manage Tags">
+				<MenuItem mnemonicParsing="false" text="Open Directory" />
+			</Menu>
+			<Menu mnemonicParsing="false" text="Save">
+				<MenuItem mnemonicParsing="false" text="Save" />
+			</Menu>
+			<Menu mnemonicParsing="false" text="Undo">
+				<MenuItem mnemonicParsing="false" text="Undo" />
+			</Menu>
+			<Menu mnemonicParsing="false" text="Redo">
+				<MenuItem mnemonicParsing="false" text="Redo" />
+			</Menu>
+		</MenuBar>
+	</top>
+</BorderPane>

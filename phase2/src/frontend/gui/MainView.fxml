@@ -15,7 +15,7 @@
 			<Menu mnemonicParsing="false" text="Open">
 				<Menu mnemonicParsing="false" text="Open Directory">
 					<MenuItem mnemonicParsing="false" text="Open Directory" onAction="#openDirectory"/>
-					<MenuItem mnemonicParsing="false" text="Open Directory Recursivley" onAction="#openDirectryRecursively"/>
+					<MenuItem mnemonicParsing="false" text="Open Directory Recursively" onAction="#openDirectryRecursively"/>
 				</Menu>
 				<MenuItem mnemonicParsing="false" text="Open Log" onAction="#openLog"/>
 			</Menu>

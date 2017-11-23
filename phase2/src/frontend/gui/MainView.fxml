@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 
 <BorderPane prefHeight="720" prefWidth="1080"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
@@ -12,27 +12,57 @@
 	<!-- Create the menu bar -->
 	<top>
 		<MenuBar>
-			<Menu mnemonicParsing="false" text="Open">
-				<Menu mnemonicParsing="false" text="Open Directory">
-					<MenuItem mnemonicParsing="false" text="Open Directory" onAction="#openDirectory"/>
-					<MenuItem mnemonicParsing="false" text="Open Directory Recursivley" onAction="#openDirectryRecursively"/>
+			<menus>
+				<Menu mnemonicParsing="false" text="Open">
+					<items>
+						<Menu mnemonicParsing="false" text="Open Directory">
+							<items>
+								<MenuItem mnemonicParsing="false" onAction="#openDirectory"
+									text="Open Directory" />
+								<MenuItem mnemonicParsing="false" onAction="#openDirectryRecursively"
+									text="Open Directory Recursivley" />
+							</items>
+						</Menu>
+						<MenuItem mnemonicParsing="false" onAction="#openLog"
+							text="Open Log" />
+					</items>
 				</Menu>
-				<MenuItem mnemonicParsing="false" text="Open Log" onAction="#openLog"/>
-			</Menu>
-			<Menu mnemonicParsing="flase" text="Manage Tags">
-				<MenuItem mnemonicParsing="false" text="Manage Tags" onAction="#manageTags"/>
-			</Menu>
-			<Menu mnemonicParsing="false" text="Save">
-				<MenuItem mnemonicParsing="false" text="Save" onAction="#manageTags"/>
-			</Menu>
-			<Menu mnemonicParsing="false" text="Undo">
-				<MenuItem mnemonicParsing="false" text="Undo" onAction="#undo"/>
-			</Menu>
-			<Menu mnemonicParsing="false" text="Redo">
-				<MenuItem mnemonicParsing="false" text="Redo" onAction="#redo"/>
-			</Menu>
+				<Menu mnemonicParsing="flase" text="Manage Tags">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#manageTags"
+							text="Manage Tags" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Save">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#save" text="Save" accelerator="Shortcut+S"/>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Undo">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#undo" text="Undo" accelerator="Shortcut+Z"/>
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Redo">
+					<items>
+						<MenuItem mnemonicParsing="false" onAction="#redo" text="Redo" accelerator="Shortcut+shift+Z"/>
+					</items>
+				</Menu>
+			</menus>
 		</MenuBar>
 	</top>
-
+	<center>
+		<SplitPane dividerPositions="0.21706864564007422"
+			BorderPane.alignment="CENTER">
+			<items>
+				<AnchorPane>
+					<ListView AnchorPane.topAnchor="0.0"
+						AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+						AnchorPane.rightAnchor="0.0" />
+				</AnchorPane>
+				<AnchorPane />
+			</items>
+		</SplitPane>
+	</center>
 
 </BorderPane>

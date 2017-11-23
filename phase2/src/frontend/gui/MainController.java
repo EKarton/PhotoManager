@@ -28,15 +28,15 @@ public class MainController implements Initializable {
   }
   
   public void save() {
-    // TODO fill in
+    System.out.println("Save");
   }
   
   public void undo() {
-    // TODO fill in
+    System.out.println("Undo");
   }
   
   public void redo() {
-    // TODO fill in
+    System.out.println("Redo");
   }
 
 }

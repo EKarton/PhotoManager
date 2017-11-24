@@ -2,18 +2,26 @@ package frontend.gui;
 
 
 import java.awt.Desktop;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javax.imageio.ImageIO;
 import javax.naming.NoInitialContextException;
 import backend.models.Picture;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 public class MainController implements Initializable {
@@ -21,7 +29,7 @@ public class MainController implements Initializable {
   BackendService backendService;
 
   @FXML
-  BorderPane root;
+  BorderPane root;  
 
   @FXML
   private ListView<Picture> pictureListView;
@@ -34,6 +42,8 @@ public class MainController implements Initializable {
     this.backendService = new BackendService();
 
     setListView();
+    this.imageView.fitWidthProperty().bind(imageContainer.widthProperty());
+    this.imageView.fitHeightProperty().bind(imageContainer.heightProperty());
   }
 
   private void setListView() {
@@ -76,8 +86,14 @@ public class MainController implements Initializable {
     }
   }
 
-  public void manageTags() {
+  public void manageTags() throws IOException {
     // TODO fill in
+    InputStream inputStream = new FileInputStream("/Users/shimismith/Desktop/1.png");
+
+    BufferedImage bufferedImage = ImageIO.read(inputStream);
+    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+    this.imageView.setImage(image);
+    inputStream.close();
   }
 
   public void save() {

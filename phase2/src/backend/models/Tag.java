@@ -13,28 +13,13 @@ public class Tag extends Observable implements Serializable, Cloneable {
    */
   private String label;
 
-  /**
-   * A region of the picture that has this tag.
-   */
-  private Rectangle region;
 
   /**
    * Constructs a new tag with a given label.
    * @param label The label of this tag
    */
   public Tag(String label) {
-    this(label, new Rectangle(0, 0, 0, 0));
-  }
-
-  /**
-   * Constructs a new tag, specifying its label
-   * and a region in the picture.
-   * @param label The label of this tag
-   * @param pictureRegion A region in the picture.
-   */
-  public Tag(String label, Rectangle pictureRegion){
     this.label = label;
-    this.region = pictureRegion;
   }
 
   /**
@@ -62,21 +47,7 @@ public class Tag extends Observable implements Serializable, Cloneable {
     }
   }
 
-  /**
-   * Get the region of the picture that has this tag
-   * @return The region of the picture
-   */
-  public Rectangle getRegion() {
-    return region;
-  }
 
-  /**
-   * Set a new region of the picture to this tag.
-   * @param region The new region in the picture.
-   */
-  public void setRegion(Rectangle region) {
-    this.region = region;
-  }
 
   /**
    * Returns the string representation of this class.
@@ -98,8 +69,7 @@ public class Tag extends Observable implements Serializable, Cloneable {
   public boolean equals(Object anObject) {
     if (anObject instanceof Tag) {
       Tag otherTag = (Tag) anObject;
-      return otherTag.label.equals(this.label) &&
-          otherTag.getRegion().equals(this.region);
+      return otherTag.label.equals(this.label);
     }
     return false;
   }

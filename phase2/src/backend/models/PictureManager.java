@@ -77,7 +77,6 @@ public class PictureManager implements Observer {
   private boolean nameCheck(File file) {
     String nameWithoutFileExtension = file.getName().split("\\.")[0].trim();
     Matcher m = fileNameSpec.matcher(nameWithoutFileExtension);
-    System.out.println(m.matches());
     if (m.matches()) {
       return true;
     }
@@ -123,8 +122,8 @@ public class PictureManager implements Observer {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
-        this.refreshAvailableTags();
       }
+      this.refreshAvailableTags();
     }
   }
 
@@ -166,8 +165,7 @@ public class PictureManager implements Observer {
         pictures.remove(thePicture);
         thePicture.deleteObserver(this); // deleting observer from the
                                          // actuall picture instead
-                                         // of
-                                         // a reference
+                                         // of a reference
         break;
       }
     }
@@ -280,7 +278,7 @@ public class PictureManager implements Observer {
     return new ArrayList<Tag>(availableTags);
   }
 
-  
+
   /**
    * @return the current directory of this PitctureManager.
    */

@@ -21,7 +21,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 public class MainController implements Initializable {
@@ -36,14 +35,15 @@ public class MainController implements Initializable {
 
   @FXML
   private ContextMenu listCellContextMenu;
+  
+  @FXML
+  private ImageView imageView;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     this.backendService = new BackendService();
 
     setListView();
-    this.imageView.fitWidthProperty().bind(imageContainer.widthProperty());
-    this.imageView.fitHeightProperty().bind(imageContainer.heightProperty());
   }
 
   private void setListView() {

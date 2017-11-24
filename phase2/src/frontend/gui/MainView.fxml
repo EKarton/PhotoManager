@@ -14,19 +14,10 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.collections.FXCollections?>
 
-<BorderPane fx:id="root" prefHeight="720" prefWidth="1080"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="frontend.gui.MainController">
-	
-		<fx:define>
-		<ContextMenu fx:id="listCellContextMenu">
-			<items>
-				<MenuItem text="Move" onAction="#move" />
-				<MenuItem text="Open in OS File Viewer" onAction="#openInOSFileViewer" />
-			</items>
-		</ContextMenu>
-	</fx:define>
-	
+<BorderPane fx:id="root" prefHeight="720" prefWidth="1080" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="frontend.gui.MainController">
+
+
+
 	<!-- Create the menu bar -->
 	<top>
 		<MenuBar>
@@ -35,72 +26,63 @@
 					<items>
 						<Menu mnemonicParsing="false" text="Open Directory">
 							<items>
-								<MenuItem mnemonicParsing="false" onAction="#openDirectory"
-									text="Open Directory" />
-								<MenuItem mnemonicParsing="false" onAction="#openDirectryRecursively"
-									text="Open Directory Recursivley" />
+								<MenuItem mnemonicParsing="false" onAction="#openDirectory" text="Open Directory" />
+								<MenuItem mnemonicParsing="false" onAction="#openDirectryRecursively" text="Open Directory Recursivley" />
 							</items>
 						</Menu>
-						<MenuItem mnemonicParsing="false" onAction="#openLog"
-							text="Open Log" />
+						<MenuItem mnemonicParsing="false" onAction="#openLog" text="Open Log" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="flase" text="Manage Tags">
 					<items>
-						<MenuItem mnemonicParsing="false" onAction="#manageTags"
-							text="Manage Tags" />
+						<MenuItem mnemonicParsing="false" onAction="#manageTags" text="Manage Tags" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Save">
 					<items>
-						<MenuItem accelerator="Shortcut+S" mnemonicParsing="false"
-							onAction="#save" text="Save" />
+						<MenuItem accelerator="Shortcut+S" mnemonicParsing="false" onAction="#save" text="Save" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Undo">
 					<items>
-						<MenuItem accelerator="Shortcut+Z" mnemonicParsing="false"
-							onAction="#undo" text="Undo" />
+						<MenuItem accelerator="Shortcut+Z" mnemonicParsing="false" onAction="#undo" text="Undo" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Redo">
 					<items>
-						<MenuItem accelerator="Shortcut+shift+Z" mnemonicParsing="false"
-							onAction="#redo" text="Redo" />
+						<MenuItem accelerator="Shortcut+shift+Z" mnemonicParsing="false" onAction="#redo" text="Redo" />
 					</items>
 				</Menu>
 			</menus>
 		</MenuBar>
 	</top>
 	<center>
-		<SplitPane dividerPositions="0.21706864564007422"
-			BorderPane.alignment="CENTER">
+		<SplitPane dividerPositions="0.21706864564007422" BorderPane.alignment="CENTER">
 			<items>
 				<AnchorPane>
 					<children>
-						<BorderPane AnchorPane.bottomAnchor="0.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-							AnchorPane.topAnchor="0.0">
+						<BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 							<top>
 								<TextField BorderPane.alignment="CENTER" />
 							</top>
 							<center>
-								<ListView fx:id="pictureListView" editable="true"/>
+								<ListView fx:id="pictureListView" editable="true" />
 							</center>
 						</BorderPane>
 					</children>
 				</AnchorPane>
 				<AnchorPane>
-					<children>
-						<BorderPane AnchorPane.bottomAnchor="0.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-							AnchorPane.topAnchor="0.0">
-							<top>
-								<Label text="Bucky Roberts Was Here!!!"
-									BorderPane.alignment="CENTER" />
-							</top>
-						</BorderPane>
-					</children>
+   <children>
+   					<BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+   						<center>
+                        <StackPane fx:id="imageContainer">
+                           <children>
+         							<!-- <ImageView fitHeight="$imageContainer.getHeightProperty()" fitWidth="imageContainer.getWidthProperty()" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" /> -->
+                           </children>
+                        </StackPane>
+   						</center>
+   					</BorderPane>
+   </children>
 				</AnchorPane>
 			</items>
 		</SplitPane>

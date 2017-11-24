@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javax.naming.NoInitialContextException;
 import backend.models.Picture;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,7 +69,11 @@ public class MainController implements Initializable {
   }
 
   public void openLog() {
-    // TODO fill in
+    String logs = this.getBackendService().getCommandManager().getLogs();
+    if (logs != "") {
+      TextDialog dialog = new TextDialog("Logs", logs);
+      dialog.show();
+    }
   }
 
   public void manageTags() {
@@ -76,15 +81,21 @@ public class MainController implements Initializable {
   }
 
   public void save() {
-    System.out.println("Save");
+    this.getBackendService().save();
   }
 
   public void undo() {
-    System.out.println("Undo");
+    try {
+      this.getBackendService().getCommandManager().undoRecentCommand();
+    } catch (NoInitialContextException e) {
+    }
   }
 
   public void redo() {
-    System.out.println("Redo");
+    try {
+      this.getBackendService().getCommandManager().redoRecentCommand();
+    } catch (NoInitialContextException e) {
+    }
   }
 
   /**
@@ -100,7 +111,7 @@ public class MainController implements Initializable {
     Picture selectedPicture = this.pictureListView.getSelectionModel().getSelectedItem();
 
     selectedPicture.setDirectoryPath(newDirectory); // move the picture
-    
+
     this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
   }
 
@@ -122,7 +133,7 @@ public class MainController implements Initializable {
       }
     }
   }
-  
+
   public BackendService getBackendService() {
     return this.backendService;
   }

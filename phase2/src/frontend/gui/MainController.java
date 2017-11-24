@@ -26,6 +26,10 @@ import javafx.stage.DirectoryChooser;
 
 public class MainController implements Initializable {
 
+
+  @FXML
+  public ImageView imageView;
+  public StackPane imageContainer;
   BackendService backendService;
 
   @FXML

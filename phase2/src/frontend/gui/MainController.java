@@ -36,7 +36,7 @@ public class MainController implements Initializable {
   }
 
   private void setListView() {
-    this.pictureListView.setCellFactory(new FileListViewCallback(this.listCellContextMenu));
+    this.pictureListView.setCellFactory(new FileListViewCallback(this.listCellContextMenu, this));
     this.pictureListView.getSelectionModel().selectedItemProperty()
         .addListener(new ListViewChangeListener());
   }
@@ -121,6 +121,10 @@ public class MainController implements Initializable {
         // this should never happen - at this point a picture cannot be possibly be a file
       }
     }
+  }
+  
+  public BackendService getBackendService() {
+    return this.backendService;
   }
 
 }

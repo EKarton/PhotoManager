@@ -17,16 +17,16 @@
 <BorderPane fx:id="root" prefHeight="720" prefWidth="1080"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="frontend.gui.MainController">
-
-	<fx:define>
+	
+		<fx:define>
 		<ContextMenu fx:id="listCellContextMenu">
-		<items>
-			<MenuItem text="Move" onAction="#move" />
-			<MenuItem text="Open in OS File Viewer" onAction="#openInOSFileViewer" />
+			<items>
+				<MenuItem text="Move" onAction="#move" />
+				<MenuItem text="Open in OS File Viewer" onAction="#openInOSFileViewer" />
 			</items>
 		</ContextMenu>
 	</fx:define>
-
+	
 	<!-- Create the menu bar -->
 	<top>
 		<MenuBar>
@@ -85,7 +85,7 @@
 								<TextField BorderPane.alignment="CENTER" />
 							</top>
 							<center>
-								<ListView fx:id="pictureListView" />
+								<ListView fx:id="pictureListView" editable="true"/>
 							</center>
 						</BorderPane>
 					</children>

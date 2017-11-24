@@ -123,8 +123,8 @@ public class PictureManager implements Observer {
       if (picture.containsTag(tag)) {
         picture.deleteTag(tag);
       }
-      this.refreshAvailableTags();
     }
+    this.refreshAvailableTags();
   }
 
   /**

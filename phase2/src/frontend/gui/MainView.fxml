@@ -13,12 +13,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.collections.FXCollections?>
+<?import frontend.gui.PictureViewController?>
+
 
 <BorderPane fx:id="root" prefHeight="720" prefWidth="1080"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="frontend.gui.MainController">
 
-
+	<fx:define>
+		<ContextMenu fx:id="listCellContextMenu">
+			<items>
+				<MenuItem text="Move" onAction="#move" />
+				<MenuItem text="Open in OS File Viewer" onAction="#openInOSFileViewer" />
+			</items>
+		</ContextMenu>
+	</fx:define>
 
 	<!-- Create the menu bar -->
 	<top>
@@ -66,7 +75,7 @@
 		</MenuBar>
 	</top>
 	<center>
-		<SplitPane dividerPositions="0.21706864564007422"
+		<SplitPane dividerPositions="0.21706864564007422, 0.5"
 			BorderPane.alignment="CENTER">
 			<items>
 				<AnchorPane>
@@ -84,18 +93,8 @@
 					</children>
 				</AnchorPane>
 				<AnchorPane>
-					<children>
-						<BorderPane AnchorPane.bottomAnchor="0.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-							AnchorPane.topAnchor="0.0">
-							<center>
-								<StackPane fx:id="imageContainer">
-									<ImageView fx:id="imageView" pickOnBounds="true"
-										preserveRatio="true" BorderPane.alignment="CENTER" />
-								</StackPane>
-							</center>
-						</BorderPane>
-					</children>
+					<!-- <fx:include source="PictureView.fxml" fx:id="pictureView" /> -->
+					<PictureViewController fx:id="pictureView"/>
 				</AnchorPane>
 			</items>
 		</SplitPane>

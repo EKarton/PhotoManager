@@ -2,25 +2,21 @@ package frontend.gui;
 
 
 import java.awt.Desktop;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javax.imageio.ImageIO;
 import javax.naming.NoInitialContextException;
 import backend.models.Picture;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 public class MainController implements Initializable {
@@ -28,7 +24,9 @@ public class MainController implements Initializable {
 
   @FXML
   public ImageView imageView;
+  @FXML
   public StackPane imageContainer;
+  
   BackendService backendService;
 
   @FXML
@@ -40,22 +38,27 @@ public class MainController implements Initializable {
   @FXML
   private ContextMenu listCellContextMenu;
   
-  @FXML
-  private ImageView imageView;
+  private PictureViewController pictureViewController;
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public void initialize(URL location, ResourceBundle resources) {    
     this.backendService = new BackendService();
 
     setListView();
+    this.pictureViewController = new PictureViewController();
+    this.pictureViewController.setLabelText("");
   }
 
   private void setListView() {
     this.pictureListView.setCellFactory(new FileListViewCallback(this.listCellContextMenu, this));
     this.pictureListView.getSelectionModel().selectedItemProperty()
-        .addListener(new ListViewChangeListener());
+        .addListener(new ListViewChangeListener(this));
   }
-
+  
+  public PictureViewController getPictureViewController() {
+    return this.pictureViewController;
+  }
+  
   private File openDirectoryChooser() {
     DirectoryChooser dirChooser = new DirectoryChooser();
     dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -92,12 +95,6 @@ public class MainController implements Initializable {
 
   public void manageTags() throws IOException {
     // TODO fill in
-    InputStream inputStream = new FileInputStream("/Users/shimismith/Desktop/1.png");
-
-    BufferedImage bufferedImage = ImageIO.read(inputStream);
-    Image image = SwingFXUtils.toFXImage(bufferedImage, null);
-    this.imageView.setImage(image);
-    inputStream.close();
   }
 
   public void save() {

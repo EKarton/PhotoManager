@@ -15,7 +15,6 @@
 <?import javafx.collections.FXCollections?>
 <?import frontend.gui.PictureViewController?>
 
-
 <BorderPane fx:id="root" prefHeight="720" prefWidth="1080"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
 	fx:controller="frontend.gui.MainController">
@@ -75,7 +74,7 @@
 		</MenuBar>
 	</top>
 	<center>
-		<SplitPane dividerPositions="0.21706864564007422, 0.5"
+		<SplitPane dividerPositions="0.21706864564007422"
 			BorderPane.alignment="CENTER">
 			<items>
 				<AnchorPane>
@@ -92,9 +91,10 @@
 						</BorderPane>
 					</children>
 				</AnchorPane>
-				<AnchorPane>
-					<!-- <fx:include source="PictureView.fxml" fx:id="pictureView" /> -->
-					<PictureViewController fx:id="pictureView"/>
+				<AnchorPane fx:id="anchorPane">
+					<PictureViewController AnchorPane.bottomAnchor="0.0"
+						AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+						AnchorPane.topAnchor="0.0" prefWidth="${root.width}" prefHeight="${root.height}" fx:id="pictureView"/>
 				</AnchorPane>
 			</items>
 		</SplitPane>

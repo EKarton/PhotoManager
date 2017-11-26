@@ -12,20 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 
 public class MainController implements Initializable {
-
-
-  @FXML
-  public ImageView imageView;
-  @FXML
-  public StackPane imageContainer;
   
   BackendService backendService;
 
@@ -40,7 +32,7 @@ public class MainController implements Initializable {
   
   @FXML
   private PictureViewController pictureView;
-
+  
   @Override
   public void initialize(URL location, ResourceBundle resources) {    
     this.backendService = new BackendService();

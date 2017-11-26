@@ -11,7 +11,6 @@ import javafx.scene.layout.BorderPane;
 // https://docs.oracle.com/javafx/2/fxml_get_started/custom_control.htm
 
 public class PictureViewController extends BorderPane {
-  private StringProperty name;
 
   @FXML
   private Label nameLabel;
@@ -26,20 +25,13 @@ public class PictureViewController extends BorderPane {
     } catch (IOException exception) {
       throw new RuntimeException(exception);
     }
-//     this.name = new SimpleStringProperty("Hello");
-//     this.nameLabel.textProperty().bindBidirectional(this.name);
+
   }
 
   public void setLabelText(String text) {
-    System.out.println("here");
-//    this.name.set(t);
-    this.nameLabel.setText("testing");
-    this.nameLabel.layout();
+    this.nameLabel.setText(text);
   }
 
-  public StringProperty nameProperty() {
-    return name;
-  }
 
 
 }

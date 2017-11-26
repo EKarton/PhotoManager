@@ -38,15 +38,14 @@ public class MainController implements Initializable {
   @FXML
   private ContextMenu listCellContextMenu;
   
-  private PictureViewController pictureViewController;
+  @FXML
+  private PictureViewController pictureView;
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {    
     this.backendService = new BackendService();
 
     setListView();
-    this.pictureViewController = new PictureViewController();
-    this.pictureViewController.setLabelText("");
   }
 
   private void setListView() {
@@ -56,7 +55,7 @@ public class MainController implements Initializable {
   }
   
   public PictureViewController getPictureViewController() {
-    return this.pictureViewController;
+    return this.pictureView;
   }
   
   private File openDirectoryChooser() {

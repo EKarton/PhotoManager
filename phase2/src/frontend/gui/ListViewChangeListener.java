@@ -1,15 +1,8 @@
 package frontend.gui;
 
-import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.imageio.ImageIO;
 import backend.models.Picture;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
 public class ListViewChangeListener implements ChangeListener<Picture> {
 

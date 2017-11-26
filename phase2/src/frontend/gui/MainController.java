@@ -35,8 +35,9 @@ public class MainController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {    
     this.backendService = new BackendService();
-
     setListView();
+    this.pictureView.setBackendService(this.backendService);
+    this.pictureView.setMainController(this);
   }
 
   private void setListView() {
@@ -71,6 +72,10 @@ public class MainController implements Initializable {
     openDirectory(false);
   }
 
+  public ListView<Picture> getListView() {
+    return this.pictureListView;
+  }
+  
   public void openDirectryRecursively() {
     openDirectory(true);
   }

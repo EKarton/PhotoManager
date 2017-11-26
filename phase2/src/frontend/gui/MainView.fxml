@@ -92,9 +92,11 @@
 					</children>
 				</AnchorPane>
 				<AnchorPane>
-					<PictureViewController AnchorPane.bottomAnchor="0.0"
-						AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-						AnchorPane.topAnchor="0.0" prefWidth="${root.width}" prefHeight="${root.height}" fx:id="pictureView"/>
+					<PictureViewController
+						AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+						AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefWidth="${root.width}"
+						prefHeight="${root.height}" fx:id="pictureView">
+					</PictureViewController>
 				</AnchorPane>
 			</items>
 		</SplitPane>

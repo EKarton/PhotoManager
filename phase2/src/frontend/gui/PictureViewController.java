@@ -24,6 +24,8 @@ public class PictureViewController extends BorderPane {
   ImageView imageView;
 
   private Picture picture;
+  
+  private boolean showAbsoluteName;
 
   public PictureViewController() {
     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PictureView.fxml"));
@@ -43,10 +45,26 @@ public class PictureViewController extends BorderPane {
     this.imageView.fitHeightProperty().bind(this.heightProperty());
   }
 
+  public void swapName() {
+    this.showAbsoluteName = !this.showAbsoluteName;
+    
+    this.setName();
+  }
+  
+  private void setName() {
+    if(showAbsoluteName) {
+      this.name.setText(this.picture.getAbsolutePath());
+    }
+    else {
+      this.name.setText(this.picture.getTaglessName());
+    }
+  }
+  
   public void setPicture(Picture newPicture) {
 
     this.picture = newPicture;
-    this.name.setText(this.picture.getTaglessName());
+    
+    this.setName();
 
     try {
       FileInputStream inputStream = new FileInputStream(newPicture.getAbsolutePath());

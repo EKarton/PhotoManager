@@ -4,17 +4,34 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.*?>
+
 
 <fx:root type="BorderPane" xmlns="http://javafx.com/javafx/8"
 	xmlns:fx="http://javafx.com/fxml/1">
 
 	<top>
-		<Label fx:id="name" BorderPane.alignment="CENTER" />
+		<BorderPane>
+			<top>
+				<Label fx:id="name" BorderPane.alignment="CENTER"
+					onMouseClicked="#swapName" />
+			</top>
+			<right>
+				<Label fx:id="historicalNames"/>
+				<padding>
+					<Insets right="25" left="25" />
+				</padding>
+				<ComboBox fx:id="historicalNames" />
+			</right>
+		</BorderPane>
 	</top>
 
 	<center>
 		<ImageView fx:id="imageView" BorderPane.alignment="CENTER"
-			preserveRatio="true"/>
+			preserveRatio="true" />
 	</center>
 </fx:root>
 

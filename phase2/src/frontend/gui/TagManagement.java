@@ -14,13 +14,26 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Tag manager pop up window
+ */
 public class TagManagement {
+  /** The stage of the pop up window */
   private Stage window;
+  
+  /** The main controller of the program */
   private MainController mainController;
 
+  /** The list of tags */
   @FXML
-  ListView<Tag> tagListView;
+  private ListView<Tag> tagListView;
 
+  /**
+   * Constructs the tag manager window
+   * 
+   * @param title the title of the window
+   * @param mainController the main controller
+   */
   public TagManagement(String title, MainController mainController) {
     this.window = new Stage();
 
@@ -49,17 +62,27 @@ public class TagManagement {
 
   }
 
+  /**
+   * Sets up the components
+   */
   private void setUpComponents() {
     this.tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     this.tagListView.getItems()
         .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
   }
 
+  /**
+   * Updates the list of tags
+   */
   private void updateTagList() {
     this.tagListView.getItems()
         .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
   }
 
+  /**
+   * Opens up a pop up window for adding tags
+   */
+  @FXML
   public void addTag() {
     // Code derived from http://o7planning.org/en/11537/javafx-textinputdialog-tutorial
     TextInputDialog dialog = new TextInputDialog();
@@ -75,7 +98,11 @@ public class TagManagement {
       updateTagList();
     }
   }
-
+  
+  /**
+   * Opens up a pop up window for deleting tags
+   */
+  @FXML
   public void deleteTag() {
     List<Tag> selectedTags = this.tagListView.getSelectionModel().getSelectedItems();
 
@@ -85,6 +112,9 @@ public class TagManagement {
     updateTagList();
   }
 
+  /** 
+   * Show the pop up window
+   */
   public void show() {
     this.window.show();
   }

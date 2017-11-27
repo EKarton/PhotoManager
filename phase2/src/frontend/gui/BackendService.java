@@ -8,7 +8,7 @@ import backend.models.Picture;
 import backend.models.PictureManager;
 
 /**
- * This class is used by the view to make calls to the backend (model)
+ * This class is used by the main controller to make calls to the backend (model)
  */
 public class BackendService {
   /** The CommandManager used by our program */
@@ -19,7 +19,6 @@ public class BackendService {
 
   /** Holds the configuration data used by our program */
   private AppSettings appSettings;
-
 
   /**
    * Constructs a new BackendService. When the app settings was not found /corrupted / locked by

@@ -15,6 +15,8 @@ public class FileListViewCallback implements Callback<ListView<Picture>, ListCel
    * The context menu. This is a menu for renaming and moving the files
    */
   private ContextMenu contextMenu;
+
+  /** The main controller, the controller of the main view where this ListView is displayed */
   private MainController mainController;
 
   /**
@@ -27,6 +29,9 @@ public class FileListViewCallback implements Callback<ListView<Picture>, ListCel
     this.mainController = mainController;
   }
 
+  /**
+   * Sets the context menu to this cell
+   */
   @Override
   public ListCell<Picture> call(ListView<Picture> param) {
     ListCell<Picture> cell = new FileListCell(this.mainController);

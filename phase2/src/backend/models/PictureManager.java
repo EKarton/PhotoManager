@@ -118,10 +118,10 @@ public class PictureManager implements Observer {
   public void deleteTag(Tag tag) {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
-        picture.deleteTag(tag);
-        this.refreshAvailableTags();
+        picture.deleteTag(tag);        
       }
     }
+    this.availableTags.remove(tag);
   }
 
   /**
@@ -245,24 +245,6 @@ public class PictureManager implements Observer {
       boolean isDirectoryEqual = newPicture.getDirectoryPath().equals(this.currDir);
       if (!isDirectoryEqual && !isRecursive)
         this.untrackPicture(newPicture);
-    }
-  }
-
-  /**
-   * Update the availableTags of this manager
-   */
-  private void refreshAvailableTags() {
-    for (Tag tag : this.getAvailableTags()) {
-      boolean usefulTag = false;
-      for (Picture picture : this.pictures) {
-        if (picture.containsTag(tag)) {
-          usefulTag = true;
-          break;
-        }
-      }
-      if (!usefulTag) {
-        this.availableTags.remove(tag);
-      }
     }
   }
 

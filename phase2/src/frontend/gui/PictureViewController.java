@@ -5,6 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import backend.models.Picture;
 import backend.models.Tag;
@@ -51,6 +57,9 @@ public class PictureViewController extends BorderPane implements Renamable {
   /** The check box to show tags */
   @FXML
   private CheckBox showTags;
+
+  @FXML
+  private HBox tagsDisplay;
 
   /** The picture currently being displayed */
   private Picture picture;
@@ -229,12 +238,22 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void showTags() {
-    if(this.showTags.isSelected()) {
-      String tagText = "";
-      for (Tag t : this.picture.getTags()) {
-        tagText += t.getLabel();
+    if (this.picture == null)
+      return;
+
+    this.tagsDisplay.getChildren().clear();
+
+    // If the user wants to see the tags
+    if (this.showTags.isSelected()){
+      for (Tag tag : this.picture.getTags()){
+
+        // Derived from https://community.smartbear.com/t5/TestComplete-Desktop-Testing/Can-we-get-JavaFX-Label-BackgroundFill-properties/td-p/105657
+        Label label = new Label(tag.getLabel());
+        label.setBackground(new Background(new BackgroundFill(Color.WHITE,
+            new CornerRadii(2), Insets.EMPTY)));
+        label.setPadding(new Insets(5, 5, 5, 5));
+        this.tagsDisplay.getChildren().add(label);
       }
-      this.tags.setText(tagText);
     }
   }
 

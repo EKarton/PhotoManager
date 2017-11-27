@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import backend.commands.RenameTagCommand;
 import backend.models.Tag;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -144,7 +145,9 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
       newNameDialog.setContentText("New name of tag:");
       Optional<String> result = newNameDialog.showAndWait();
       if (result.isPresent()) {
-        tagToRename.setLabel(result.get());
+        RenameTagCommand renameTag = new RenameTagCommand(tagToRename, result.get());
+        mainController.getBackendService().getCommandManager().addCommand(renameTag);
+        renameTag.execute();
         updateTagList();
       }
     }

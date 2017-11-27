@@ -16,6 +16,10 @@
 <fx:root fx:id="pictureView" type="BorderPane" visible="false"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 
+  <padding>
+    <Insets top="10" bottom="10" left="10" right="10"/>
+  </padding>
+
 	<top>
 		<BorderPane>
 			<left>
@@ -46,10 +50,20 @@
 	</top>
 
 	<center>
-		<StackPane fx:id="imageContainer">
-			<ImageView fx:id="imageView" BorderPane.alignment="CENTER"
-				preserveRatio="true" />
-		</StackPane>
+    <StackPane fx:id="imageContainer">
+
+      <padding>
+        <Insets bottom="20"/>
+      </padding>
+
+      <ImageView fx:id="imageView" BorderPane.alignment="CENTER"
+        preserveRatio="true" />
+      <BorderPane>
+        <bottom>
+          <HBox fx:id="tagsDisplay" prefHeight="10" spacing="5"></HBox>
+        </bottom>
+      </BorderPane>
+    </StackPane>
 	</center>
 
 	<bottom>

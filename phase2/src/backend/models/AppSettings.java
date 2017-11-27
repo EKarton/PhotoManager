@@ -29,13 +29,17 @@ public class AppSettings implements Serializable {
   private List<Picture> historicalPictures = new ArrayList<>();
 
   /**
+   * A list of all the tags
+   */
+  private List<Tag> availableTags = new ArrayList<>();
+
+  /**
    * defualt file name is set to "Config"
    */
   private static final String defualtFileName = "Config";
 
   /**
-   * Adds all Pictures to the PictureManager
-   * 
+   * Adds all Pictures and tags to the PictureManager
    * @param manager a PictureManager
    */
   public void addPicToManager(PictureManager manager) {
@@ -47,25 +51,37 @@ public class AppSettings implements Serializable {
         }
       }
     }
+
+    for (Tag tag : this.availableTags){
+      if (!manager.contains(tag)){
+        manager.addTagToCollection(tag);
+      }
+    }
   }
 
   /**
-   * adds all the pictures in the given PictureManager to historicalPictures
-   * 
-   * @param manager
+   * Adds all the pictures and tags in the given PictureManager
+   * to this class.
+   * @param manager The picture manager to grab the tags and pictures from
    */
   public void addPicFromManager(PictureManager manager) {
-    for (Picture picture : manager.getPictures())
+    for (Picture picture : manager.getPictures()) {
       if (!this.historicalPictures.contains(picture)) {
         this.historicalPictures.add(picture);
       }
+    }
+
+    for (Tag tag : manager.getAvailableTags()){
+      if (!this.availableTags.contains(tag)){
+        this.availableTags.add(tag);
+      }
+    }
   }
 
   /**
    * Save configuration to given fileName
-   * 
    * @param fileName the name of the file to save to
-   * @throws IOException
+   * @throws IOException When it is not a valid file name
    */
   public void save(String fileName) throws IOException {
     OutputStream buffer = new BufferedOutputStream(new FileOutputStream(fileName));
@@ -77,29 +93,21 @@ public class AppSettings implements Serializable {
   }
 
   /**
-   * Save the file to the default file name :Config
-   * 
-   * @throws IOException
+   * Save the file to the default file name: Config
+   * @throws IOException when the config file does not exist.
    */
   public void save() throws IOException {
-    OutputStream buffer = new BufferedOutputStream(new FileOutputStream(defualtFileName));
-    ObjectOutput output = new ObjectOutputStream(buffer);
-
-    // serialize the Map
-    output.writeObject(this);
-    output.close();
+    save(defualtFileName);
   }
 
   /**
    * Load the serialized AppSetting file from given fileName
-   * 
    * @param fileName the file name
    * @return the deserialized AppSetting Object
    * @throws IOException
    * @throws ClassNotFoundException
    */
-  public static AppSettings loadFromFile(String fileName)
-      throws IOException, ClassNotFoundException {
+  public static AppSettings loadFromFile(String fileName) throws IOException, ClassNotFoundException {
     InputStream buffer = new BufferedInputStream(new FileInputStream(fileName));
     ObjectInput input = new ObjectInputStream(buffer);
 
@@ -112,28 +120,27 @@ public class AppSettings implements Serializable {
 
   /**
    * Load the Serialized AppSetting from the default file Name: Config
-   * 
    * @return the deserialized AppSetting Object
    * @throws IOException
    * @throws ClassNotFoundException
    */
   public static AppSettings loadFromFile() throws IOException, ClassNotFoundException {
-    InputStream buffer = new BufferedInputStream(new FileInputStream(defualtFileName));
-    ObjectInput input = new ObjectInputStream(buffer);
-
-    // Deserialize the app settings
-    AppSettings settings = (AppSettings) input.readObject();
-    input.close();
-
-    return settings;
+    return loadFromFile(defualtFileName);
   }
 
   /**
-   * get historical pictures
-   * 
-   * @return historical pictures in a list
+   * Get a copy of the list of historical pictures stored in this instance
+   * @return Copy of the list of historical pictures stored in this instance.
    */
   public List<Picture> getHistoricalPicture() {
     return new ArrayList<Picture>(this.historicalPictures);
+  }
+
+  /**
+   * Return a copy of the list of available tags stored in this instance.
+   * @return A copy of the list of available tags stored in this instance.
+   */
+  public List<Tag> getAvailableTags(){
+    return new ArrayList<>(this.availableTags);
   }
 }

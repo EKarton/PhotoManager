@@ -70,8 +70,7 @@ public class PictureManager implements Observer {
     for (File file : files) {
       if (this.nameCheck(file)) {
         Picture picture = new Picture(file.getAbsolutePath());
-        pictures.add(picture);
-        picture.addObserver(this);
+        this.addPicture(picture);
       }
     }
   }

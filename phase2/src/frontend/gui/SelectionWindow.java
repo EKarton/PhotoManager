@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -41,6 +42,8 @@ public class SelectionWindow<T> {
        this.window.setTitle(title);
        
        enterButton.setText(enter);
+       
+       this.items.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
        this.items.getItems().setAll(items);
        
        Scene scene = new Scene(root);

@@ -11,6 +11,7 @@ import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -30,6 +31,10 @@ public class PictureViewController extends BorderPane {
   /** The label representing the name of the image */
   @FXML
   private Label name;
+  
+  /** Label for the picture's tags */
+  @FXML
+  private Label tags;
 
   /** The image view */
   @FXML
@@ -42,6 +47,10 @@ public class PictureViewController extends BorderPane {
   /** The combo box for historical names */
   @FXML
   private ComboBox<String> historicalNames;
+  
+  /** The check box to show tags */
+  @FXML
+  private CheckBox showTags;
 
   /** The picture currently being displayed */
   private Picture picture;
@@ -214,6 +223,20 @@ public class PictureViewController extends BorderPane {
     List<Tag> tags = tagSelection.show();
     for (Tag tag : tags) {
       this.picture.addTag(tag);
+    }
+  }
+  
+  /**
+   * Display the picture's tags
+   */
+  @FXML
+  public void showTags() {
+    if(this.showTags.isSelected()) {
+      String tagText = "";
+      for (Tag t : this.picture.getTags()) {
+        tagText += t.getLabel();
+      }
+      this.tags.setText(tagText);
     }
   }
 

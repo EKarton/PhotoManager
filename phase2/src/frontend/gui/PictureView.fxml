@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.Font?>
@@ -58,12 +59,14 @@
 
 			<Button text="Remove Tags" BorderPane.alignment="CENTER"
 				onAction="#removeTags" />
+
 			<HBox>
-				<CheckBox text="Show Tags" />
+				<CheckBox fx:id="showTags" text="Show Tags" onAction="#showTags" />
 				<padding>
-					<Insets top="5"/>
+					<Insets top="5" />
 				</padding>
 			</HBox>
+
 		</HBox>
 	</bottom>
 </fx:root>

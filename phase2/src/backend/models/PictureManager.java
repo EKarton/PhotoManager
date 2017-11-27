@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A class used to keep track of the pictures.
@@ -31,21 +33,27 @@ public class PictureManager implements Observer {
   private boolean isRecursive = false;
 
   /**
+   * the compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
+   * Example: "@.jpg" is not a valid name file name cannot contain any special letter (except for
+   * tags and file extension)
+   */
+  private static final Pattern fileNameSpec = Pattern.compile("\\w+(\\s\\w+)*(\\s@\\w+)*");
+
+  /**
    * Populate the picture manager with pictures under a certain directory
    *
    * @param directoryPath A directory path
    * @throws IOException Thrown when the directory does not exist.
    */
   public PictureManager(String directoryPath, boolean recursive) throws IOException {
-    FileManager manager = new FileManager();
     this.currDir = directoryPath;
     this.isRecursive = recursive;
 
     List<File> files;
     if (recursive)
-      files = manager.getImageListRec(directoryPath);
+      files = FileManager.getImageListRec(directoryPath);
     else
-      files = manager.getImageList(directoryPath);
+      files = FileManager.getImageList(directoryPath);
 
     for (File file : files) {
       if (this.nameCheck(file)) {
@@ -58,26 +66,18 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * check if the file contains a valid name
-   * 
-   * Example: "@.jpg" is not a valid name
+   * check if the file contains a valid name using regex
    * 
    * @param file
    * @return
    */
   private boolean nameCheck(File file) {
-    String fullFileName = file.getName();
-    String nameWithoutFileExtension = fullFileName.split("\\.")[0].trim();
-    if (!file.getName().contains("@")) {
-      return true; // valid name
-    } else {
-      String[] nameParts = nameWithoutFileExtension.split("@");
-      if (nameParts.length == 0) {
-        return false; // Example : "@" is not a valid name
-      } else {
-        return (!nameParts[0].equals(""));// Example: "@abc" is not a valid name
-      }
+    String nameWithoutFileExtension = file.getName().split("\\.")[0].trim();
+    Matcher m = fileNameSpec.matcher(nameWithoutFileExtension);
+    if (m.matches()) {
+      return true;
     }
+    return false;
   }
 
   /**
@@ -118,10 +118,10 @@ public class PictureManager implements Observer {
   public void deleteTag(Tag tag) {
     for (Picture picture : pictures) {
       if (picture.containsTag(tag)) {
-        picture.deleteTag(tag);        
+        picture.deleteTag(tag);
       }
     }
-    this.availableTags.remove(tag);
+    this.refreshAvailableTags();
   }
 
   /**
@@ -162,8 +162,7 @@ public class PictureManager implements Observer {
         pictures.remove(thePicture);
         thePicture.deleteObserver(this); // deleting observer from the
                                          // actuall picture instead
-                                         // of
-                                         // a reference
+                                         // of a reference
         break;
       }
     }
@@ -214,37 +213,45 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * helper function for updating picture, chages will be reflected on the OS
+   * helper function for updating picture, changes will be reflected on the OS
    * 
    * @param newPicture
    * @param oldPicture
    */
   private void updatePicture(Picture newPicture, Picture oldPicture) {
-    FileManager manager = new FileManager();
     if (pictures.contains(newPicture)) {
-      if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-        boolean b = manager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
-        System.out.println(b);
-      }
-
       if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-        String fileNameWithoutExtension = newPicture.getFullFileName();
-        if (fileNameWithoutExtension.contains("."))
-          fileNameWithoutExtension = fileNameWithoutExtension.split("\\.")[0];
+        String fileName = newPicture.getFullFileName();
+        if (fileName.contains("."))
+          fileName = fileName.split("\\.")[0];
 
-        manager.renameFile(oldPicture.getAbsolutePath(), fileNameWithoutExtension);
+        FileManager.renameFile(oldPicture.getAbsolutePath(), fileName);
       }
 
-      // Remove it from the picture manager if it is outside the current
-      // directory
+      // Remove it from the picture manager if it is outside the current directory
       boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
-      if (!isUnderCurDir && isRecursive)
-        this.untrackPicture(newPicture);
-
       // Remove it if the manager does not handle pictures non-recursively
-      boolean isDirectoryEqual = newPicture.getDirectoryPath().equals(this.currDir);
-      if (!isDirectoryEqual && !isRecursive)
+      if (!isUnderCurDir && !isRecursive) {
         this.untrackPicture(newPicture);
+      }
+    }
+  }
+
+  /**
+   * Update the availableTags of this manager
+   */
+  private void refreshAvailableTags() {
+    for (Tag tag : this.getAvailableTags()) {
+      boolean usefulTag = false;
+      for (Picture picture : this.pictures) {
+        if (picture.containsTag(tag)) {
+          usefulTag = true;
+          break;
+        }
+      }
+      if (!usefulTag) {
+        this.availableTags.remove(tag);
+      }
     }
   }
 
@@ -268,7 +275,18 @@ public class PictureManager implements Observer {
     return new ArrayList<Tag>(availableTags);
   }
 
+
+  /**
+   * @return the current directory of this PitctureManager.
+   */
   public String getCurrDir() {
     return this.currDir;
+  }
+
+  /**
+   * true if the manager recursively adds all pictures under that directory.
+   */
+  public boolean isRecursive() {
+    return isRecursive;
   }
 }

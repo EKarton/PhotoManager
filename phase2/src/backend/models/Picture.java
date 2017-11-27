@@ -7,28 +7,33 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * A class used to represent a picture in the IO level
+ * A class used to represent a picture.
+ * It is being represented by a list of tags, its directory path to the
+ * picture in the OS, its name without the tags, and its file extension.
+ *
+ * This class can be observed for any state changes. Any state changes to
+ * this class will notify all the observers, returning the old copy of the
+ * instance to the observers
  */
-
-public class Picture extends Observable implements Serializable, Observer {
+public class Picture extends Observable implements Serializable, Observer, Cloneable {
 
   /**
-   * The directory path to the picture, i.e, it is the absolute path without the full file name.
+   * The directory path to the picture.
    */
   private String directoryPath;
 
   /**
-   * The file name, without the tag names.
+   * The file name, without its tag names and without its file extension.
    */
   private String taglessName;
 
   /**
-   * The file extension (includes the .). Ex: ".jpg", ".gif"
+   * The file extension with the ".". Ex: ".jpg", ".gif"
    */
   private String fileExt;
 
   /**
-   * An arraylist of tags that the picture currently has
+   * Tags that the picture currently has
    */
   private ArrayList<Tag> tags;
 
@@ -38,28 +43,21 @@ public class Picture extends Observable implements Serializable, Observer {
   private ArrayList<Tag> historicalTags;
 
   /**
-   * A List of all historical Full file names
+   * A List of all historical tag-less names
    */
   private ArrayList<String> historicalTagLessNames;
 
   /**
-   * Creates an instance of Picture given the absolute path of the picture
-   * 
-   * @param absolutePath The absolute path to the Picture
+   * Creates an instance of Picture given the absolute path of the picture.
+   * It will parse the absolute path of this picture to get its properties,
+   * including the list of tags, directory path, file name, etc.
+   * @param absolutePath The absolute path to the Picture.
    */
   public Picture(String absolutePath) {
     this.tags = new ArrayList<Tag>();
     this.historicalTags = new ArrayList<Tag>();
     this.historicalTagLessNames = new ArrayList<String>();
-    this.setPictureProperties(absolutePath);
-  }
 
-  /**
-   * helper method for setting properties of a picture given an absolute path
-   * 
-   * @param absolutePath
-   */
-  private void setPictureProperties(String absolutePath) {
     File file = new File(absolutePath);
 
     this.directoryPath = file.getParent();
@@ -67,18 +65,19 @@ public class Picture extends Observable implements Serializable, Observer {
     this.fileExt = "." + fullFileName.split("\\.")[1].trim();
     String nameWithoutFileExtension = fullFileName.split("\\.")[0].trim();
 
+    // Parsing the tagless name and its tags.
     if (!file.getName().contains("@")) {
       this.taglessName = nameWithoutFileExtension.trim();
-    } else {
+    }
+    else {
       String[] nameParts = nameWithoutFileExtension.split("@");
-      if (!(nameParts.length == 0)) {// Sanity check for index exceptions
-        this.taglessName = nameParts[0].trim();
-        for (int i = 1; i < nameParts.length; i++) {
-          Tag newTag = new Tag(nameParts[i].trim());
-          if (!tags.contains(newTag)) {
-            tags.add(newTag);
-            newTag.addObserver(this);
-          }
+      this.taglessName = nameParts[0].trim();
+      for (int i = 1; i < nameParts.length; i++) {
+        Tag newTag = new Tag(nameParts[i].trim());
+        if (!tags.contains(newTag)) {
+          this.tags.add(newTag);
+          this.historicalTags.add(newTag);
+          newTag.addObserver(this);
         }
       }
     }
@@ -86,32 +85,36 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * Set the directory path of this picture It will notify all the observers that it has changed. It
-   * will send a copy of its old Picture instance to the observers
-   *
+   * Set the directory path of this picture It will notify all the observers that it has changed.
+   * It will send a copy of its old Picture instance to the observers.
    * @param directoryPath The new directory path to this picture.
    */
   public void setDirectoryPath(String directoryPath) {
     Picture oldPic = this.clone();
-
     this.directoryPath = directoryPath;
-
     super.setChanged();
     super.notifyObservers(oldPic);
   }
 
   /**
-   * Set the tagless name of this picture. It will notify all the observers that it has changed. It
-   * will send a copy of its old Picture instance to the observers
-   *
+   * Set the tagless name of this picture. It will notify all the observers that it has changed.
+   * If the new tagless name is equal to the current tagless name, it will not do anything.
+   * It will send a copy of its old Picture instance to the observers.
    * @param taglessName The new tagless name of this picture.
    */
-  public boolean setTaglessName(String taglessName) {
+  public void setTaglessName(String taglessName) {
+    if (this.taglessName.equals(taglessName))
+      return;
+
+    StringBuilder builder = new StringBuilder();
+    for (Tag tag : this.tags) {
+      builder.append(" @").append(tag.getLabel());
+    }
+
     // Make sure the name does not exceed maximum char length.
-    String fullFileName = this.tagsToString() + taglessName + this.fileExt;
+    String fullFileName = builder + taglessName + this.fileExt;
     if (taglessName.length() > 0 && fullFileName.length() <= 255) {
       Picture oldPic = this.clone();
-
       this.taglessName = taglessName;
 
       if (!this.historicalTagLessNames.contains(taglessName))
@@ -119,59 +122,52 @@ public class Picture extends Observable implements Serializable, Observer {
 
       super.setChanged();
       super.notifyObservers(oldPic);
-      return true;
     }
-    return false;
   }
 
   /**
-   * method for adding a tag to this picture
-   * 
-   * notifies all observers that a Tag has been added to this picture
-   *
-   * @return true if the tag is successfully added, else false.
+   * Adds a new tag to this instance and this instance will observe that tag.
+   * If the tag already exist in this instance, it will not add it.
+   * It checks if the tag exists in this instance by the tag's .equals().
+   * It will notify all the observers that a tag has been added to this picture.
+   * All observers will get a copy of the old picture's state before the new
+   * tag has been added.
+   * @param tag The tag to add to this instance
    */
-
-  public boolean addTag(Tag tag) {
-    int lengthOfNewFileName = (this.getFullFileName() + " @" + tag.getLabel()).length();
+  public void addTag(Tag tag) {
+    int lengthOfNewFileName = this.getFullFileName().length() + tag.getLabel().length() + 1;
     if (lengthOfNewFileName < 255 && !tags.contains(tag)) {
       Picture oldPic = this.clone();
       this.tags.add(tag);
       this.historicalTags.add(tag);
-      // this.historicalTagLessNames.add(getFullFileName());
 
       tag.addObserver(this);
 
       super.setChanged();
       super.notifyObservers(oldPic);
-      return true;
     }
-    return false;
   }
 
   /**
-   * method for deleting a tag form this picture
-   * 
-   * notifies all observers that a Tag has been deleted from this picture
-   * 
-   * @return true if the tag is successfully deleted, else false.
+   * Deletes a tag from this picture and will stop observing that tag.
+   * If the tag does not exist in this instance, it will do nothing.
+   * It will notifies all observers that a Tag has been deleted from this picture.
+   * It will send a copy of the picture before the tag has been deleted to the observers.
+   * @param tag The tag to delete
    */
-  public boolean deleteTag(Tag tag) {
+  public void deleteTag(Tag tag) {
     if (tags.contains(tag)) {
       Picture oldPic = this.clone();
       tags.remove(tag);
-      // this.historicalTagLessNames.add(getFullFileName());
       tag.deleteObserver(this);
-
       super.setChanged();
       super.notifyObservers(oldPic);
-      return true;
     }
-    return false;
   }
 
   /**
-   * @return a copy of this picture
+   * Constructs a hard copy of this instance
+   * @return A hard copy of this instance.
    */
   @Override
   public Picture clone() {
@@ -179,41 +175,98 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * Using Tag.equals() to compare tags.
-   * 
-   * @param tag
-   * @return true if there tag is inside this picture
+   * Determines if a tag already exist in this instance.
+   * It uses the Tag.equals() to compare and see if the tag exists.
+   * @param tag A tag to compare it to.
+   * @return Returns true if this tag is inside this picture
    */
   public boolean containsTag(Tag tag) {
     return this.tags.contains(tag);
   }
 
   /**
-   * If any change has happened to a Tag in this picture, the picture will reflect on that change
+   * Get the absolute path to the picture, which includes its
+   * directory path and its full file name.
+   * Ex: "C:\\Users\\Images\\jane @person.jpg"
+   * @return The absolute path to the picture
    */
-  @Override
-  public void update(Observable curObserved, Object change) {
-    if (curObserved instanceof Tag && change instanceof Tag) {
-      // see if it's a Tag naming Change, note: currently, only naming
-      // change on Tags will be
-      // reflected on here.
-      Tag currTag = (Tag) curObserved;
-      Tag changedTag = (Tag) change;
-
-      for (Tag tag : this.getTags()) {// Find the Tag with the name
-                                      // Change.
-        if (tag.equals(changedTag)) {
-          this.deleteTag(tag);
-          this.addTag(currTag);
-        }
-      }
-
-      // this.historicalTagLessNames.add(getFullFileName());
-    }
+  public String getAbsolutePath() {
+    File newFile = new File(directoryPath, getFullFileName());
+    return newFile.getAbsolutePath();
   }
 
   /**
-   * @return the Absolute path of the picture in a String
+   * Get the directory path to the picture.
+   * Ex: if the absolute path to this picture is
+   *     "C:\\Users\\jane.jpg",
+   *     this method will return "C:\\Users"
+   * @return The directory path to the picture.
+   */
+  public String getDirectoryPath() {
+    return this.directoryPath;
+  }
+
+  /**
+   * Get the full file name of this picture, including its tags and its file extension.
+   * In other words, it will return the name of the picture represented in the OS.
+   * Ex: "jane @person.jpg".
+   * @return The full file name of this picture.
+   */
+  public String getFullFileName() {
+    StringBuilder fullFileName = new StringBuilder(taglessName);
+    for (Tag tag : tags)
+      fullFileName.append(" @").append(tag.getLabel());
+    fullFileName.append(fileExt);
+    return fullFileName.toString();
+  }
+
+  /**
+   * Get the name of this picture without the tags.
+   * Ex: If the file name in the OS is "Jane @person.jpg",
+   *     this method will return "jane".
+   * @return The name of this picture without the tags.
+   */
+  public String getTaglessName() {
+    return this.taglessName;
+  }
+
+  /**
+   * Gets a copy of a list of tags in this picture.
+   * @return A copy of the list of tags in this picture.
+   */
+  public ArrayList<Tag> getTags() {
+    return new ArrayList<Tag>(this.tags);
+  }
+
+  /**
+   * Get a copy of a list of all the historical tags
+   * @return A copy of a list of all historical tags
+   */
+  public ArrayList<Tag> getHistoricalTags() {
+    return new ArrayList<Tag>(this.historicalTags);
+  }
+
+  /**
+   * Get a copy of all historical (tag-less) names of a picture in a list.
+   * @return A copy of a list of all historical names.
+   */
+  public ArrayList<String> getHistoricalTaglessNames() {
+    return new ArrayList<String>(this.historicalTagLessNames);
+  }
+
+  /**
+   * Returns the file extension of this picture.
+   * Note: it includes the ".".
+   * Ex: ".jpg"
+   * @return the file extension as a string
+   */
+  public String getFileExtension() {
+    return this.fileExt;
+  }
+
+  /**
+   * Returns the string representation of this instance
+   * @return The string representation of this instance.
    */
   @Override
   public String toString() {
@@ -221,7 +274,10 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * two Picture Object are considered equal if they have the same absolutePath
+   * A method that compares two Picture objects based on its absolute path.
+   * Note that if the "o" is not an instance of Picture, it will return false
+   * @param o An object (ideally a Picture object)
+   * @return True if the two picture objects have the same absolute path; else false.
    */
   @Override
   public boolean equals(Object o) {
@@ -235,101 +291,25 @@ public class Picture extends Observable implements Serializable, Observer {
   }
 
   /**
-   * the String representation of all the tags, Ex: " @Family @Dog"
-   * 
-   * @return the String representation of all the tags
+   * This method handles when there is a tag change in this instance.
+   * It will also notify the observers of this instance the change,
+   * providing the observers a copy of the state of this instance before
+   * the tag change.
    */
-  public String tagsToString() {
-    StringBuilder builder = new StringBuilder();
-    for (Tag tag : this.tags) {
-      builder.append(" @" + tag.getLabel());
+  @Override
+  public void update(Observable curObserved, Object change) {
+    if (curObserved instanceof Tag && change instanceof Tag) {
+      Tag oldTag = (Tag) change;
+      Tag newTag = (Tag) curObserved;
+
+      // Construct the old state of this picture before the tag changed.
+      Picture oldPicture = this.clone();
+      oldPicture.deleteTag(newTag);
+      oldPicture.addTag(oldTag);
+
+      // Notify the observers
+      super.setChanged();
+      super.notifyObservers(oldPicture);
     }
-    return builder.toString();
-  }
-
-  /**
-   * Get the absolute path to the picture
-   * 
-   * @return The absolute path to the picture
-   */
-  public String getAbsolutePath() {
-    File newFile = new File(directoryPath, getFullFileName());
-    return newFile.getAbsolutePath();
-  }
-
-  /**
-   * Get the directory path to the picture
-   * 
-   * @return The directory path to the picture
-   */
-  public String getDirectoryPath() {
-    return this.directoryPath;
-  }
-
-  /**
-   * Get the full file name of this picture, including its tags.
-   * 
-   * @return The full file name of this picture.
-   */
-  public String getFullFileName() {
-    String fullFileName = taglessName;
-    for (Tag tag : tags)
-      fullFileName += " @" + tag.getLabel();
-    fullFileName += fileExt;
-    return fullFileName;
-  }
-
-  /**
-   * Get the name of this picture without the tags
-   * 
-   * @return The name of this picture without the tags
-   */
-  public String getTaglessName() {
-    return this.taglessName;
-  }
-
-  /**
-   * get all the tags in a List
-   * 
-   * @return all the tags this picture has in a List
-   */
-  public ArrayList<Tag> getTags() {
-    return new ArrayList<Tag>(this.tags);
-  }
-
-  /**
-   * get all historical tags in a list
-   * 
-   * @return all historical tags in a list
-   */
-  public ArrayList<Tag> getHistoricalTags() {
-    return new ArrayList<Tag>(this.historicalTags);
-  }
-
-  /**
-   * get all historical names of a picture (tagless) in a list
-   * 
-   * @return all historical names in a list
-   */
-  public ArrayList<String> getHistoricalTaglessNames() {
-    return new ArrayList<String>(this.historicalTagLessNames);
-  }
-
-  /**
-   * Returns the file extension
-   * 
-   * @return the file extension as a string
-   */
-  public String getFileExtension() {
-    return this.fileExt;
-  }
-
-  /**
-   * Returns the name with tags
-   * 
-   * @return the name with tags
-   */
-  public String getTaggedName() {
-    return this.getFullFileName().replace(this.fileExt, "");
   }
 }

@@ -79,7 +79,8 @@ public class MainController implements Initializable {
    * Sets the list view displaying the list of images
    */
   private void setListView() {
-    this.pictureListView.setCellFactory(new ListViewCallback<Picture>(this.listCellContextMenu, this.getPictureViewController()));
+    this.pictureListView.setCellFactory(
+        new ListViewCallback<Picture>(this.listCellContextMenu, this.getPictureViewController()));
 
     // set a listener to listen for changes in selection
     this.pictureListView.getSelectionModel().selectedItemProperty()
@@ -187,7 +188,7 @@ public class MainController implements Initializable {
     } catch (NoInitialContextException e) {
     }
   }
-  
+
   /**
    * Redo the last change
    */
@@ -224,17 +225,17 @@ public class MainController implements Initializable {
   public void search(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();
     String curText = this.searchBar.getText() + filter;
-    if (!filter.equals("") && !filter.equals("\b")){
+    if (!filter.equals("") && !filter.equals("\b")) {
       ArrayList<Picture> filteredPictures = new ArrayList<>();
-      for (Picture picture : this.getBackendService().getPictureManager().getPictures()){
+      for (Picture picture : this.getBackendService().getPictureManager().getPictures()) {
         if (picture.getTaglessName().toLowerCase().contains(curText))
           filteredPictures.add(picture);
       }
 
       this.pictureListView.getItems().setAll(filteredPictures);
-    }
-    else if (filter.equals("\b") || curText.equals("")){
-      this.pictureListView.getItems().setAll(this.getBackendService().getPictureManager().getPictures());
+    } else if (filter.equals("\b") || curText.equals("")) {
+      this.pictureListView.getItems()
+          .setAll(this.getBackendService().getPictureManager().getPictures());
     }
   }
 
@@ -249,6 +250,18 @@ public class MainController implements Initializable {
       SlideShow slideshow = new SlideShow(pictures);
       slideshow.play();
     }
+  }
+
+  /**
+   * Refreshes the list view in the case that the user edits a file outside of the program
+   */
+  @FXML
+  public void refresh() {
+    String curDirectory = this.getBackendService().getPictureManager().getCurrDir();
+    boolean isRecursive = this.getBackendService().getPictureManager().isRecursive();
+    this.getBackendService().resetBackendService(curDirectory, isRecursive);
+    this.pictureListView.getItems()
+        .setAll(this.getBackendService().getPictureManager().getPictures());
   }
 
   /**

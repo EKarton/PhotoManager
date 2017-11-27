@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
@@ -74,23 +75,28 @@
 		</MenuBar>
 	</top>
 	<center>
-		<SplitPane dividerPositions="0.21706864564007422" BorderPane.alignment="CENTER">
+		<SplitPane dividerPositions="0.21706864564007422"
+			BorderPane.alignment="CENTER">
 			<items>
-				<AnchorPane minWidth="250" maxWidth="250">
+				<AnchorPane maxWidth="250" minWidth="250">
 					<children>
 						<BorderPane AnchorPane.bottomAnchor="0.0"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 							AnchorPane.topAnchor="0.0">
 							<top>
-								<TextField fx:id="searchBar" BorderPane.alignment="CENTER"
-									onKeyTyped="#search" />
+								<TextField fx:id="searchBar" onKeyTyped="#search"
+									BorderPane.alignment="CENTER" />
 							</top>
 							<center>
 								<ListView fx:id="pictureListView" editable="true" />
 							</center>
 							<bottom>
 								<AnchorPane>
-									<Button text="Start Slide Show" onAction="#startSlideShow" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+									<HBox>
+										<Button onAction="#startSlideShow" text="Start Slide Show" />
+
+										<Button maxWidth="Infinity" prefWidth="130.0" text="Refresh" onAction="#refresh"/>
+									</HBox>
 								</AnchorPane>
 							</bottom>
 						</BorderPane>

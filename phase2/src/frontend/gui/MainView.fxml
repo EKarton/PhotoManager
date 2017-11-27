@@ -74,10 +74,9 @@
 		</MenuBar>
 	</top>
 	<center>
-		<SplitPane dividerPositions="0.21706864564007422"
-			BorderPane.alignment="CENTER">
+		<SplitPane dividerPositions="0.21706864564007422" BorderPane.alignment="CENTER">
 			<items>
-				<AnchorPane>
+				<AnchorPane minWidth="250" maxWidth="250">
 					<children>
 						<BorderPane AnchorPane.bottomAnchor="0.0"
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"

@@ -25,9 +25,8 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 /**
- * A class used to present the pictures in a Slideshow.
- * It will be in another window and will transition between
- * different pictures by a fixed time interval.
+ * A class used to present the pictures in a Slideshow. It will be in another window and will
+ * transition between different pictures by a fixed time interval.
  *
  * @author Emilio Kartono Shimi Smith
  * @version 1
@@ -79,6 +78,7 @@ public class SlideShow {
 
   /**
    * Constructs a new Slideshow instance given a list of pictures to display on the slideshow
+   *
    * @param pictures A list of pictures to present on the slideshow
    */
   public SlideShow(List<Picture> pictures) {
@@ -105,10 +105,9 @@ public class SlideShow {
   }
 
   /**
-   * Toggles the slideshow; i.e, if it is currently playing,
-   * calling this method will pause it. On the other hand,
-   * if it is currently paused, calling this method will
-   * resume and play the slideshow
+   * Toggles the slideshow; i.e, if it is currently playing, calling this method will pause it. On
+   * the other hand, if it is currently paused, calling this method will resume and play the
+   * slideshow
    */
   @FXML
   public void toggleSlideshow() {
@@ -134,6 +133,7 @@ public class SlideShow {
 
   /**
    * An event handler which is called when the window is closed.
+   *
    * @param windowEvent The window that caused this method to be called.
    */
   private void onClose(WindowEvent windowEvent) {
@@ -156,8 +156,9 @@ public class SlideShow {
   }
 
   /**
-   * Obtain the next picture. If it reaches the end of the
-   * list of pictures, it will return the first picture.
+   * Obtain the next picture. If it reaches the end of the list of pictures, it will return the
+   * first picture.
+   *
    * @return The next picture in the slideshow.
    */
   private Picture getNextPicture() {
@@ -172,6 +173,7 @@ public class SlideShow {
 
   /**
    * An event handler used to play the slideshow
+   *
    * @param actionEvent The UI component that called this method.
    */
   private void runSlideshow(ActionEvent actionEvent) {

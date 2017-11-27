@@ -48,14 +48,6 @@
             <Button maxWidth="1.7976931348623157E308" onAction="#deleteTag" text="Delete tag" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
             <Button fx:id="renameTagButton" maxWidth="1.7976931348623157E308" onAction="#renameTag" text="Rename" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
          </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
          <padding>
             <Insets left="5.0" right="5.0" />
          </padding>

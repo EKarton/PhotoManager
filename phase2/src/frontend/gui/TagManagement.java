@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import backend.models.Tag;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -20,7 +23,7 @@ import javafx.stage.Stage;
 /**
  * Tag manager pop up window
  */
-public class TagManagement {
+public class TagManagement implements ChangeListener<Tag> {
   /** The stage of the pop up window */
   private Stage window;
   
@@ -33,6 +36,9 @@ public class TagManagement {
 
   @FXML
   private TextField searchBox;
+
+  @FXML
+  private Button renameTagButton;
 
   /**
    * Constructs the tag manager window
@@ -76,6 +82,7 @@ public class TagManagement {
     this.tagListView.getItems()
         .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
     this.tagListView.requestFocus();
+    this.tagListView.getSelectionModel().selectedItemProperty().addListener(this);
   }
 
   /**
@@ -163,5 +170,25 @@ public class TagManagement {
    */
   public void show() {
     this.window.show();
+  }
+
+  /**
+   * This method needs to be provided by an implementation of {@code ChangeListener}. It is called
+   * if the value of an {@link ObservableValue} changes. <p> In general is is considered bad
+   * practice to modify the observed value in this method.
+   *
+   * @param observable The {@code ObservableValue} which value changed
+   * @param oldValue The old value
+   */
+  @Override
+  public void changed(ObservableValue<? extends Tag> observable, Tag oldValue, Tag newValue) {
+    // Hide the rename button if there is more than one item selected
+    List<Tag> tagsSelected = this.tagListView.getSelectionModel().getSelectedItems();
+    if (tagsSelected.size() > 1){
+      this.renameTagButton.setVisible(false);
+    }
+    else if (tagsSelected.size() == 1){
+      this.renameTagButton.setVisible(true);
+    }
   }
 }

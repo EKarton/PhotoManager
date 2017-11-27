@@ -80,7 +80,7 @@ public class MainController implements Initializable {
    * Sets the list view displaying the list of images
    */
   private void setListView() {
-    this.pictureListView.setCellFactory(new FileListViewCallback(this.listCellContextMenu, this));
+    this.pictureListView.setCellFactory(new ListViewCallback<Picture>(this.listCellContextMenu, this.getPictureViewController()));
 
     // set a listener to listen for changes in selection
     this.pictureListView.getSelectionModel().selectedItemProperty()

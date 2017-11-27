@@ -198,8 +198,6 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void addTags() {
-
-    // TODO test add tags
     SelectionWindow<Tag> tagSelection =
         new SelectionWindow<>(this.mainController.getStage(), "Add Tags", "Add Tags",
             this.mainController.getBackendService().getPictureManager().getAvailableTags());
@@ -216,7 +214,6 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void removeTags() {
-    // TODO test delete tags
     SelectionWindow<Tag> tagSelection =
         new SelectionWindow<>(this.mainController.getStage(), "Delete Tags", "Delete Tags",
             this.mainController.getBackendService().getPictureManager().getAvailableTags());

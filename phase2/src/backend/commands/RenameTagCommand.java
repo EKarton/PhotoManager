@@ -51,6 +51,6 @@ public class RenameTagCommand implements Command {
 
   @Override
   public LogRecord getLogRecord() {
-    return new LogRecord(Level.INFO, "Renamed Tag @" + this.oldTagName + " to @" + this.newTagName);
+    return new LogRecord(Level.FINE, "Renamed Tag @" + this.oldTagName + " to @" + this.newTagName);
   }
 }

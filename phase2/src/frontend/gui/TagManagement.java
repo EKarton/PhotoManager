@@ -1,6 +1,7 @@
 package frontend.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import backend.models.Tag;
@@ -10,7 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -27,6 +30,9 @@ public class TagManagement {
   /** The list of tags */
   @FXML
   private ListView<Tag> tagListView;
+
+  @FXML
+  private TextField searchBox;
 
   /**
    * Constructs the tag manager window
@@ -69,14 +75,15 @@ public class TagManagement {
     this.tagListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     this.tagListView.getItems()
         .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
+    this.tagListView.requestFocus();
   }
 
   /**
    * Updates the list of tags
    */
   private void updateTagList() {
-    this.tagListView.getItems()
-        .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
+    this.tagListView.getItems().setAll(
+        this.mainController.getBackendService().getPictureManager().getAvailableTags());
   }
 
   /**
@@ -110,6 +117,45 @@ public class TagManagement {
       this.mainController.getBackendService().getPictureManager().deleteTag(tag);
     }
     updateTagList();
+  }
+
+  /**
+   * Renames a selected tag to a new name.
+   */
+  @FXML
+  public void renameTag(){
+    // Get the new name for the tag
+    // Code for the dialog box is derived from http://o7planning.org/en/11537/javafx-textinputdialog-tutorial
+    List<Tag> selectedTags = this.tagListView.getSelectionModel().getSelectedItems();
+    if (selectedTags.size() == 1) {
+      Tag tagToRename = selectedTags.get(0);
+      TextInputDialog newNameDialog = new TextInputDialog();
+      newNameDialog.setHeaderText("Enter the new name of the tag:");
+      newNameDialog.setContentText("New name of tag:");
+      Optional<String> result = newNameDialog.showAndWait();
+      if (result.isPresent()) {
+        tagToRename.setLabel(result.get());
+        updateTagList();
+      }
+    }
+  }
+
+  @FXML
+  public void onFilterTagsList(KeyEvent keyEvent){
+    String filter = keyEvent.getCharacter().toLowerCase();
+    String curText = this.searchBox.getText() + filter;
+    if (!filter.equals("") && !filter.equals("\b")){
+      ArrayList<Tag> filteredTags = new ArrayList<>();
+      for (Tag tag : this.mainController.getBackendService().getPictureManager().getAvailableTags()){
+        if (tag.getLabel().toLowerCase().contains(curText))
+          filteredTags.add(tag);
+      }
+
+      this.tagListView.getItems().setAll(filteredTags);
+    }
+    else if (filter.equals("\b") || curText.equals("")){
+      this.tagListView.getItems().setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
+    }
   }
 
   /** 

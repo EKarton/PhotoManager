@@ -28,7 +28,7 @@
          <top>
             <AnchorPane BorderPane.alignment="CENTER">
                <children>
-                     <TextField AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     <TextField fx:id="searchBox" onKeyTyped="#onFilterTagsList" promptText="Search for tag" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </top>
@@ -45,16 +45,9 @@
       <GridPane hgap="2" vgap="2" BorderPane.alignment="CENTER">
          <children>
             <Button maxWidth="1.7976931348623157E308" onAction="#addTag" text="Add new tag" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" />
-            <Button maxWidth="1.7976931348623157E308" onAction="#renameTag" text="Rename" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1"/>
-            <Button maxWidth="1.7976931348623157E308" onAction="#deleteTag" text="Delete tag" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#deleteTag" text="Delete tag" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
+            <Button maxWidth="1.7976931348623157E308" onAction="#renameTag" text="Rename" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2"/>
          </children>
-         <columnConstraints>
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
       </GridPane>
    </right>
 </BorderPane>

@@ -95,7 +95,7 @@ public class MainController implements Initializable {
   public void save() {
     this.getBackendService().save();
   }
-
+  
   public void undo() {
     try {
       this.getBackendService().getCommandManager().undoRecentCommand();

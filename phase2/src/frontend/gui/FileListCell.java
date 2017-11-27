@@ -71,8 +71,11 @@ public class FileListCell extends ListCell<Picture> {
       if (text != "") {
         // if there is text update the cell and picture
 
-        Picture picture = this.getItem();
-        this.mainController.getBackendService().rename(picture, text);
+//        Picture picture = this.getItem();
+//        this.mainController.getBackendService().rename(picture, text);
+        
+//        System.out.println(mainController.getPictureViewController());
+        mainController.getPictureViewController().rename(text);
 
         this.commitEdit(this.getItem());
       }

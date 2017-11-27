@@ -7,14 +7,19 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application{
+  
+  private MainController mainController;
+  
   public static void main(String[] args) {
    launch(args); 
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
+    Parent root = loader.load();
     
-    Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
+    this.mainController = loader.getController();
     
     primaryStage.setTitle("Picture Manager");
     
@@ -22,6 +27,11 @@ public class Main extends Application{
     primaryStage.setScene(scene);
     
     primaryStage.show();
+  }
+  
+  @Override
+  public void stop() {
+    this.mainController.save();
   }
   
   

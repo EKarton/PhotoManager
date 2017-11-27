@@ -57,9 +57,9 @@
 		
 			<Button text="Remove Tags" BorderPane.alignment="CENTER" onAction="#removeTags"/>
 
-
-
-<!-- 			<CheckBox text="Show Tags" /> -->
+			<CheckBox text="Show Tags">
+			
+			</CheckBox> 
 		</HBox>
 	</bottom>
 </fx:root>

@@ -10,40 +10,40 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class TextDialog {
-  
+
   private Stage window;
-  
+
   @FXML
   private TextArea content;
-  
+
   public TextDialog(String title, String content) {
-   this.window = new Stage();
-    
+    this.window = new Stage();
+
     this.window.setTitle(title);
-    
+
     // this window has to be exited to go back to other program
     this.window.initModality(Modality.APPLICATION_MODAL);
-    
+
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("TextDialog.fxml"));
       loader.setController(this);
       Parent root = loader.load();
-      
+
       this.set(content);
-      
+
       Scene scene = new Scene(root);
       this.window.setScene(scene);
-      
+
     } catch (IOException e) {
       // other wise dialog fails to load
     }
 
   }
-  
+
   public void show() {
     this.window.show();
   }
-  
+
   public void set(String text) {
     this.content.setText(text);
   }

@@ -12,14 +12,14 @@ import javafx.scene.input.KeyEvent;
  */
 public class FileListCell extends ListCell<Picture> {
 
-   /** The text field used for editing the cell */
-   private TextField textField;
+  /** The text field used for editing the cell */
+  private TextField textField;
 
   /** The old name in the cell before an edit */
   private String oldName;
-  
+
   private MainController mainController;
-  
+
   public FileListCell(MainController mainController) {
     this.mainController = mainController;
   }
@@ -71,10 +71,10 @@ public class FileListCell extends ListCell<Picture> {
       if (text != "") {
         // if there is text update the cell and picture
 
-//        Picture picture = this.getItem();
-//        this.mainController.getBackendService().rename(picture, text);
-        
-//        System.out.println(mainController.getPictureViewController());
+        // Picture picture = this.getItem();
+        // this.mainController.getBackendService().rename(picture, text);
+
+        // System.out.println(mainController.getPictureViewController());
         mainController.getPictureViewController().rename(text);
 
         this.commitEdit(this.getItem());

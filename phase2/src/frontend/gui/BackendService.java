@@ -51,8 +51,8 @@ public class BackendService {
    */
   public void resetBackendService(String directory, boolean isRecursive) {
     try {
-        this.pictureManager = new PictureManager(directory, isRecursive);
-        this.appSettings.addPicToManager(pictureManager);
+      this.pictureManager = new PictureManager(directory, isRecursive);
+      this.appSettings.addPicToManager(pictureManager);
     } catch (IOException e) {
       // This should never occur
     }

@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * A static class that contains static methods used to
- * manipulate files in the operating system.
+ * A static class that contains static methods used to manipulate files in the operating system.
  */
 public class FileManager {
 
@@ -65,8 +64,7 @@ public class FileManager {
   }
 
   /**
-   * Deletes the file at a given path, if the file of the path
-   * exists in the OS.
+   * Deletes the file at a given path, if the file of the path exists in the OS.
    * 
    * @param path the path to the image deleted
    * @return true if the image was deleted correctly, false otherwise

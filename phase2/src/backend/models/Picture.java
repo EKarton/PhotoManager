@@ -7,13 +7,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * A class used to represent a picture.
- * It is being represented by a list of tags, its directory path to the
- * picture in the OS, its name without the tags, and its file extension.
+ * A class used to represent a picture. It is being represented by a list of tags, its directory
+ * path to the picture in the OS, its name without the tags, and its file extension.
  *
- * This class can be observed for any state changes. Any state changes to
- * this class will notify all the observers, returning the old copy of the
- * instance to the observers
+ * This class can be observed for any state changes. Any state changes to this class will notify all
+ * the observers, returning the old copy of the instance to the observers
  */
 public class Picture extends Observable implements Serializable, Observer, Cloneable {
 
@@ -48,9 +46,10 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   private ArrayList<String> historicalTagLessNames;
 
   /**
-   * Creates an instance of Picture given the absolute path of the picture.
-   * It will parse the absolute path of this picture to get its properties,
-   * including the list of tags, directory path, file name, etc.
+   * Creates an instance of Picture given the absolute path of the picture. It will parse the
+   * absolute path of this picture to get its properties, including the list of tags, directory
+   * path, file name, etc.
+   * 
    * @param absolutePath The absolute path to the Picture.
    */
   public Picture(String absolutePath) {
@@ -68,8 +67,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     // Parsing the tagless name and its tags.
     if (!file.getName().contains("@")) {
       this.taglessName = nameWithoutFileExtension.trim();
-    }
-    else {
+    } else {
       String[] nameParts = nameWithoutFileExtension.split("@");
       this.taglessName = nameParts[0].trim();
       for (int i = 1; i < nameParts.length; i++) {
@@ -85,8 +83,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Set the directory path of this picture It will notify all the observers that it has changed.
-   * It will send a copy of its old Picture instance to the observers.
+   * Set the directory path of this picture It will notify all the observers that it has changed. It
+   * will send a copy of its old Picture instance to the observers.
+   * 
    * @param directoryPath The new directory path to this picture.
    */
   public void setDirectoryPath(String directoryPath) {
@@ -97,9 +96,10 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Set the tagless name of this picture. It will notify all the observers that it has changed.
-   * If the new tagless name is equal to the current tagless name, it will not do anything.
-   * It will send a copy of its old Picture instance to the observers.
+   * Set the tagless name of this picture. It will notify all the observers that it has changed. If
+   * the new tagless name is equal to the current tagless name, it will not do anything. It will
+   * send a copy of its old Picture instance to the observers.
+   * 
    * @param taglessName The new tagless name of this picture.
    */
   public void setTaglessName(String taglessName) {
@@ -126,12 +126,11 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Adds a new tag to this instance and this instance will observe that tag.
-   * If the tag already exist in this instance, it will not add it.
-   * It checks if the tag exists in this instance by the tag's .equals().
-   * It will notify all the observers that a tag has been added to this picture.
-   * All observers will get a copy of the old picture's state before the new
-   * tag has been added.
+   * Adds a new tag to this instance and this instance will observe that tag. If the tag already
+   * exist in this instance, it will not add it. It checks if the tag exists in this instance by the
+   * tag's .equals(). It will notify all the observers that a tag has been added to this picture.
+   * All observers will get a copy of the old picture's state before the new tag has been added.
+   * 
    * @param tag The tag to add to this instance
    */
   public void addTag(Tag tag) {
@@ -149,10 +148,11 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Deletes a tag from this picture and will stop observing that tag.
-   * If the tag does not exist in this instance, it will do nothing.
-   * It will notifies all observers that a Tag has been deleted from this picture.
-   * It will send a copy of the picture before the tag has been deleted to the observers.
+   * Deletes a tag from this picture and will stop observing that tag. If the tag does not exist in
+   * this instance, it will do nothing. It will notifies all observers that a Tag has been deleted
+   * from this picture. It will send a copy of the picture before the tag has been deleted to the
+   * observers.
+   * 
    * @param tag The tag to delete
    */
   public void deleteTag(Tag tag) {
@@ -167,6 +167,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * Constructs a hard copy of this instance
+   * 
    * @return A hard copy of this instance.
    */
   @Override
@@ -175,8 +176,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Determines if a tag already exist in this instance.
-   * It uses the Tag.equals() to compare and see if the tag exists.
+   * Determines if a tag already exist in this instance. It uses the Tag.equals() to compare and see
+   * if the tag exists.
+   * 
    * @param tag A tag to compare it to.
    * @return Returns true if this tag is inside this picture
    */
@@ -185,9 +187,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Get the absolute path to the picture, which includes its
-   * directory path and its full file name.
+   * Get the absolute path to the picture, which includes its directory path and its full file name.
    * Ex: "C:\\Users\\Images\\jane @person.jpg"
+   * 
    * @return The absolute path to the picture
    */
   public String getAbsolutePath() {
@@ -196,10 +198,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Get the directory path to the picture.
-   * Ex: if the absolute path to this picture is
-   *     "C:\\Users\\jane.jpg",
-   *     this method will return "C:\\Users"
+   * Get the directory path to the picture. Ex: if the absolute path to this picture is
+   * "C:\\Users\\jane.jpg", this method will return "C:\\Users"
+   * 
    * @return The directory path to the picture.
    */
   public String getDirectoryPath() {
@@ -207,9 +208,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Get the full file name of this picture, including its tags and its file extension.
-   * In other words, it will return the name of the picture represented in the OS.
-   * Ex: "jane @person.jpg".
+   * Get the full file name of this picture, including its tags and its file extension. In other
+   * words, it will return the name of the picture represented in the OS. Ex: "jane @person.jpg".
+   * 
    * @return The full file name of this picture.
    */
   public String getFullFileName() {
@@ -221,9 +222,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Get the name of this picture without the tags.
-   * Ex: If the file name in the OS is "Jane @person.jpg",
-   *     this method will return "jane".
+   * Get the name of this picture without the tags. Ex: If the file name in the OS is
+   * "Jane @person.jpg", this method will return "jane".
+   * 
    * @return The name of this picture without the tags.
    */
   public String getTaglessName() {
@@ -232,6 +233,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * Gets a copy of a list of tags in this picture.
+   * 
    * @return A copy of the list of tags in this picture.
    */
   public ArrayList<Tag> getTags() {
@@ -240,6 +242,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * Get a copy of a list of all the historical tags
+   * 
    * @return A copy of a list of all historical tags
    */
   public ArrayList<Tag> getHistoricalTags() {
@@ -248,6 +251,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * Get a copy of all historical (tag-less) names of a picture in a list.
+   * 
    * @return A copy of a list of all historical names.
    */
   public ArrayList<String> getHistoricalTaglessNames() {
@@ -255,9 +259,8 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * Returns the file extension of this picture.
-   * Note: it includes the ".".
-   * Ex: ".jpg"
+   * Returns the file extension of this picture. Note: it includes the ".". Ex: ".jpg"
+   * 
    * @return the file extension as a string
    */
   public String getFileExtension() {
@@ -266,6 +269,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * Returns the string representation of this instance
+   * 
    * @return The string representation of this instance.
    */
   @Override
@@ -274,8 +278,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * A method that compares two Picture objects based on its absolute path.
-   * Note that if the "o" is not an instance of Picture, it will return false
+   * A method that compares two Picture objects based on its absolute path. Note that if the "o" is
+   * not an instance of Picture, it will return false
+   * 
    * @param o An object (ideally a Picture object)
    * @return True if the two picture objects have the same absolute path; else false.
    */
@@ -291,10 +296,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
-   * This method handles when there is a tag change in this instance.
-   * It will also notify the observers of this instance the change,
-   * providing the observers a copy of the state of this instance before
-   * the tag change.
+   * This method handles when there is a tag change in this instance. It will also notify the
+   * observers of this instance the change, providing the observers a copy of the state of this
+   * instance before the tag change.
    */
   @Override
   public void update(Observable curObserved, Object change) {

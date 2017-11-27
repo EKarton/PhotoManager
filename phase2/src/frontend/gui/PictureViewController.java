@@ -131,9 +131,9 @@ public class PictureViewController extends BorderPane {
 
 
   public void addTags() {
-    
+
     // TODO don't forget to add the check box for showing tags
-    
+
     // TODO test add tags
     SelectionWindow<Tag> tagSelection =
         new SelectionWindow<>(this.mainController.getStage(), "Add Tags", "Add Tags",

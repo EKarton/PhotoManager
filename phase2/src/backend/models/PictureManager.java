@@ -13,9 +13,8 @@ import java.util.regex.Pattern;
 /**
  * A class used to keep track of the pictures and its tags.
  *
- * Each time a picture is added to this class, any changes
- * to that picture (such as name changes) will reflect the
- * associated file changes in the OS.
+ * Each time a picture is added to this class, any changes to that picture (such as name changes)
+ * will reflect the associated file changes in the OS.
  *
  * @author Emilio Kartono, Shimi Smith, Tarry Dang
  * @version 2
@@ -43,13 +42,11 @@ public class PictureManager implements Observer {
   private boolean isRecursive = false;
 
   /**
-<<<<<<< HEAD
-   * the compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
-=======
-   * The compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
->>>>>>> e64a046525d609f7a34775755d5e933c4e34971a
-   * Example: "@.jpg" is not a valid name file name cannot contain any special letter (except for
-   * tags and file extension)
+   * <<<<<<< HEAD the compiled regex Pattern for filename check.(avoid multiple regex compilation
+   * for efficiency) ======= The compiled regex Pattern for filename check.(avoid multiple regex
+   * compilation for efficiency) >>>>>>> e64a046525d609f7a34775755d5e933c4e34971a Example: "@.jpg"
+   * is not a valid name file name cannot contain any special letter (except for tags and file
+   * extension)
    */
   private static final Pattern fileNameSpec = Pattern.compile("\\w+(\\s\\w+)*(\\s@\\w+)*");
 
@@ -80,16 +77,13 @@ public class PictureManager implements Observer {
   }
 
   /**
-<<<<<<< HEAD
-   * check if the file contains a valid name using regex
+   * <<<<<<< HEAD check if the file contains a valid name using regex
    * 
    * @param file
-   * @return
-=======
-   * Check if the file contains a valid name.
+   * @return ======= Check if the file contains a valid name.
    * @param file The file
-   * @return True if the file has a valid name; else false.
->>>>>>> e64a046525d609f7a34775755d5e933c4e34971a
+   * @return True if the file has a valid name; else false. >>>>>>>
+   *         e64a046525d609f7a34775755d5e933c4e34971a
    */
   private boolean nameCheck(File file) {
     String nameWithoutFileExtension = file.getName().split("\\.")[0].trim();
@@ -145,9 +139,9 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Add a new tag to the availableTags.
-   * If the tag already exist in the available tags,
-   * it will do nothing.
+   * Add a new tag to the availableTags. If the tag already exist in the available tags, it will do
+   * nothing.
+   * 
    * @param tag A new tag to add to the collection
    */
   public void addTagToCollection(Tag tag) {
@@ -158,9 +152,10 @@ public class PictureManager implements Observer {
 
   /**
    * Adds a unique picture to this class. It will also add this instance as an observer to the
-   * picture as well as add any tags from the picture not in the collection to the collection.
-   * If the picture already exist, it will not add it. To see if a picture exist, refer to the
+   * picture as well as add any tags from the picture not in the collection to the collection. If
+   * the picture already exist, it will not add it. To see if a picture exist, refer to the
    * Picture.equals() to see if two pictures are equal.
+   * 
    * @param picture A picture to add
    */
   public void addPicture(Picture picture) {
@@ -221,9 +216,9 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * A helper function for the update(), where changes to a picture
-   * will reflect the changes in the OS.
-   * Note: if newPicture does not exist in this class, it will do nothing.
+   * A helper function for the update(), where changes to a picture will reflect the changes in the
+   * OS. Note: if newPicture does not exist in this class, it will do nothing.
+   * 
    * @param newPicture The picture with the new properties
    * @param oldPicture A copy of newPicture, but with its properties from an earlier state.
    */
@@ -255,6 +250,7 @@ public class PictureManager implements Observer {
 
   /**
    * Returns a list of all of the available tags stored in this class.
+   * 
    * @return A list of all available tags in this class.
    */
   public ArrayList<Tag> getAvailableTags() {
@@ -264,6 +260,7 @@ public class PictureManager implements Observer {
 
   /**
    * Returns the current directory of this PictureManager.
+   * 
    * @return The current directory of this PictureManager.
    */
   public String getCurrDir() {

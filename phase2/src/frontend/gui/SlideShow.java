@@ -34,7 +34,7 @@ public class SlideShow {
   private ImageView imageView;
   @FXML
   private StackPane imageContainer;
-  
+
   @FXML
   private Button playPauseButton;
 
@@ -44,23 +44,23 @@ public class SlideShow {
     this.window = new Stage();
     this.window.setTitle("Slide Show");
     this.window.initModality(Modality.APPLICATION_MODAL);
-    
+
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("SlideShowView.fxml"));
       loader.setController(this);
       Parent root = loader.load();
-      
+
       Scene scene = new Scene(root);
       this.window.setScene(scene);
-      
+
       this.imageView.fitWidthProperty().bind(imageContainer.widthProperty());
       this.imageView.fitHeightProperty().bind(imageContainer.heightProperty());
-      
+
     } catch (IOException e) {
     }
 
     this.pictures = pictures;
-    
+
     this.window.setOnCloseRequest(this::onClose);
   }
 
@@ -98,11 +98,12 @@ public class SlideShow {
   }
 
   private Picture getNextPicture() {
-    if (this.curImageIndex == this.pictures.size())
+    if (this.curImageIndex == this.pictures.size()) {
       this.curImageIndex = 0;
+    }
 
     Picture nextPicture = this.pictures.get(this.curImageIndex);
-    this.curImageIndex += 1;
+    this.curImageIndex++;
     return nextPicture;
   }
 

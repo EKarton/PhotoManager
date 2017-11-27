@@ -21,13 +21,13 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 public class MainController implements Initializable {
-  
+
   private BackendService backendService;
   private Stage stage;
 
   @FXML
-  private BorderPane root;  
-  
+  private BorderPane root;
+
   @FXML
   private TextField searchBar;
 
@@ -36,22 +36,22 @@ public class MainController implements Initializable {
 
   @FXML
   private ContextMenu listCellContextMenu;
-  
+
   @FXML
   private PictureViewController pictureView;
-  
+
   @Override
-  public void initialize(URL location, ResourceBundle resources) {    
+  public void initialize(URL location, ResourceBundle resources) {
     this.backendService = new BackendService();
     setListView();
     this.pictureView.setBackendService(this.backendService);
     this.pictureView.setMainController(this);
   }
-  
+
   public void setStage(Stage stage) {
     this.stage = stage;
   }
-  
+
   public Stage getStage() {
     return this.stage;
   }
@@ -61,11 +61,11 @@ public class MainController implements Initializable {
     this.pictureListView.getSelectionModel().selectedItemProperty()
         .addListener(new ListViewChangeListener(this));
   }
-  
+
   public PictureViewController getPictureViewController() {
     return this.pictureView;
   }
-  
+
   private File openDirectoryChooser() {
     DirectoryChooser dirChooser = new DirectoryChooser();
     dirChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -91,7 +91,7 @@ public class MainController implements Initializable {
   public ListView<Picture> getListView() {
     return this.pictureListView;
   }
-  
+
   public void openDirectryRecursively() {
     openDirectory(true);
   }
@@ -112,7 +112,7 @@ public class MainController implements Initializable {
   public void save() {
     this.getBackendService().save();
   }
-  
+
   public void undo() {
     try {
       this.getBackendService().getCommandManager().undoRecentCommand();
@@ -147,23 +147,23 @@ public class MainController implements Initializable {
   public void search() {
     // TODO test search functionality
     String text = this.searchBar.getText();
-    if(text == "") {
+    if (text == "") {
       this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
-    }
-    else {
-      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPicturesWithTag(new Tag(text)));
+    } else {
+      this.pictureListView.getItems()
+          .setAll(this.backendService.getPictureManager().getPicturesWithTag(new Tag(text)));
     }
   }
-  
+
   public void startSlideShow() {
     ArrayList<Picture> pictures = this.backendService.getPictureManager().getPictures();
-    
-    if(!pictures.isEmpty()) {
+
+    if (!pictures.isEmpty()) {
       SlideShow slideshow = new SlideShow(pictures);
       slideshow.play();
     }
   }
-  
+
   /**
    * Handler for "Open in File Viewer" function Opens the OSs file viewer in the selected directory
    * 
@@ -182,7 +182,7 @@ public class MainController implements Initializable {
       }
     }
   }
-  
+
   public BackendService getBackendService() {
     return this.backendService;
   }

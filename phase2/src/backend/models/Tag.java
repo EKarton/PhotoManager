@@ -16,6 +16,7 @@ public class Tag extends Observable implements Serializable, Cloneable {
 
   /**
    * Constructs a new tag with a given label.
+   * 
    * @param label The label of this tag
    */
   public Tag(String label) {
@@ -24,6 +25,7 @@ public class Tag extends Observable implements Serializable, Cloneable {
 
   /**
    * Returns the label of this tag.
+   * 
    * @return The label of this tag.
    */
   public String getLabel() {
@@ -31,10 +33,10 @@ public class Tag extends Observable implements Serializable, Cloneable {
   }
 
   /**
-   * Set a new label for this tag if the new label is different
-   * from its current label.
-   * It notifies all observers observing this tag, providing the
-   * observers a copy of this instance before the label change.
+   * Set a new label for this tag if the new label is different from its current label. It notifies
+   * all observers observing this tag, providing the observers a copy of this instance before the
+   * label change.
+   * 
    * @param label A new label to this Tag instance
    */
   public void setLabel(String label) {
@@ -51,6 +53,7 @@ public class Tag extends Observable implements Serializable, Cloneable {
 
   /**
    * Returns the string representation of this class.
+   * 
    * @return The string representation of this class.
    */
   @Override
@@ -59,9 +62,9 @@ public class Tag extends Observable implements Serializable, Cloneable {
   }
 
   /**
-   * Determines if another Tag object is equal to this object.
-   * Two tag objects are equal iff the other object is a
-   * Tag instance and it has the same label.
+   * Determines if another Tag object is equal to this object. Two tag objects are equal iff the
+   * other object is a Tag instance and it has the same label.
+   * 
    * @param anObject The other object to compare it to.
    * @return True if two objects are equal; else false.
    */

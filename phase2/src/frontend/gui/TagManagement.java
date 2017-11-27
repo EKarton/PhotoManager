@@ -77,11 +77,11 @@ public class TagManagement {
   }
 
   public void deleteTag() {
-     List<Tag> selectedTags = this.tagListView.getSelectionModel().getSelectedItems();
-    
-     for (Tag tag : selectedTags) {
-     this.mainController.getBackendService().getPictureManager().deleteTag(tag);
-     }
+    List<Tag> selectedTags = this.tagListView.getSelectionModel().getSelectedItems();
+
+    for (Tag tag : selectedTags) {
+      this.mainController.getBackendService().getPictureManager().deleteTag(tag);
+    }
     updateTagList();
   }
 

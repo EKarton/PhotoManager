@@ -30,10 +30,7 @@ public class SelectionWindow<T> {
      
      // this window has to be exited to go back to other program
      this.window.initModality(Modality.APPLICATION_MODAL);
-     
-     window.setX(owner.getX() + owner.getWidth());
-     window.setY(owner.getY());
-     
+
      try {
        FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectionWindow.fxml"));
        loader.setController(this);

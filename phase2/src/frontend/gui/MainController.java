@@ -8,20 +8,27 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javax.naming.NoInitialContextException;
 import backend.models.Picture;
+import backend.models.Tag;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
 public class MainController implements Initializable {
   
-  BackendService backendService;
+  private BackendService backendService;
+  private Stage stage;
 
   @FXML
-  BorderPane root;  
+  private BorderPane root;  
+  
+  @FXML
+  private TextField searchBar;
 
   @FXML
   private ListView<Picture> pictureListView;
@@ -38,6 +45,14 @@ public class MainController implements Initializable {
     setListView();
     this.pictureView.setBackendService(this.backendService);
     this.pictureView.setMainController(this);
+  }
+  
+  public void setStage(Stage stage) {
+    this.stage = stage;
+  }
+  
+  public Stage getStage() {
+    return this.stage;
   }
 
   private void setListView() {
@@ -127,6 +142,17 @@ public class MainController implements Initializable {
     this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
   }
 
+  public void search() {
+    // TODO test search functionality
+    String text = this.searchBar.getText();
+    if(text == "") {
+      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
+    }
+    else {
+      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictureWithTag(new Tag(text)));
+    }
+  }
+  
   /**
    * Handler for "Open in File Viewer" function Opens the OSs file viewer in the selected directory
    * 
@@ -145,7 +171,7 @@ public class MainController implements Initializable {
       }
     }
   }
-
+  
   public BackendService getBackendService() {
     return this.backendService;
   }

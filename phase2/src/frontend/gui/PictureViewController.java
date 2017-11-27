@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
 import backend.models.Picture;
+import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +16,14 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 // https://docs.oracle.com/javafx/2/fxml_get_started/custom_control.htm
 
-public class PictureViewController extends BorderPane{
+public class PictureViewController extends BorderPane {
+
+  @FXML
+  StackPane imageContainer;
 
   @FXML
   private Label name;
@@ -28,7 +32,7 @@ public class PictureViewController extends BorderPane{
   ImageView imageView;
 
   @FXML
-  HBox imageControls;
+  BorderPane pictureView;
 
   @FXML
   ComboBox<String> historicalNames;
@@ -61,8 +65,8 @@ public class PictureViewController extends BorderPane{
   }
 
   private void setUpImageView() {
-    this.imageView.fitWidthProperty().bind(this.widthProperty());
-    this.imageView.fitHeightProperty().bind(this.heightProperty());
+    this.imageView.fitWidthProperty().bind(this.imageContainer.widthProperty());
+    this.imageView.fitHeightProperty().bind(this.imageContainer.heightProperty());
   }
 
   public void swapName() {
@@ -93,7 +97,7 @@ public class PictureViewController extends BorderPane{
     String newName = this.historicalNames.getSelectionModel().getSelectedItem();
     rename(newName);
   }
-  
+
   public void rename(String newName) {
     this.backEndService.rename(picture, newName);
     this.mainController.getListView().getItems()
@@ -112,18 +116,46 @@ public class PictureViewController extends BorderPane{
       BufferedImage bufferedImage = ImageIO.read(inputStream);
       Image image = SwingFXUtils.toFXImage(bufferedImage, null);
       inputStream.close();
+
       this.imageView.setImage(image);
 
-      this.imageControls.setVisible(true);
+      this.pictureView.setVisible(true);
 
       this.historicalNames.getItems().setAll(this.getHistoricalNames());
 
     } catch (IOException e) {
       // there is no image selected
-      imageControls.setVisible(false);
+      this.pictureView.setVisible(false);
+    }
+  }
+
+
+  public void addTags() {
+    
+    // TODO don't forget to add the check box for showing tags
+    
+    // TODO test add tags
+    SelectionWindow<Tag> tagSelection =
+        new SelectionWindow<>(this.mainController.getStage(), "Add Tags", "Add Tags",
+            this.mainController.getBackendService().getPictureManager().getAvailableTags());
+
+    List<Tag> tags = tagSelection.show();
+    for (Tag tag : tags) {
+      this.picture.addTag(tag);
     }
 
+  }
 
+  public void removeTags() {
+    // TODO test delete tags
+    SelectionWindow<Tag> tagSelection =
+        new SelectionWindow<>(this.mainController.getStage(), "Delete Tags", "Delete Tags",
+            this.mainController.getBackendService().getPictureManager().getAvailableTags());
+
+    List<Tag> tags = tagSelection.show();
+    for (Tag tag : tags) {
+      this.picture.addTag(tag);
+    }
   }
 
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.SplitPane?>
+
+<SplitPane dividerPositions="0.75" prefHeight="250" prefWidth="500" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+	<items>
+		<AnchorPane>
+   <children>
+   			<ListView fx:id="items" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+		</AnchorPane>
+		<AnchorPane>
+			<children>
+				<BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+					<center>
+						<Button fx:id="enterButton" BorderPane.alignment="CENTER" onAction="#enter"/>
+					</center>
+				</BorderPane>
+			</children>
+		</AnchorPane>
+	</items>
+</SplitPane>

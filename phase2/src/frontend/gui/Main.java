@@ -20,6 +20,7 @@ public class Main extends Application{
     Parent root = loader.load();
     
     this.mainController = loader.getController();
+    this.mainController.setStage(primaryStage);
     
     primaryStage.setTitle("Picture Manager");
     

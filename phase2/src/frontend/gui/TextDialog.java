@@ -19,7 +19,7 @@ public class TextDialog {
   public TextDialog(String title, String content) {
    this.window = new Stage();
     
-    this.window.setTitle("Logs");
+    this.window.setTitle(title);
     
     // this window has to be exited to go back to other program
     this.window.initModality(Modality.APPLICATION_MODAL);

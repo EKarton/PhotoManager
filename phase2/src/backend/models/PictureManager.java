@@ -218,6 +218,13 @@ public class PictureManager implements Observer {
    */
   private void updatePicture(Picture newPicture, Picture oldPicture) {
     if (pictures.contains(newPicture)) {
+
+      // If there was a directory change
+      if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
+        FileManager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
+      }
+
+      // If there was a file name change
       if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
         String fileName = newPicture.getFullFileName();
         if (fileName.contains("."))

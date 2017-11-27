@@ -83,7 +83,7 @@
 							AnchorPane.topAnchor="0.0">
 							<top>
 								<TextField fx:id="searchBar" BorderPane.alignment="CENTER"
-									onAction="#search" />
+									onKeyTyped="#search" />
 							</top>
 							<center>
 								<ListView fx:id="pictureListView" editable="true" />

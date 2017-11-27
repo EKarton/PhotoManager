@@ -7,10 +7,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.scene.input.KeyEvent;
 import javax.naming.NoInitialContextException;
 import backend.models.Picture;
-import backend.models.Tag;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
@@ -222,14 +221,20 @@ public class MainController implements Initializable {
    * Search function for search bar on top of list view
    */
   @FXML
-  public void search() {
-    // TODO test search functionality
-    String text = this.searchBar.getText();
-    if (text == "") {
-      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
-    } else {
-      this.pictureListView.getItems()
-          .setAll(this.backendService.getPictureManager().getPicturesWithTag(new Tag(text)));
+  public void search(KeyEvent keyEvent) {
+    String filter = keyEvent.getCharacter().toLowerCase();
+    String curText = this.searchBar.getText() + filter;
+    if (!filter.equals("") && !filter.equals("\b")){
+      ArrayList<Picture> filteredPictures = new ArrayList<>();
+      for (Picture picture : this.getBackendService().getPictureManager().getPictures()){
+        if (picture.getTaglessName().toLowerCase().contains(curText))
+          filteredPictures.add(picture);
+      }
+
+      this.pictureListView.getItems().setAll(filteredPictures);
+    }
+    else if (filter.equals("\b") || curText.equals("")){
+      this.pictureListView.getItems().setAll(this.getBackendService().getPictureManager().getPictures());
     }
   }
 

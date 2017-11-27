@@ -22,7 +22,7 @@ import javafx.scene.layout.StackPane;
 // https://docs.oracle.com/javafx/2/fxml_get_started/custom_control.htm
 
 /** The controller for the picture view */
-public class PictureViewController extends BorderPane {
+public class PictureViewController extends BorderPane implements Renamable {
 
   /** The stack pane holding the image view */
   @FXML
@@ -156,6 +156,7 @@ public class PictureViewController extends BorderPane {
    * 
    * @param newName the new name
    */
+  @Override
   public void rename(String newName) {
     this.backEndService.rename(picture, newName);
     this.mainController.getListView().getItems()

@@ -274,7 +274,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    */
   @Override
   public String toString() {
-    return "Abs path: " + getAbsolutePath();
+    return this.getTaglessName();
   }
 
   /**

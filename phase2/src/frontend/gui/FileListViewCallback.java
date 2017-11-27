@@ -34,7 +34,7 @@ public class FileListViewCallback implements Callback<ListView<Picture>, ListCel
    */
   @Override
   public ListCell<Picture> call(ListView<Picture> param) {
-    ListCell<Picture> cell = new FileListCell(this.mainController);
+    ListCell<Picture> cell = new CustomListCell<Picture>(this.mainController.getPictureViewController());
     cell.setContextMenu(this.contextMenu);
     return cell;
   }

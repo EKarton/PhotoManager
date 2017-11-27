@@ -1,6 +1,6 @@
 package frontend.gui;
 
-import backend.models.Picture;
+import java.util.concurrent.Callable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
@@ -9,8 +9,9 @@ import javafx.scene.input.KeyEvent;
 /**
  * This class defines how each cell in the ListView is displayed. In our program they are displayed
  * as the file name without tags. This class is also used to edit the cells, showing a text field.
+ * @param <T>
  */
-public class FileListCell extends ListCell<Picture> {
+public class CustomListCell<T> extends ListCell<T> {
 
   /** The text field used for editing the cell */
   private TextField textField;
@@ -18,28 +19,29 @@ public class FileListCell extends ListCell<Picture> {
   /** The old name in the cell before an edit */
   private String oldName;
 
-  /** The main controller, the controller of the main view where this ListView is displayed */
-  private MainController mainController;
+  /** The object that will be renamed if this cell is renamed */
+  private Renamable renamable;
 
   /**
    * Constructs a FileListCell
    * 
    * @param mainController the main controller
+   * @param renamable the object that will be renamed if this cell is renamed
    */
-  public FileListCell(MainController mainController) {
-    this.mainController = mainController;
+  public CustomListCell(Renamable renamable) {
+    this.renamable = renamable;
   }
 
   /**
    * Updates the name shown in the cell, to display the tagless name of the image
    */
   @Override
-  public void updateItem(Picture item, boolean empty) {
+  public void updateItem(T item, boolean empty) {
     super.updateItem(item, empty);
     if (empty) {
       setText(null);
     } else {
-      setText(item.getTaglessName());
+      setText(item.toString());
     }
   }
 
@@ -85,7 +87,7 @@ public class FileListCell extends ListCell<Picture> {
       String text = this.textField.getText(); // get the text
 
       if (text != "") {
-        mainController.getPictureViewController().rename(text);
+        renamable.rename(text);
 
         this.commitEdit(this.getItem());
       }

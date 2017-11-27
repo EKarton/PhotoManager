@@ -104,7 +104,8 @@ public class MainController implements Initializable {
   }
 
   public void manageTags() throws IOException {
-    // TODO fill in
+    TagManagement tagManagement = new TagManagement("Tag Manager", this);
+    tagManagement.show();
   }
 
   public void save() {

@@ -1,25 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.SplitPane?>
 
-<SplitPane dividerPositions="0.25" prefHeight="250" prefWidth="500" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
-	<items>
-		<AnchorPane>
-   <children>
-   			<ListView fx:id="items" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-   </children>
-		</AnchorPane>
-		<AnchorPane>
-			<children>
-				<BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-					<center>
-						<Button fx:id="enterButton" BorderPane.alignment="CENTER" onAction="#enter"/>
-					</center>
-				</BorderPane>
-			</children>
-		</AnchorPane>
-	</items>
-</SplitPane>
+<BorderPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label text="Available Tags" BorderPane.alignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <BorderPane BorderPane.alignment="CENTER">
+         <top>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                     <TextField AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </top>
+         <center>
+            <AnchorPane BorderPane.alignment="CENTER">
+               <children>
+                     <ListView fx:id="tagListView" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+               </children>
+            </AnchorPane>
+         </center>
+      </BorderPane>
+   </center>
+   <right>
+      <GridPane hgap="2" vgap="2" BorderPane.alignment="CENTER">
+         <children>
+            <Button maxWidth="1.7976931348623157E308" text="Add new tag" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" onAction="#addTag"/>
+            <Button maxWidth="1.7976931348623157E308" text="Delete tag" GridPane.fillWidth="true" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" onAction="#deleteTag"/>
+         </children>
+      </GridPane>
+   </right>
+</BorderPane>

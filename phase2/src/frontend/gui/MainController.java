@@ -151,7 +151,7 @@ public class MainController implements Initializable {
       this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
     }
     else {
-      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictureWithTag(new Tag(text)));
+      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPicturesWithTag(new Tag(text)));
     }
   }
   

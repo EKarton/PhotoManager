@@ -1,6 +1,5 @@
 package backend.tests.models;
 
-import static org.junit.jupiter.api.Assertions.*;
 import backend.files.FileManager;
 import backend.models.Picture;
 import backend.models.PictureManager;
@@ -41,8 +40,8 @@ class PictureManagerTest {
     manager.addPicture(picture2);
     manager.addPicture(picture3);
 
-    List<Picture> pictureList1 = manager.getPictureWithTag(new Tag("Grandma"));
-    List<Picture> pictureList2 = manager.getPictureWithTag(picture1.getTags().get(0));
+    List<Picture> pictureList1 = manager.getPicturesWithTag(new Tag("Grandma"));
+    List<Picture> pictureList2 = manager.getPicturesWithTag(picture1.getTags().get(0));
 
     assert (pictureList1.size() == 1);
     assert (pictureList2.size() == 1);

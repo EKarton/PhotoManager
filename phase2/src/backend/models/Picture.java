@@ -308,8 +308,8 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
       // Construct the old state of this picture before the tag changed.
       Picture oldPicture = this.clone();
-      oldPicture.deleteTag(oldTag);
-      oldPicture.addTag(newTag);
+      this.deleteTag(oldTag);
+      this.addTag(newTag);
 
       // Notify the observers
       super.setChanged();

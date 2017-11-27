@@ -8,33 +8,34 @@ import javafx.util.Callback;
 
 /**
  * Handles callback for list view to add a context menu
+ * @param <T>
  */
-public class FileListViewCallback implements Callback<ListView<Picture>, ListCell<Picture>> {
+public class ListViewCallback<T> implements Callback<ListView<T>, ListCell<T>> {
 
   /**
    * The context menu. This is a menu for renaming and moving the files
    */
   private ContextMenu contextMenu;
 
-  /** The main controller, the controller of the main view where this ListView is displayed */
-  private MainController mainController;
+  /** The object that will be renamed if this cell is renamed */
+  private Renamable renamable;
 
   /**
-   * Constructs a FileListViewCallback
+   * Constructs a ListViewCallback
    * 
    * @param contextMenu the context menu
    */
-  public FileListViewCallback(ContextMenu contextMenu, MainController mainController) {
+  public ListViewCallback(ContextMenu contextMenu, Renamable renamable) {
     this.contextMenu = contextMenu;
-    this.mainController = mainController;
+    this.renamable = renamable;
   }
 
   /**
    * Sets the context menu to this cell
    */
   @Override
-  public ListCell<Picture> call(ListView<Picture> param) {
-    ListCell<Picture> cell = new FileListCell(this.mainController);
+  public ListCell<T> call(ListView<T> param) {
+    ListCell<T> cell = new CustomListCell<T>(this.renamable);
     cell.setContextMenu(this.contextMenu);
     return cell;
   }

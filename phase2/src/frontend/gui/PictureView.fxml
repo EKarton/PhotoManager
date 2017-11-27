@@ -12,8 +12,8 @@
 <?import javafx.scene.control.Button?>
 
 
-<fx:root fx:id="pictureView" type="BorderPane" visible="false" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1">
+<fx:root fx:id="pictureView" type="BorderPane" visible="false"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
 
 	<top>
 		<BorderPane>
@@ -21,7 +21,7 @@
 				<Label fx:id="name" BorderPane.alignment="CENTER"
 					onMouseClicked="#swapName">
 					<font>
-						<Font name="Verdana" size="20.0" />
+						<Font name="Verdana" size="15.0" />
 					</font>
 				</Label>
 			</left>
@@ -53,13 +53,17 @@
 
 	<bottom>
 		<HBox spacing="25">
-			<Button text="Add Tags" BorderPane.alignment="CENTER" onAction="#addTags"/>
-		
-			<Button text="Remove Tags" BorderPane.alignment="CENTER" onAction="#removeTags"/>
+			<Button text="Add Tags" BorderPane.alignment="CENTER"
+				onAction="#addTags" />
 
-			<CheckBox text="Show Tags">
-			
-			</CheckBox> 
+			<Button text="Remove Tags" BorderPane.alignment="CENTER"
+				onAction="#removeTags" />
+			<HBox>
+				<CheckBox text="Show Tags" />
+				<padding>
+					<Insets top="5"/>
+				</padding>
+			</HBox>
 		</HBox>
 	</bottom>
 </fx:root>

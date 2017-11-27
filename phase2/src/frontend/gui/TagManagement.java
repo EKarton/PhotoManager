@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -23,7 +24,7 @@ import javafx.stage.Stage;
 /**
  * Tag manager pop up window
  */
-public class TagManagement implements ChangeListener<Tag> {
+public class TagManagement implements ChangeListener<Tag>, Renamable{
   /** The stage of the pop up window */
   private Stage window;
   
@@ -83,6 +84,8 @@ public class TagManagement implements ChangeListener<Tag> {
         .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
     this.tagListView.requestFocus();
     this.tagListView.getSelectionModel().selectedItemProperty().addListener(this);
+    
+    this.tagListView.setCellFactory(new ListViewCallback<>(null, this));
   }
 
   /**
@@ -145,6 +148,12 @@ public class TagManagement implements ChangeListener<Tag> {
         updateTagList();
       }
     }
+  }
+  
+  @Override
+  public void rename(String newName) {
+    this.tagListView.getSelectionModel().getSelectedItem().setLabel(newName);
+    updateTagList();
   }
 
   @FXML

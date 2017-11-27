@@ -83,11 +83,17 @@
 							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 							AnchorPane.topAnchor="0.0">
 							<top>
-								<TextField fx:id="searchBar" BorderPane.alignment="CENTER" onAction="#search"/>
+								<TextField fx:id="searchBar" BorderPane.alignment="CENTER"
+									onAction="#search" />
 							</top>
 							<center>
 								<ListView fx:id="pictureListView" editable="true" />
 							</center>
+							<bottom>
+								<AnchorPane>
+									<Button text="Start Slide Show" onAction="#startSlideShow" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+								</AnchorPane>
+							</bottom>
 						</BorderPane>
 					</children>
 				</AnchorPane>

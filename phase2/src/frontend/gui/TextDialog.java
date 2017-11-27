@@ -29,7 +29,6 @@ public class TextDialog {
       loader.setController(this);
       Parent root = loader.load();
       
-      this.window.setTitle(title);
       this.set(content);
       
       Scene scene = new Scene(root);

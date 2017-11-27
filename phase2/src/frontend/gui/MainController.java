@@ -5,6 +5,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javax.naming.NoInitialContextException;
 import backend.models.Picture;
@@ -151,6 +152,15 @@ public class MainController implements Initializable {
     }
     else {
       this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictureWithTag(new Tag(text)));
+    }
+  }
+  
+  public void startSlideShow() {
+    ArrayList<Picture> pictures = this.backendService.getPictureManager().getPictures();
+    
+    if(!pictures.isEmpty()) {
+      SlideShow slideshow = new SlideShow(pictures);
+      slideshow.play();
     }
   }
   

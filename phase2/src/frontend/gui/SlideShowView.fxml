@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane prefHeight="250" prefWidth="250"
+	xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8">
+	<center>
+		<StackPane fx:id="imageContainer" BorderPane.alignment="CENTER">
+			<ImageView fx:id="imageView" preserveRatio="true" />
+		</StackPane>
+	</center>
+
+	<top>
+
+		<HBox BorderPane.alignment="CENTER">
+			<Button fx:id="playPauseButton" text="Pause" onAction="#toggleSlideshow"/>
+			<Button text="Stop" onAction="#stopSlideshow" />
+		</HBox>
+	</top>
+</BorderPane>

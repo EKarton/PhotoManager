@@ -188,13 +188,22 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Determines whether a picture is in this instance or not. If it is in this instance, it is being
-   * tracked.
-   * 
+   * Determines whether a picture is in this instance or not.
+   * If it is in this instance, it is being tracked.
+   * @param picture A picture to test
    * @return True if the picture is in this instance; else false.
    */
   public boolean contains(Picture picture) {
     return pictures.contains(picture);
+  }
+
+  /**
+   * Determines whether a tag is in this instance or not.
+   * @param tag A tag to test.
+   * @return True if the tag is in this collection of tags; else false.
+   */
+  public boolean contains(Tag tag){
+    return this.availableTags.contains(tag);
   }
 
   /**

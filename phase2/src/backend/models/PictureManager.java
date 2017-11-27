@@ -11,7 +11,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A class used to keep track of the pictures.
+ * A class used to keep track of the pictures and its tags.
+ *
+ * Each time a picture is added to this class, any changes
+ * to that picture (such as name changes) will reflect the
+ * associated file changes in the OS.
+ *
+ * @author Emilio Kartono, Shimi Smith, Tarry Dang
+ * @version 2
  */
 public class PictureManager implements Observer {
 
@@ -26,17 +33,17 @@ public class PictureManager implements Observer {
   private ArrayList<Tag> availableTags = new ArrayList<Tag>();
 
   /**
-   * the current directory of this manager.
+   * The current directory of this manager.
    */
   private String currDir = "";
 
   /**
-   * true if the manager recursively adds all pictures under that directory.
+   * True if the manager recursively adds all pictures under that directory.
    */
   private boolean isRecursive = false;
 
   /**
-   * the compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
+   * The compiled regex Pattern for filename check.(avoid multiple regex compilation for efficiency)
    * Example: "@.jpg" is not a valid name file name cannot contain any special letter (except for
    * tags and file extension)
    */
@@ -46,6 +53,7 @@ public class PictureManager implements Observer {
    * Populate the picture manager with pictures under a certain directory
    *
    * @param directoryPath A directory path
+   * @param recursive Determines whether to grab the images recursively or not.
    * @throws IOException Thrown when the directory does not exist.
    */
   public PictureManager(String directoryPath, boolean recursive) throws IOException {
@@ -63,16 +71,14 @@ public class PictureManager implements Observer {
         Picture picture = new Picture(file.getAbsolutePath());
         pictures.add(picture);
         picture.addObserver(this);
-        this.addAvailableTags(picture);
       }
     }
   }
 
   /**
-   * check if the file contains a valid name using regex
-   * 
-   * @param file
-   * @return
+   * Check if the file contains a valid name.
+   * @param file The file
+   * @return True if the file has a valid name; else false.
    */
   private boolean nameCheck(File file) {
     String nameWithoutFileExtension = file.getName().split("\\.")[0].trim();
@@ -103,7 +109,7 @@ public class PictureManager implements Observer {
    * @param tag The tag to search for
    * @return A list of pictures that this tag belongs to.
    */
-  public ArrayList<Picture> getPictureWithTag(Tag tag) {
+  public ArrayList<Picture> getPicturesWithTag(Tag tag) {
     ArrayList<Picture> picturesWithTags = new ArrayList<>();
     for (Picture picture : pictures) {
       if (picture.containsTag(tag))
@@ -124,13 +130,14 @@ public class PictureManager implements Observer {
         picture.deleteTag(tag);
       }
     }
-    this.refreshAvailableTags();
+    this.availableTags.remove(tag);
   }
 
   /**
-   * add a new tag to the availableTags.
-   * 
-   * @param tag
+   * Add a new tag to the availableTags.
+   * If the tag already exist in the available tags,
+   * it will do nothing.
+   * @param tag A new tag to add to the collection
    */
   public void addTagToCollection(Tag tag) {
     if (!availableTags.contains(tag)) {
@@ -139,17 +146,22 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Adds a unique picture to this class. It will also add this as an observer to the new picture.
+   * Adds a unique picture to this class. It will also add this instance as an observer to the
+   * picture as well as add any tags from the picture not in the collection to the collection.
    * If the picture already exist, it will not add it. To see if a picture exist, refer to the
-   * Picture.equals() to see if two pictures are equal
-   * 
-   * @param picture A picture
+   * Picture.equals() to see if two pictures are equal.
+   * @param picture A picture to add
    */
   public void addPicture(Picture picture) {
     if (!pictures.contains(picture)) {
       pictures.add(picture);
       picture.addObserver(this);
-      this.addAvailableTags(picture);
+
+      for (Tag tag : picture.getTags()) {
+        if (!this.availableTags.contains(tag)) {
+          this.availableTags.add(tag);
+        }
+      }
     }
   }
 
@@ -157,15 +169,13 @@ public class PictureManager implements Observer {
    * Untracks a picture from this class and the picture no longer becomes observed from this class.
    * If the picture does not exist, it will do nothing
    * 
-   * @param picture A picture in this class.
+   * @param picture A picture in this class to untrack from.
    */
   public void untrackPicture(Picture picture) {
     for (Picture thePicture : this.pictures) {
       if (thePicture.equals(picture)) {
         pictures.remove(thePicture);
-        thePicture.deleteObserver(this); // deleting observer from the
-                                         // actuall picture instead
-                                         // of a reference
+        thePicture.deleteObserver(this);
         break;
       }
     }
@@ -179,22 +189,6 @@ public class PictureManager implements Observer {
    */
   public boolean contains(Picture picture) {
     return pictures.contains(picture);
-  }
-
-  /**
-   * Return a list of pictures stored in this class that has a certain tag
-   *
-   * @param tag A tag
-   * @return Pictures in this class containing a tag.
-   */
-  private List<Picture> getPictureFromTags(Tag tag) {
-    List<Picture> picturesWithTag = new ArrayList<Picture>();
-    for (Picture picture : pictures) {
-      if (picture.containsTag(tag)) {
-        picturesWithTag.add(picture);
-      }
-    }
-    return picturesWithTag;
   }
 
   /**
@@ -216,10 +210,11 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * helper function for updating picture, changes will be reflected on the OS
-   * 
-   * @param newPicture
-   * @param oldPicture
+   * A helper function for the update(), where changes to a picture
+   * will reflect the changes in the OS.
+   * Note: if newPicture does not exist in this class, it will do nothing.
+   * @param newPicture The picture with the new properties
+   * @param oldPicture A copy of newPicture, but with its properties from an earlier state.
    */
   private void updatePicture(Picture newPicture, Picture oldPicture) {
     if (pictures.contains(newPicture)) {
@@ -241,38 +236,8 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Update the availableTags of this manager
-   */
-  private void refreshAvailableTags() {
-    for (Tag tag : this.getAvailableTags()) {
-      boolean usefulTag = false;
-      for (Picture picture : this.pictures) {
-        if (picture.containsTag(tag)) {
-          usefulTag = true;
-          break;
-        }
-      }
-      if (!usefulTag) {
-        this.availableTags.remove(tag);
-      }
-    }
-  }
-
-  /**
-   * Whenever a new Picture is added, it will update the available tags
-   * 
-   * @param picture
-   */
-  private void addAvailableTags(Picture picture) {
-    for (Tag tag : picture.getTags()) {
-      if (!this.availableTags.contains(tag)) {
-        this.availableTags.add(tag);
-      }
-    }
-  }
-
-  /**
-   * @return all the available tags in a list
+   * Returns a list of all of the available tags stored in this class.
+   * @return A list of all available tags in this class.
    */
   public ArrayList<Tag> getAvailableTags() {
     return new ArrayList<Tag>(availableTags);
@@ -280,7 +245,8 @@ public class PictureManager implements Observer {
 
 
   /**
-   * @return the current directory of this PitctureManager.
+   * Returns the current directory of this PictureManager.
+   * @return The current directory of this PictureManager.
    */
   public String getCurrDir() {
     return this.currDir;

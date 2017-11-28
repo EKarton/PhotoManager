@@ -311,9 +311,8 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       oldPicture.deleteTag(newTag);
       oldPicture.addTag(oldTag);
 
-      // Notify the observers
-      super.setChanged();
-      super.notifyObservers(oldPicture);
+      this.setChanged();
+      this.notifyObservers(oldPicture);
     }
   }
 }

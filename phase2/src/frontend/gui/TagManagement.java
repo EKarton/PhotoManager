@@ -25,10 +25,10 @@ import javafx.stage.Stage;
 /**
  * Tag manager pop up window
  */
-public class TagManagement implements ChangeListener<Tag>, Renamable{
+public class TagManagement implements ChangeListener<Tag>, Renamable {
   /** The stage of the pop up window */
   private Stage window;
-  
+
   /** The main controller of the program */
   private MainController mainController;
 
@@ -85,7 +85,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
         .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
     this.tagListView.requestFocus();
     this.tagListView.getSelectionModel().selectedItemProperty().addListener(this);
-    
+
     this.tagListView.setCellFactory(new ListViewCallback<>(null, this));
   }
 
@@ -93,8 +93,8 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
    * Updates the list of tags
    */
   private void updateTagList() {
-    this.tagListView.getItems().setAll(
-        this.mainController.getBackendService().getPictureManager().getAvailableTags());
+    this.tagListView.getItems()
+        .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
   }
 
   /**
@@ -116,7 +116,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
       updateTagList();
     }
   }
-  
+
   /**
    * Opens up a pop up window for deleting tags
    */
@@ -134,9 +134,10 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
    * Renames a selected tag to a new name.
    */
   @FXML
-  public void renameTag(){
+  public void renameTag() {
     // Get the new name for the tag
-    // Code for the dialog box is derived from http://o7planning.org/en/11537/javafx-textinputdialog-tutorial
+    // Code for the dialog box is derived from
+    // http://o7planning.org/en/11537/javafx-textinputdialog-tutorial
     List<Tag> selectedTags = this.tagListView.getSelectionModel().getSelectedItems();
     if (selectedTags.size() == 1) {
       Tag tagToRename = selectedTags.get(0);
@@ -152,40 +153,43 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
       }
     }
   }
-  
+
   /**
    * Renames through the listview
    */
   @Override
   public void rename(String newName) {
-    this.tagListView.getSelectionModel().getSelectedItem().setLabel(newName);
-    
-    RenameTagCommand renameTag = new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);
+    Tag tag = this.tagListView.getSelectionModel().getSelectedItem();
+    tag.setLabel(newName);
+
+    RenameTagCommand renameTag =
+        new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);
     mainController.getBackendService().getCommandManager().addCommand(renameTag);
     renameTag.execute();
-    
+
     updateTagList();
   }
 
   @FXML
-  public void onFilterTagsList(KeyEvent keyEvent){
+  public void onFilterTagsList(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();
     String curText = this.searchBox.getText() + filter;
-    if (!filter.equals("") && !filter.equals("\b")){
+    if (!filter.equals("") && !filter.equals("\b")) {
       ArrayList<Tag> filteredTags = new ArrayList<>();
-      for (Tag tag : this.mainController.getBackendService().getPictureManager().getAvailableTags()){
+      for (Tag tag : this.mainController.getBackendService().getPictureManager()
+          .getAvailableTags()) {
         if (tag.getLabel().toLowerCase().contains(curText))
           filteredTags.add(tag);
       }
 
       this.tagListView.getItems().setAll(filteredTags);
-    }
-    else if (filter.equals("\b") || curText.equals("")){
-      this.tagListView.getItems().setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
+    } else if (filter.equals("\b") || curText.equals("")) {
+      this.tagListView.getItems()
+          .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
     }
   }
 
-  /** 
+  /**
    * Show the pop up window
    */
   public void show() {
@@ -194,8 +198,9 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
 
   /**
    * This method needs to be provided by an implementation of {@code ChangeListener}. It is called
-   * if the value of an {@link ObservableValue} changes. <p> In general is is considered bad
-   * practice to modify the observed value in this method.
+   * if the value of an {@link ObservableValue} changes.
+   * <p>
+   * In general is is considered bad practice to modify the observed value in this method.
    *
    * @param observable The {@code ObservableValue} which value changed
    * @param oldValue The old value
@@ -204,10 +209,9 @@ public class TagManagement implements ChangeListener<Tag>, Renamable{
   public void changed(ObservableValue<? extends Tag> observable, Tag oldValue, Tag newValue) {
     // Hide the rename button if there is more than one item selected
     List<Tag> tagsSelected = this.tagListView.getSelectionModel().getSelectedItems();
-    if (tagsSelected.size() > 1){
+    if (tagsSelected.size() > 1) {
       this.renameTagButton.setVisible(false);
-    }
-    else if (tagsSelected.size() == 1){
+    } else if (tagsSelected.size() == 1) {
       this.renameTagButton.setVisible(true);
     }
   }

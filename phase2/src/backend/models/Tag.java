@@ -1,6 +1,7 @@
 package backend.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Observable;
 
 /**
@@ -13,10 +14,8 @@ public class Tag extends Observable implements Serializable, Cloneable {
    */
   private String label;
 
-
   /**
    * Constructs a new tag with a given label.
-   * 
    * @param label The label of this tag
    */
   public Tag(String label) {

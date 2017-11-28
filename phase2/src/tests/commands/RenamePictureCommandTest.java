@@ -1,4 +1,4 @@
-package backend.tests.commands;
+package tests.commands;
 
 import backend.commands.RenamePictureCommand;
 import backend.models.Picture;

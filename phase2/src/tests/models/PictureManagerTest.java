@@ -1,13 +1,13 @@
-package backend.tests.models;
+package tests.models;
 
-import backend.files.FileManager;
-import backend.models.Picture;
-import backend.models.PictureManager;
-import backend.models.Tag;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import backend.files.FileManager;
+import backend.models.Picture;
+import backend.models.PictureManager;
+import backend.models.Tag;
 
 class PictureManagerTest {
 

@@ -1,9 +1,8 @@
-package backend.tests.models;
+package tests.models;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import backend.models.Picture;
 import backend.models.Tag;
-import org.junit.jupiter.api.Test;
 
 class TagTest {
 

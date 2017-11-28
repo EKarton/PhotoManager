@@ -210,7 +210,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   public void addTags() {
     SelectionWindow<Tag> tagSelection =
         new SelectionWindow<>(this.mainController.getStage(), "Add Tags", "Add Tags",
-            this.mainController.getBackendService().getPictureManager().getAvailableTags());
+            this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture));
 
     List<Tag> tags = tagSelection.show();
     if (tags.size() > 1) {

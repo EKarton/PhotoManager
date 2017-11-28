@@ -70,9 +70,9 @@ public class PictureManager implements Observer {
         Picture picture = new Picture(file.getAbsolutePath());
         this.addPicture(picture);
 
-        for (Tag tag : this.availableTags){
-          for (Tag pictureTag : picture.getTags()){
-            if (tag.equals(pictureTag)){
+        for (Tag tag : this.availableTags) {
+          for (Tag pictureTag : picture.getTags()) {
+            if (tag.equals(pictureTag)) {
               picture.deleteTag(pictureTag);
               picture.addTag(tag);
             }
@@ -169,7 +169,7 @@ public class PictureManager implements Observer {
       picture.addObserver(this);
 
       for (Tag tag : picture.getTags()) {
-        if (!this.contains(tag)){
+        if (!this.contains(tag)) {
           this.availableTags.add(tag);
         }
       }
@@ -205,6 +205,7 @@ public class PictureManager implements Observer {
 
   /**
    * Determines whether a tag is in this instance or not.
+   * 
    * @param tag A tag to test.
    * @return True if the tag is in this collection of tags; else false.
    */
@@ -244,8 +245,8 @@ public class PictureManager implements Observer {
       String absolutePathInOS = "";
       try {
         List<File> possibleFiles = FileManager.getImageList(newPicture.getDirectoryPath());
-        for (File file : possibleFiles){
-          if (file.getName().contains(oldPicture.getTaglessName())){
+        for (File file : possibleFiles) {
+          if (file.getName().contains(oldPicture.getTaglessName())) {
             absolutePathInOS = file.getAbsolutePath();
             break;
           }
@@ -271,8 +272,7 @@ public class PictureManager implements Observer {
         if (!isUnderCurDir && !isRecursive) {
           this.untrackPicture(newPicture);
         }
-      }
-      catch (IOException e){
+      } catch (IOException e) {
         System.out.println("Unable to find the original file (did you move it?)");
       }
     }
@@ -287,6 +287,19 @@ public class PictureManager implements Observer {
     return new ArrayList<Tag>(availableTags);
   }
 
+  /**
+   * 
+   * @return A list of Tags that are available but not in this picture.
+   */
+  public List<Tag> getAvailableTags(Picture picture) {
+    ArrayList<Tag> TagsAvailable = this.getAvailableTags();
+    for (Tag tag : picture.getTags()) {
+      if (TagsAvailable.contains(tag)) {
+        TagsAvailable.remove(tag);
+      }
+    }
+    return TagsAvailable;
+  }
 
   /**
    * Returns the current directory of this PictureManager.

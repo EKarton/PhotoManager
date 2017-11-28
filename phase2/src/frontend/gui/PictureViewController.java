@@ -84,7 +84,9 @@ public class PictureViewController extends BorderPane implements Renamable {
 
     try {
       fxmlLoader.load();
-      setUpImageView();
+
+      this.imageView.fitWidthProperty().bind(this.imageContainer.widthProperty());
+      this.imageView.fitHeightProperty().bind(this.imageContainer.heightProperty());
     } catch (IOException exception) {
     }
   }
@@ -105,15 +107,6 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   public void setMainController(MainController mainController) {
     this.mainController = mainController;
-  }
-
-  /**
-   * Sets up the image view
-   */
-  private void setUpImageView() {
-    // bind the dimensions of the image view
-    this.imageView.fitWidthProperty().bind(this.imageContainer.widthProperty());
-    this.imageView.fitHeightProperty().bind(this.imageContainer.heightProperty());
   }
 
   /**

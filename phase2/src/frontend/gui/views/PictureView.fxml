@@ -48,7 +48,9 @@
 			</right>
 		</BorderPane>
 
-		<padding> <Insets bottom="10" /> </padding>
+		<padding>
+			<Insets bottom="10" />
+		</padding>
 	</top>
 
 	<center>
@@ -72,7 +74,9 @@
 			<Button text="Remove Tags" BorderPane.alignment="CENTER"
 				onAction="#removeTags" />
 
-			<padding> <Insets top="10" /> </padding>
+			<padding>
+				<Insets top="10" />
+			</padding>
 
 			<HBox>
 				<CheckBox fx:id="showTags" text="Show Tags" onAction="#showTags" />

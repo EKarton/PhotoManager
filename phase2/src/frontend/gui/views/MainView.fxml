@@ -70,7 +70,7 @@
 						<MenuItem accelerator="Shortcut+shift+Z" mnemonicParsing="false"
 							onAction="#redo" text="Redo" />
 					</items>
-				
+
 				</Menu>
 				<Menu mnemonicParsing="false" text="Refresh">
 					<items>
@@ -78,7 +78,7 @@
 							onAction="#refresh" text="Refresh" />
 					</items>
 				</Menu>
-				
+
 			</menus>
 		</MenuBar>
 	</top>
@@ -100,9 +100,8 @@
 							</center>
 							<bottom>
 								<AnchorPane>
-									<HBox>
-										<Button onAction="#startSlideShow" text="Start Slide Show" />
-									</HBox>
+									<Button onAction="#startSlideShow" text="Start Slide Show"
+										AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
 								</AnchorPane>
 							</bottom>
 						</BorderPane>

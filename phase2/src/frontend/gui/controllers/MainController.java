@@ -220,16 +220,15 @@ public class MainController implements Initializable {
     if (targetDir != null) {
       // get the new directory
       String newDirectory = targetDir.getAbsolutePath();
-      PictureManager thisPictureManager = this.backendService.getPictureManager();
-      
+      PictureManager pictureManager = this.backendService.getPictureManager();
+
       selectedPicture.setDirectoryPath(newDirectory); // move the picture
-      this.pictureListView.getItems().setAll(thisPictureManager.getPictures());
+      this.pictureListView.getItems().setAll(pictureManager.getPictures());
       
-      if (!thisPictureManager.isRecursive()
-          && !thisPictureManager.getCurrDir().equals(newDirectory)) {
+      if(!pictureManager.getPictures().contains(selectedPicture)){
         this.pictureView.setVisible(false);
-        this.pictureListView.refresh();
       }
+
     }
   }
 

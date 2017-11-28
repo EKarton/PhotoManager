@@ -226,7 +226,7 @@ public class MainController implements Initializable {
       this.pictureListView.getItems().setAll(thisPictureManager.getPictures());
       
       if (!thisPictureManager.isRecursive()
-          && thisPictureManager.getCurrDir().equals(newDirectory)) {
+          && !thisPictureManager.getCurrDir().equals(newDirectory)) {
         this.pictureView.setVisible(false);
         this.pictureListView.refresh();
       }

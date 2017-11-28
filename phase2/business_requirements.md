@@ -15,6 +15,13 @@
 - Move to different directories
 - Each time a tag is removed/added to an image, that image has a new file name with those new tag names
 - Make logs***
+- The user should be able to move a file to another directory under the "root" directory. (It's okay if your program works when the target directory is not under the "root" directory, but your program doesn't need to be able to handle that if you prefer.)
+- The user should also be able to open (directly in their OS's file viewer) the directory containing the current image file.
+- When viewing an image, the user can select multiple tags at once and apply them to the current image. The user can also remove tags from the image.
+- The absolute path to that image file should be visible in the UI.
+- The user wants to be able to manage a set of tags independently from any
+images. This tag set should persist through a quit and restart. The user
+doesn't want to type the `@` symbol, although it should appear in tagged image filenames.
 
 ## Why is the image names have the tag names?
 - It is so that anyone without the program can search people up in images.

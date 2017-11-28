@@ -213,15 +213,15 @@ public class MainController implements Initializable {
    */
   @FXML
   public void move() {
-    // get the new directory
-    String newDirectory = openDirectoryChooser().getAbsolutePath();
-
     // get the selected picture
     Picture selectedPicture = this.pictureListView.getSelectionModel().getSelectedItem();
 
-    selectedPicture.setDirectoryPath(newDirectory); // move the picture
-
-    this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
+    if (openDirectoryChooser() != null) {
+      // get the new directory
+      String newDirectory = openDirectoryChooser().getAbsolutePath();
+      selectedPicture.setDirectoryPath(newDirectory); // move the picture
+      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
+    }
   }
 
   /**

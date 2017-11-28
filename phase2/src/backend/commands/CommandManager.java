@@ -1,5 +1,6 @@
 package backend.commands;
 
+import backend.files.LogFormatter;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -41,19 +42,9 @@ public class CommandManager {
   private Handler logFileHandler;
 
   /**
-   * true if there can only be a limited amount of Commands,false otherwise
-   */
-  private boolean areCommandsLimited = false;
-  /**
-   * if areCommandsLimited, then this is the maximum number of commands.
-   */
-  private int maxNumCommands = 10;
-
-  /**
-   * Constructor for unlimited commands
-   * 
-   * @throws SecurityException
-   * @throws IOException
+   * Constructs a new CommandManager
+   * @throws SecurityException When opening up the renamingHistory file fails.
+   * @throws IOException When the file cannot be opened.
    */
   public CommandManager() throws SecurityException, IOException {
     logger.setLevel(Level.INFO);
@@ -63,45 +54,17 @@ public class CommandManager {
   }
 
   /**
-   * Constructor for limited commands
-   * 
-   * @param maxNumCommands
-   * @throws SecurityException
-   * @throws IOException
-   */
-  public CommandManager(int maxNumCommands) throws SecurityException, IOException {
-    this.areCommandsLimited = true;
-    this.maxNumCommands = maxNumCommands;
-    logger.setLevel(Level.INFO);
-    logFileHandler = new FileHandler(LOG_FILENAME, true);
-    logFileHandler.setFormatter(new LogFormatter());
-    logger.addHandler(logFileHandler);
-  }
-
-  /**
-   * Add this command to the command Stack, Log it.
-   * 
-   * @param command
+   * Add this command to the command Stack, and logs it.
+   * @param command A command to add to the command manager.
    */
   public void addCommand(Command command) {
-    if (!areCommandsLimited || maxNumCommands > commandStack.size()) {
-      this.commandStack.push(command);
-      logger.log(command.getLogRecord());
-    }
+    this.commandStack.push(command);
+    logger.log(command.getLogRecord());
   }
 
   /**
-   * clear the history of all Commands.
-   */
-  public void clearHistory() {
-    this.commandStack.clear();
-    this.redoStack.clear();
-  }
-
-  /**
-   * Undo the most recent Command from the command Stack, also adds said command into the redoStack
-   * 
-   * @throws NoInitialContextException
+   * Undo the most recent command added.
+   * @throws NoInitialContextException Thrown when there are no more commands to undo.
    */
   public void undoRecentCommand() throws NoInitialContextException {
     if (commandStack.size() >= 1) {
@@ -116,9 +79,8 @@ public class CommandManager {
   }
 
   /**
-   * Redo the most recent Command from the redoStack, adds said command into the commandStack
-   * 
-   * @throws NoInitialContextException
+   * Redo the most recent undone command.
+   * @throws NoInitialContextException Thrown when there are no more commands to redo.
    */
   public void redoRecentCommand() throws NoInitialContextException {
     if (redoStack.size() >= 1) {
@@ -134,8 +96,7 @@ public class CommandManager {
 
   /**
    * Get Logging information saved onto a file named LOG_FILENAME;
-   * 
-   * @return
+   * @return A string of log information stored in the renamingHistory file.
    */
   public String getLogs() {
     try {

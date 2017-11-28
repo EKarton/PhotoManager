@@ -41,6 +41,7 @@ Phase 1
 - Helped incorporate together the gui and backend by contribituing to the controller and debugging along the way
 
 Phase 2
+- Constructed the Gantt chart so that team members and I get their deliverables done on time.
 - Constructed the Slideshow window in the GUI side of the application and with Shimi, it was converted to FXML.
 - Refactored code in the backend (such as removing redundent functions).
 - Rewrote the javadocs in the backend.

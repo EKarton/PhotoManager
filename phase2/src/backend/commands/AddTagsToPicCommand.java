@@ -22,11 +22,10 @@ public class AddTagsToPicCommand implements Command {
   private Picture picture;
 
   /**
-   * Creates an instance of AddTagToPictureCommand. Note that the tag specified should exist in the
-   * picture.
+   * Creates an instance of AddTagToPictureCommand.
    * 
    * @param picture A picture
-   * @param tag A tag to add to the picture
+   * @param tags tags to be added to the picture
    */
   public AddTagsToPicCommand(Picture picture, List<Tag> tags) {
     this.picture = picture;
@@ -34,8 +33,8 @@ public class AddTagsToPicCommand implements Command {
   }
 
   /**
-   * Undo the command by deleting the tag from the picture. If for whatever reason the tag does not
-   * exist in the picture, it will do nothing.
+   * Undo the command by deleting added tags from the picture. If for whatever reason the tag does
+   * not exist in the picture, it will do nothing.
    */
   @Override
   public void undo() {
@@ -45,8 +44,8 @@ public class AddTagsToPicCommand implements Command {
   }
 
   /**
-   * Execute the command by adding a tag to this picture. Note that if the picture does not exist,
-   * it will not do anything. If the tag already exist, it will not do anything.
+   * Execute the command by adding tags to this picture. Note that if the picture does not exist, it
+   * will not do anything. If the tag already exist, it will not do anything.
    */
   @Override
   public void execute() {
@@ -55,6 +54,9 @@ public class AddTagsToPicCommand implements Command {
     }
   }
 
+  /**
+   * @return LogRecord a logRecord for this command with a severity level of FINE.
+   */
   @Override
   public LogRecord getLogRecord() {
     return new LogRecord(Level.FINE, "added " + tagsToAdd + " Tag To " + picture.getTaglessName());

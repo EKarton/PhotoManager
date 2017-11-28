@@ -56,6 +56,9 @@ public class RenamePictureCommand implements Command {
     picture.setTaglessName(newName);
   }
 
+  /**
+   * @return LogRecord a logRecord for this command with a severity level of INFO.
+   */
   @Override
   public LogRecord getLogRecord() {
     return new LogRecord(Level.INFO, "Renamed Picture " + oldName + " to " + newName);

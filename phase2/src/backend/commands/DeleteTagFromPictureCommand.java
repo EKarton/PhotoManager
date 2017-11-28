@@ -52,6 +52,9 @@ public class DeleteTagFromPictureCommand implements Command {
     picture.deleteTag(tag);
   }
 
+  /**
+   * @return LogRecord a logRecord for this command with a severity level of FINE.
+   */
   @Override
   public LogRecord getLogRecord() {
     return new LogRecord(Level.FINE, "Removed " + tag + " from " + picture.getTaglessName());

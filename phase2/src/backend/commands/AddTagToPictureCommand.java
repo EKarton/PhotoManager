@@ -50,6 +50,9 @@ public class AddTagToPictureCommand implements Command {
     picture.addTag(tagToAdd);
   }
 
+  /**
+   * @return LogRecord a logRecord for this command with a severity level of FINE.
+   */
   @Override
   public LogRecord getLogRecord() {
     return new LogRecord(Level.FINE, "added " + tagToAdd + " Tag To " + picture.getTaglessName());

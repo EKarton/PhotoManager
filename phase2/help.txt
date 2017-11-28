@@ -19,24 +19,23 @@ The toolbar
 - Under open you can display the list of images under a directory both recursively and not
 - Open Log displays a log of time stamped renamings
 - Manage tags opens the tag management window explained in greater detail below
-- Save, undo and redo can also be run with the keyboard shortcuts ctr+S, ctr+Z and ctr+SHIFT+Z respectively
-- Refresh - If the user decides to rename or move files, not through our program (through the OS) clicking the "Refresh"
- button will reflect those changes in our program
+- Save, undo and redo actions can also be run with the keyboard shortcuts ctr+S, ctr+Z and ctr+SHIFT+Z respectively
+- Refresh - If the user decides to rename or move files outside of our program, clicking on the "Refresh" button (or pressing the keyboard shortcuts F5) will reflect those changes in our program.
 
 Manage Tags (Tag Manager)
-- This window let's you manage all your tags, independent of any images
-- You can see the list of tags and search through them with the search bar
-- You can simply create a new tag by pressing the "Add new Tag" button and entering the new tag's name
-- You can delete a one or more tags by selecting them from the list and clicking the "Delete tag" button
+- This window lets you manage all your tags, independently on any image currently being viewed.
+- You can see the list of tags and search for them through the search bar
+- You can simply create a new tag by clicking the "Add new Tag" button and entering the new tag's name.
+- You can delete one or more tags by selecting them from the list and clicking the "Delete tag" button
 - There are two seperate ways to rename tags
-	- You can click or press the enter key while selecting a tag in the list to rename it
-	- Or you can select a tag from the list and then click the "Rename" button to enter in a new name
+	1. You can click or press the enter key while selecting a tag in the list. It will prompt you to enter a new name in the textbox.
+	2. Or you can select a tag from the list and then click the "Rename" button to enter in a new name.
 
 Image Viewing
-- After opening a directory you will see a list of images, you can select ones to see the pictures
-- You can also search through the list with the search bar
-- Like for tags, clicking on a selected image in the list or pressing the enter key let's you edit it
-- You can also right click on an item in the list to move it to a different directory or open view it's directory in the OS's file viewer
+- Selecting on an image in the left listview will allow you to view an image.
+- You can also search for a picture based on its name with the search bar.
+- Similarly for tags, clicking on a selected image in the list or pressing the enter key lets you edit the image's name.
+- You can also right click on a picture in the list to move it to a different directory or open it in the OS' file viewer.
 - In the picture display area there are a bunch of features
 	- Click on the name and you will see the absolute path of the image, click again and back to just the name
 	- There is a drop down menu of "Historical Names", this is just the previous names this file has had, you can select one of them and click
@@ -48,5 +47,5 @@ Image Viewing
 		- The show tags checkbox will display/hide the tags of the image
 
 Slide Show
-- Clicking slide show will open up a slide show with the images you are currently viewing
-- You can pause or stop the slide show with the respective buttons in the slide show window
+- Clicking slide show will open up a slide show with the images you are currently viewing.
+- You can pause or stop the slide show with the respective buttons in the slide show window.

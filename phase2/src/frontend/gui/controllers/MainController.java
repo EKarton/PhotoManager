@@ -221,6 +221,10 @@ public class MainController implements Initializable {
       String newDirectory = targetDir.getAbsolutePath();
       selectedPicture.setDirectoryPath(newDirectory); // move the picture
       this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
+      if (!this.backendService.getPictureManager().isRecursive()) {
+        this.pictureView.setVisible(false);
+        this.pictureListView.refresh();
+      }
     }
   }
 

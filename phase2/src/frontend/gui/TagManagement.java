@@ -13,7 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -36,9 +35,11 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   @FXML
   private ListView<Tag> tagListView;
 
+  /** Search box to search for tags */
   @FXML
   private TextField searchBox;
 
+  /** Button for renaming tags */
   @FXML
   private Button renameTagButton;
 
@@ -170,6 +171,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
     updateTagList();
   }
 
+  /** Filters the tags displayed based on the search bar */
   @FXML
   public void onFilterTagsList(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();

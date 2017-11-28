@@ -37,7 +37,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   /** The label representing the name of the image */
   @FXML
   private Label name;
-  
+
   /** Label for the picture's tags */
   @FXML
   private Label tags;
@@ -53,11 +53,12 @@ public class PictureViewController extends BorderPane implements Renamable {
   /** The combo box for historical names */
   @FXML
   private ComboBox<String> historicalNames;
-  
+
   /** The check box to show tags */
   @FXML
   private CheckBox showTags;
 
+  /** HBox that contains labels for the tags */
   @FXML
   private HBox tagsDisplay;
 
@@ -216,16 +217,15 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void removeTags() {
-    SelectionWindow<Tag> tagSelection =
-        new SelectionWindow<>(this.mainController.getStage(), "Delete Tags", "Delete Tags",
-            this.picture.getTags());
+    SelectionWindow<Tag> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
+        "Delete Tags", "Delete Tags", this.picture.getTags());
 
     List<Tag> tags = tagSelection.show();
     for (Tag tag : tags) {
       this.picture.addTag(tag);
     }
   }
-  
+
   /**
    * Display the picture's tags
    */
@@ -237,13 +237,14 @@ public class PictureViewController extends BorderPane implements Renamable {
     this.tagsDisplay.getChildren().clear();
 
     // If the user wants to see the tags
-    if (this.showTags.isSelected()){
-      for (Tag tag : this.picture.getTags()){
+    if (this.showTags.isSelected()) {
+      for (Tag tag : this.picture.getTags()) {
 
-        // Derived from https://community.smartbear.com/t5/TestComplete-Desktop-Testing/Can-we-get-JavaFX-Label-BackgroundFill-properties/td-p/105657
+        // Derived from
+        // https://community.smartbear.com/t5/TestComplete-Desktop-Testing/Can-we-get-JavaFX-Label-BackgroundFill-properties/td-p/105657
         Label label = new Label(tag.getLabel());
-        label.setBackground(new Background(new BackgroundFill(Color.WHITE,
-            new CornerRadii(2), Insets.EMPTY)));
+        label.setBackground(
+            new Background(new BackgroundFill(Color.WHITE, new CornerRadii(2), Insets.EMPTY)));
         label.setPadding(new Insets(5, 5, 5, 5));
         this.tagsDisplay.getChildren().add(label);
       }

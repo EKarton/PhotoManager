@@ -1,6 +1,12 @@
-package frontend.gui;
+package frontend.gui.controllers;
 
 
+import frontend.gui.windows.SlideShow;
+import frontend.gui.windows.TagManagement;
+import frontend.gui.customcontrols.TextDialog;
+import frontend.gui.customcontrols.ListViewCallback;
+import frontend.gui.customcontrols.ListViewChangeListener;
+import frontend.gui.services.BackendService;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;

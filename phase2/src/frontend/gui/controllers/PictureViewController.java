@@ -1,5 +1,8 @@
-package frontend.gui;
+package frontend.gui.controllers;
 
+import frontend.gui.services.BackendService;
+import frontend.gui.customcontrols.Renamable;
+import frontend.gui.windows.SelectionWindow;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;

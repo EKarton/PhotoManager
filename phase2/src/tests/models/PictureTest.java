@@ -1,4 +1,4 @@
-package tests.models;
+package models;
 
 import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;

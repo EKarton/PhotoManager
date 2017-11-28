@@ -1,4 +1,4 @@
-package tests.commands;
+package commands;
 
 import org.junit.jupiter.api.Test;
 import backend.commands.AddPictureCommand;

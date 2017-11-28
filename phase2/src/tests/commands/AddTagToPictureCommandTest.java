@@ -1,4 +1,4 @@
-package tests.commands;
+package commands;
 
 import static org.junit.Assert.assertFalse;
 import org.junit.jupiter.api.Test;

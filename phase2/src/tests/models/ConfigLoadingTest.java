@@ -1,5 +1,6 @@
-package tests.models;
+package models;
 
+import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
@@ -25,16 +26,16 @@ class ConfigLoadingTest {
     setting.addPicFromManager(manager);
     setting.save();
     AppSettings newSetting = AppSettings.loadFromFile();
-    assert (setting.getHistoricalPicture().size() == 1);
-    assert (newSetting.getHistoricalPicture().get(0).getHistoricalTaglessNames()
-        .equals(picture.getHistoricalTaglessNames()));
-    assert (picture.getTaglessName().equals("shimiISDUMB"));
-    assert (picture.getFullFileName().equals("shimiISDUMB @Chicken.jpg"));
-    assert (picture.getDirectoryPath()
-        .equals("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
-    assert (picture.getTags().size() == 1);
+    assertEquals (setting.getHistoricalPicture().size() , 1);
+    assertEquals (newSetting.getHistoricalPicture().get(0).getHistoricalTaglessNames()
+        ,(picture.getHistoricalTaglessNames()));
+    assertEquals (picture.getTaglessName(),("shimiISDUMB"));
+    assertEquals (picture.getFullFileName(),("shimiISDUMB @Chicken.jpg"));
+    assertEquals (picture.getDirectoryPath()
+        ,("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
+    assertEquals (picture.getTags().size() , 1);
 
-    assert (picture.getHistoricalTaglessNames().equals(hisNames));
+    assertEquals (picture.getHistoricalTaglessNames(),(hisNames));
 
   }
 

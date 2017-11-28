@@ -218,7 +218,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   public void removeTags() {
     SelectionWindow<Tag> tagSelection =
         new SelectionWindow<>(this.mainController.getStage(), "Delete Tags", "Delete Tags",
-            this.mainController.getBackendService().getPictureManager().getAvailableTags());
+            this.picture.getTags());
 
     List<Tag> tags = tagSelection.show();
     for (Tag tag : tags) {

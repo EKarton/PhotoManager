@@ -1,10 +1,10 @@
 package tests.models;
 
+import static org.junit.Assert.assertEquals;
+import java.util.ArrayList;
+import org.junit.jupiter.api.Test;
 import backend.models.Picture;
 import backend.models.Tag;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
 
 class PictureTest {
 
@@ -12,39 +12,39 @@ class PictureTest {
   void getAbsolutePath() {
     Picture picture = new Picture("C:\\Users\\chick @Chicken.jpg");
     System.out.println(picture.getAbsolutePath());
-    assert (picture.getAbsolutePath().equals("C:\\Users\\chick @Chicken.jpg"));
+    assertEquals(picture.getAbsolutePath(),"C:\\Users\\chick @Chicken.jpg");
   }
 
   @Test
   void getDirectoryPath() {
     Picture picture = new Picture(
         "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg");
-    assert (picture.getDirectoryPath()
-        .equals("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
+    assertEquals(picture.getDirectoryPath()
+        ,"C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile");
   }
 
   @Test
   void getFullFileName() {
     Picture picture = new Picture(
         "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg");
-    assert (picture.getFullFileName().equals("chick @Chicken - Copy.jpg"));
+    assertEquals(picture.getFullFileName(),"chick @Chicken - Copy.jpg");
   }
 
   @Test
   void getTaglessName() {
     Picture picture = new Picture(
         "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken - Copy.jpg");
-    assert (picture.getTaglessName().equals("chick"));
+    assertEquals(picture.getTaglessName(),"chick");
   }
 
   @Test
   void setDirectoryPath() {
     Picture picture = new Picture("C:\\Grandma\\baby chicken @Chicken.jpg");
     picture.setDirectoryPath("C:\\Grandma");
-    assert (picture.getTaglessName().equals("baby chicken"));
-    assert (picture.getFullFileName().equals("baby chicken @Chicken.jpg"));
-    assert (picture.getDirectoryPath().equals("C:\\Grandma"));
-    assert (picture.getTags().size() == 1);
+    assertEquals(picture.getTaglessName(),"baby chicken");
+    assertEquals(picture.getFullFileName(),"baby chicken @Chicken.jpg");
+    assertEquals(picture.getDirectoryPath(),"C:\\Grandma");
+    assertEquals(picture.getTags().size(), 1);
   }
 
   @Test
@@ -57,36 +57,35 @@ class PictureTest {
     hisNames.add("chick");
     hisNames.add("baby chicken");
     hisNames.add("shimiISDUMB");
-    assert (picture.getTaglessName().equals("shimiISDUMB"));
-    assert (picture.getFullFileName().equals("shimiISDUMB @Chicken.jpg"));
-    assert (picture.getDirectoryPath()
-        .equals("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
-    assert (picture.getTags().size() == 1);
-    assert (picture.getHistoricalTaglessNames().equals(hisNames));
+    assertEquals(picture.getTaglessName(),"shimiISDUMB");
+    assertEquals(picture.getFullFileName(),"shimiISDUMB @Chicken.jpg");
+    assertEquals(picture.getDirectoryPath()
+        ,"C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile");
+    assertEquals(picture.getTags().size(), 1);
+    assertEquals(picture.getHistoricalTaglessNames(),hisNames);
   }
 
   @Test
   void getTags() {
     Picture picture = new Picture("C:\\chicks @Chicken @Cute @Yellow.jpg");
-    assert (picture.getTags().size() == 3);
-    assert (picture.getTags().get(0).getLabel().equals("Chicken"));
-    assert (picture.getTags().get(1).getLabel().equals("Cute"));
-    assert (picture.getTags().get(2).getLabel().equals("Yellow"));
+    assertEquals(picture.getTags().size(), 3);
+    assertEquals(picture.getTags().get(0).getLabel(),"Chicken");
+    assertEquals(picture.getTags().get(1).getLabel(),"Cute");
+    assertEquals(picture.getTags().get(2).getLabel(),"Yellow");
   }
 
   @Test
   void addTag() {
     Picture picture = new Picture("C:\\Grandma\\chicks @Chicken @Cute @Yellow.jpg");
     picture.addTag(new Tag("Brown"));
-    assert (picture.getTags().size() == 4);
-    assert (picture.getTags().get(0).getLabel().equals("Chicken"));
-    assert (picture.getTags().get(1).getLabel().equals("Cute"));
-    assert (picture.getTags().get(2).getLabel().equals("Yellow"));
-    assert (picture.getTags().get(3).getLabel().equals("Brown"));
-    assert (picture.getAbsolutePath()
-        .equals("C:\\Grandma\\chicks @Chicken @Cute @Yellow @Brown.jpg"));
-    assert (picture.getDirectoryPath().equals("C:\\Grandma"));
-    assert (picture.getFullFileName().equals("chicks @Chicken @Cute @Yellow @Brown.jpg"));
+    assertEquals(picture.getTags().size(), 4);
+    assertEquals(picture.getTags().get(0).getLabel(), "Chicken");
+    assertEquals(picture.getTags().get(1).getLabel(), "Cute");
+    assertEquals(picture.getTags().get(2).getLabel(), "Yellow");
+    assertEquals(picture.getTags().get(3).getLabel(), "Brown");
+    assertEquals(picture.getAbsolutePath(), "C:\\Grandma\\chicks @Chicken @Cute @Yellow @Brown.jpg");
+    assertEquals(picture.getDirectoryPath(), "C:\\Grandma");
+    assertEquals(picture.getFullFileName(), "chicks @Chicken @Cute @Yellow @Brown.jpg");
   }
 
   @Test
@@ -94,22 +93,22 @@ class PictureTest {
     Picture picture = new Picture("C:\\chicks @Chicken @Cute @Yellow @Brown @Young.jpg");
 
     picture.deleteTag(picture.getTags().get(0));
-    assert (picture.getTags().size() == 4);
-    assert (picture.getTags().get(0).getLabel().equals("Cute"));
-    assert (picture.getTags().get(1).getLabel().equals("Yellow"));
-    assert (picture.getTags().get(2).getLabel().equals("Brown"));
-    assert (picture.getTags().get(3).getLabel().equals("Young"));
+    assertEquals(picture.getTags().size(), 4);
+    assertEquals(picture.getTags().get(0).getLabel(),"Cute");
+    assertEquals(picture.getTags().get(1).getLabel(),"Yellow");
+    assertEquals(picture.getTags().get(2).getLabel(),"Brown");
+    assertEquals(picture.getTags().get(3).getLabel(),"Young");
 
     picture.deleteTag(picture.getTags().get(3));
-    assert (picture.getTags().size() == 3);
-    assert (picture.getTags().get(0).getLabel().equals("Cute"));
-    assert (picture.getTags().get(1).getLabel().equals("Yellow"));
-    assert (picture.getTags().get(2).getLabel().equals("Brown"));
+    assertEquals(picture.getTags().size(), 3);
+    assertEquals(picture.getTags().get(0).getLabel(),"Cute");
+    assertEquals(picture.getTags().get(1).getLabel(),"Yellow");
+    assertEquals(picture.getTags().get(2).getLabel(),"Brown");
 
     picture.deleteTag(picture.getTags().get(1));
-    assert (picture.getTags().size() == 2);
-    assert (picture.getTags().get(0).getLabel().equals("Cute"));
-    assert (picture.getTags().get(1).getLabel().equals("Brown"));
+    assertEquals(picture.getTags().size(), 2);
+    assertEquals(picture.getTags().get(0).getLabel(),"Cute");
+    assertEquals(picture.getTags().get(1).getLabel(),"Brown");
   }
 
   @Test

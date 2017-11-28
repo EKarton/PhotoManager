@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 import javafx.scene.input.KeyEvent;
 import javax.naming.NoInitialContextException;
 import backend.models.Picture;
+import backend.models.PictureManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
@@ -219,9 +220,13 @@ public class MainController implements Initializable {
     if (targetDir != null) {
       // get the new directory
       String newDirectory = targetDir.getAbsolutePath();
+      PictureManager thisPictureManager = this.backendService.getPictureManager();
+      
       selectedPicture.setDirectoryPath(newDirectory); // move the picture
-      this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
-      if (!this.backendService.getPictureManager().isRecursive()) {
+      this.pictureListView.getItems().setAll(thisPictureManager.getPictures());
+      
+      if (!thisPictureManager.isRecursive()
+          && thisPictureManager.getCurrDir().equals(newDirectory)) {
         this.pictureView.setVisible(false);
         this.pictureListView.refresh();
       }

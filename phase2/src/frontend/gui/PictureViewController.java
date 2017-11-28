@@ -15,6 +15,8 @@ import javax.imageio.ImageIO;
 import backend.commands.AddTagToPictureCommand;
 import backend.commands.AddTagsToPicCommand;
 import backend.commands.Command;
+import backend.commands.DeleteTagFromPictureCommand;
+import backend.commands.DeleteTagsFromPicCommand;
 import backend.models.Picture;
 import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
@@ -208,14 +210,15 @@ public class PictureViewController extends BorderPane implements Renamable {
             this.mainController.getBackendService().getPictureManager().getAvailableTags());
 
     List<Tag> tags = tagSelection.show();
-    Command addTags;
     if (tags.size() > 1) {
-       addTags = new AddTagsToPicCommand(this.picture, tags);
-    }else {
-       addTags =  new AddTagToPictureCommand(this.picture,tags.get(0));
+      AddTagsToPicCommand addTags = new AddTagsToPicCommand(this.picture, tags);
+       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
+       addTags.execute();
+    }else if(tags.size()==1){
+      AddTagToPictureCommand addTags =  new AddTagToPictureCommand(this.picture,tags.get(0));
+       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
+       addTags.execute();
     }
-    this.mainController.getBackendService().getCommandManager().addCommand(addTags);
-    addTags.execute();
 
   }
 
@@ -228,8 +231,14 @@ public class PictureViewController extends BorderPane implements Renamable {
         "Delete Tags", "Delete Tags", this.picture.getTags());
 
     List<Tag> tags = tagSelection.show();
-    for (Tag tag : tags) {
-      this.picture.addTag(tag);
+    if (tags.size() > 1) {
+      DeleteTagsFromPicCommand deleteTags = new DeleteTagsFromPicCommand(this.picture, tags);
+       this.mainController.getBackendService().getCommandManager().addCommand(deleteTags);
+       deleteTags.execute();
+    }else if(tags.size()==1){
+      DeleteTagFromPictureCommand addTags =  new DeleteTagFromPictureCommand(this.picture,tags.get(0));
+       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
+       addTags.execute();
     }
   }
 

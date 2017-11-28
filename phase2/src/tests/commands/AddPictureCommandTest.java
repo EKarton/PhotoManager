@@ -1,3 +1,5 @@
+package tests.commands;
+
 import backend.commands.AddPictureCommand;
 import backend.models.Picture;
 import backend.models.PictureManager;

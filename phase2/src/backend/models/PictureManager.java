@@ -250,9 +250,10 @@ public class PictureManager implements Observer {
           }
         }
 
+        boolean moved = false;
         // If there was a directory change
         if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-          FileManager.moveFile(absolutePathInOS, newPicture.getDirectoryPath());
+          moved = FileManager.moveFile(absolutePathInOS, newPicture.getDirectoryPath());
         }
 
         // If there was a file name change
@@ -266,10 +267,10 @@ public class PictureManager implements Observer {
 
         // Remove it from the picture manager if it is outside the current directory
         boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
-        // Remove it if the manager does not handle pictures non-recursively
-        if (!isUnderCurDir && !isRecursive) {
+        if (moved && !isRecursive || !isUnderCurDir) {
           this.untrackPicture(newPicture);
         }
+
       } catch (IOException e) {
       }
     }

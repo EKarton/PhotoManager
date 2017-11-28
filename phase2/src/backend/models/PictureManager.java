@@ -42,9 +42,8 @@ public class PictureManager implements Observer {
   private boolean isRecursive = false;
 
   /**
-   * <<<<<<< HEAD the compiled regex Pattern for filename check.(avoid multiple regex compilation
-   * for efficiency) ======= The compiled regex Pattern for filename check.(avoid multiple regex
-   * compilation for efficiency) >>>>>>> e64a046525d609f7a34775755d5e933c4e34971a Example: "@.jpg"
+   * The compiled regex Pattern for filename check.(avoid multiple regex
+   * compilation for efficiency). Example: "@.jpg"
    * is not a valid name file name cannot contain any special letter (except for tags and file
    * extension)
    */
@@ -70,20 +69,15 @@ public class PictureManager implements Observer {
     for (File file : files) {
       if (this.nameCheck(file)) {
         Picture picture = new Picture(file.getAbsolutePath());
-        pictures.add(picture);
-        picture.addObserver(this);
+        this.addPicture(picture);
       }
     }
   }
 
   /**
-   * <<<<<<< HEAD check if the file contains a valid name using regex
-   * 
-   * @param file
-   * @return ======= Check if the file contains a valid name.
+   * Check if the file contains a valid name.
    * @param file The file
-   * @return True if the file has a valid name; else false. >>>>>>>
-   *         e64a046525d609f7a34775755d5e933c4e34971a
+   * @return True if the file has a valid name; else false.
    */
   private boolean nameCheck(File file) {
     String nameWithoutFileExtension = file.getName().split("\\.")[0].trim();

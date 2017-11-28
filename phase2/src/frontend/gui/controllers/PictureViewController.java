@@ -158,7 +158,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   @FXML
   public void rename() {
     String newName = this.historicalNames.getSelectionModel().getSelectedItem();
-    rename(newName);
+    //this.historicalNames.getSelectionModel().clearSelection();
   }
 
   /**

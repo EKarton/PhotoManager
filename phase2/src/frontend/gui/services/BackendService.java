@@ -23,8 +23,6 @@ public class BackendService {
   /**
    * Constructs a new BackendService. When the app settings was not found /corrupted / locked by
    * another application, it will create a new app settings file.
-   * 
-   * @param mainView the main view used by this program
    */
   public BackendService() {
 
@@ -104,15 +102,18 @@ public class BackendService {
    * @param newName the new name
    */
   public void rename(Picture picture, String newName) {
-    if (!newName.contains("@") && !newName.equals(picture.getTaglessName())) { // a name with @ is
-                                                                               // not valid
-      // create a rename command
+
+    if (picture == null || newName == null) {
+      System.out.println("wasd");
+    }
+
+    if (!newName.contains("@") && !newName.equals(picture.getTaglessName())) {
+
+      System.out.println(picture);
+
       RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
-      // add a rename command
       this.commandManager.addCommand(renamePictureCommand);
       renamePictureCommand.execute(); // execute the command
     }
   }
-
-
 }

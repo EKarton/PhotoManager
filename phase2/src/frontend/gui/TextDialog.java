@@ -34,7 +34,7 @@ public class TextDialog {
     this.window.initModality(Modality.APPLICATION_MODAL);
 
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("TextDialog.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("views/TextDialog.fxml"));
       loader.setController(this);
       Parent root = loader.load();
 

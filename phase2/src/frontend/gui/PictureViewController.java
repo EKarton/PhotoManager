@@ -63,6 +63,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   @FXML
   private CheckBox showTags;
 
+  /** HBox that contains labels for the tags */
   @FXML
   private HBox tagsDisplay;
 

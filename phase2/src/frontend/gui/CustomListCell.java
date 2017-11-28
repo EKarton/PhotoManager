@@ -1,6 +1,5 @@
 package frontend.gui;
 
-import java.util.concurrent.Callable;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;

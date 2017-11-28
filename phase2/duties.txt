@@ -41,4 +41,10 @@ Phase 1
 - Helped incorporate together the gui and backend by contribituing to the controller and debugging along the way
 
 Phase 2
-- slide show
+- Constructed the Slideshow window in the GUI side of the application and with Shimi, it was converted to FXML.
+- Refactored code in the backend (such as removing redundent functions).
+- Rewrote the javadocs in the backend.
+- Added the feature in the backend where there is a pool of tags in the PictureManager and each picture will get tags from.
+- Added the search functionality for tags / pictures in the frontend.
+- Fixed several bugs in the frontend.
+- Fixed several bugs in the backend.

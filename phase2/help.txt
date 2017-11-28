@@ -32,10 +32,10 @@ Manage Tags (Tag Manager)
 	2. Or you can select a tag from the list and then click the "Rename" button to enter in a new name.
 
 Image Viewing
-- After opening a directory you will see a list of images, you can select ones to see the pictures
-- You can also search through the list with the search bar
-- Like for tags, clicking on a selected image in the list or pressing the enter key let's you edit it
-- You can also right click on an item in the list to move it to a different directory or open view it's directory in the OS's file viewer
+- Selecting on an image in the left listview will allow you to view an image.
+- You can also search for a picture based on its name with the search bar.
+- Similarly for tags, clicking on a selected image in the list or pressing the enter key lets you edit the image's name.
+- You can also right click on a picture in the list to move it to a different directory or open it in the OS' file viewer.
 - In the picture display area there are a bunch of features
 	- Click on the name and you will see the absolute path of the image, click again and back to just the name
 	- There is a drop down menu of "Historical Names", this is just the previous names this file has had, you can select one of them and click
@@ -47,5 +47,5 @@ Image Viewing
 		- The show tags checkbox will display/hide the tags of the image
 
 Slide Show
-- Clicking slide show will open up a slide show with the images you are currently viewing
-- You can pause or stop the slide show with the respective buttons in the slide show window
+- Clicking slide show will open up a slide show with the images you are currently viewing.
+- You can pause or stop the slide show with the respective buttons in the slide show window.

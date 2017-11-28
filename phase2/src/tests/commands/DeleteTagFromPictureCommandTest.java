@@ -16,7 +16,7 @@ class DeleteTagFromPictureCommandTest {
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
     command.undo();
-    assert (picture.containsTag(tag) == false);
+    assert  (picture.containsTag(tag) == false);
   }
 
   @Test

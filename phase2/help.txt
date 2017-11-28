@@ -20,6 +20,8 @@ The toolbar
 - Open Log displays a log of time stamped renamings
 - Manage tags opens the tag management window explained in greater detail below
 - Save, undo and redo can also be run with the keyboard shortcuts ctr+S, ctr+Z and ctr+SHIFT+Z respectively
+- Refresh - If the user decides to rename or move files, not through our program (through the OS) clicking the "Refresh"
+ button will reflect those changes in our program
 
 Manage Tags (Tag Manager)
 - This window let's you manage all your tags, independent of any images
@@ -48,8 +50,3 @@ Image Viewing
 Slide Show
 - Clicking slide show will open up a slide show with the images you are currently viewing
 - You can pause or stop the slide show with the respective buttons in the slide show window
-
-Refresh
-- I didn't really know where to write about this last feature, so I just put it here
-- If the user decides to rename or move files, not through our program (through the OS) clicking the "Refresh"
- button will reflect those changes in our program

@@ -1,4 +1,4 @@
-package backend.tests.commands;
+package tests.commands;
 
 import backend.commands.AddPictureCommand;
 import backend.commands.DeletePictureCommand;

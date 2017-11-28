@@ -1,4 +1,4 @@
-package backend.tests.models;
+package tests.models;
 
 import backend.files.FileManager;
 import backend.models.Picture;

@@ -110,7 +110,7 @@ public class SlideShow {
    * slideshow
    */
   @FXML
-  public void toggleSlideshow() {
+  public void toggleSlideshow(ActionEvent event) {
     if (this.isPlaying) {
       this.gameLoop.stop();
       this.playPauseButton.setText("Resume");
@@ -158,7 +158,6 @@ public class SlideShow {
   /**
    * Obtain the next picture. If it reaches the end of the list of pictures, it will return the
    * first picture.
-   *
    * @return The next picture in the slideshow.
    */
   private Picture getNextPicture() {
@@ -173,7 +172,6 @@ public class SlideShow {
 
   /**
    * An event handler used to play the slideshow
-   *
    * @param actionEvent The UI component that called this method.
    */
   private void runSlideshow(ActionEvent actionEvent) {

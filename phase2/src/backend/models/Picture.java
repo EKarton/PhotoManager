@@ -303,36 +303,16 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   @Override
   public void update(Observable curObserved, Object change) {
     if (curObserved instanceof Tag && change instanceof Tag) {
-      Tag tagBeforeChange = (Tag) change;
-      Tag changedTag = (Tag) curObserved;
-      if (!tagBeforeChange.getLabel().equals(changedTag.getLabel())) {
-        // the Tag was renamed.
-        // Construct the old state of this picture before the tag changed.
-        Picture pictureBeforeChange = this.clone();
-        pictureBeforeChange.deleteTag(changedTag);
-        pictureBeforeChange.addTag(tagBeforeChange);
+      Tag oldTag = (Tag) change;
+      Tag newTag = (Tag) curObserved;
 
-        // Notify the observers
-        super.setChanged();
-        super.notifyObservers(pictureBeforeChange);
-      }
-    }
-  }
+      // Construct the old state of this picture before the tag changed.
+      Picture oldPicture = this.clone();
+      oldPicture.deleteTag(newTag);
+      oldPicture.addTag(oldTag);
 
-  /**
-   * A function to replace a tag inside this picture with a givenTag if they have the same name.
-   * Used by the picture Manager to make sure every tag in this picture is the exacat same Tag in
-   * that pictureManager's availableTags.
-   * 
-   * @param tag
-   */
-  protected void replaceTag(Tag tag) {
-    for (Tag thisTag : this.tags) {
-      if (thisTag.equals(tag)) {
-        this.deleteTag(thisTag);
-        this.addTag(tag);
-        break;
-      }
+      this.setChanged();
+      this.notifyObservers(oldPicture);
     }
   }
 }

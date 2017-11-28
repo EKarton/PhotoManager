@@ -159,7 +159,8 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
    */
   @Override
   public void rename(String newName) {
-    this.tagListView.getSelectionModel().getSelectedItem().setLabel(newName);
+    Tag tag = this.tagListView.getSelectionModel().getSelectedItem();
+    tag.setLabel(newName);
 
     RenameTagCommand renameTag =
         new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);

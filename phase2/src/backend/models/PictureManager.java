@@ -69,8 +69,19 @@ public class PictureManager implements Observer {
       if (this.nameCheck(file)) {
         Picture picture = new Picture(file.getAbsolutePath());
         this.addPicture(picture);
+
+        for (Tag tag : this.availableTags){
+          for (Tag pictureTag : picture.getTags()){
+            if (tag.equals(pictureTag)){
+              picture.deleteTag(pictureTag);
+              picture.addTag(tag);
+            }
+          }
+        }
       }
     }
+
+    System.out.println(this.pictures);
   }
 
   /**
@@ -158,27 +169,9 @@ public class PictureManager implements Observer {
       picture.addObserver(this);
 
       for (Tag tag : picture.getTags()) {
-        if (availableTags.contains(tag)) {
-          this.replaceTagInPicture(picture, tag);
-        } else {
+        if (!this.contains(tag)){
           this.availableTags.add(tag);
         }
-      }
-    }
-  }
-
-  /**
-   * helper function for replacing the tag with the actual tag that is being observed. See
-   * Picture.replaceTag(Tag tag)
-   * 
-   * @param picture
-   * @param tag
-   */
-  private void replaceTagInPicture(Picture picture, Tag tag) {
-    for (Tag thisTag : this.availableTags) {
-      if (thisTag.equals(tag)) {
-        picture.replaceTag(thisTag);
-        break;
       }
     }
   }
@@ -212,7 +205,6 @@ public class PictureManager implements Observer {
 
   /**
    * Determines whether a tag is in this instance or not.
-   * 
    * @param tag A tag to test.
    * @return True if the tag is in this collection of tags; else false.
    */

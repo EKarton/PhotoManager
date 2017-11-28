@@ -215,10 +215,10 @@ public class MainController implements Initializable {
   public void move() {
     // get the selected picture
     Picture selectedPicture = this.pictureListView.getSelectionModel().getSelectedItem();
-
-    if (openDirectoryChooser() != null) {
+    File targetDir = openDirectoryChooser();
+    if (targetDir != null) {
       // get the new directory
-      String newDirectory = openDirectoryChooser().getAbsolutePath();
+      String newDirectory = targetDir.getAbsolutePath();
       selectedPicture.setDirectoryPath(newDirectory); // move the picture
       this.pictureListView.getItems().setAll(this.backendService.getPictureManager().getPictures());
     }

@@ -80,8 +80,6 @@ public class PictureManager implements Observer {
         }
       }
     }
-
-    System.out.println(this.pictures);
   }
 
   /**

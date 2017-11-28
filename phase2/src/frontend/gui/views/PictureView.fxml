@@ -24,7 +24,7 @@
 		<BorderPane>
 			<left>
 				<Label fx:id="name" BorderPane.alignment="CENTER"
-					onMouseClicked="#swapName">
+					onMouseClicked="#swapName" wrapText="true" maxWidth="450">
 					<font>
 						<Font name="Verdana" size="15.0" />
 					</font>

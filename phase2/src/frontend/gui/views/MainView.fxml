@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.collections.FXCollections?>
-<?import frontend.gui.PictureViewController?>
+<?import frontend.gui.controllers.PictureViewController?>
 
 <BorderPane fx:id="root" prefHeight="720" prefWidth="1080"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="frontend.gui.MainController">
+	fx:controller="frontend.gui.controllers.MainController">
 
 	<fx:define>
 		<ContextMenu fx:id="listCellContextMenu">

@@ -1,5 +1,8 @@
-package frontend.gui;
+package frontend.gui.controllers;
 
+import frontend.gui.customcontrols.Renamable;
+import frontend.gui.windows.SelectionWindow;
+import frontend.gui.services.BackendService;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -78,7 +81,7 @@ public class PictureViewController extends BorderPane implements Renamable {
    * controller.
    */
   public PictureViewController() {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PictureView.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("views/PictureView.fxml"));
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
 

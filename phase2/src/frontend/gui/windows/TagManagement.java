@@ -1,5 +1,8 @@
-package frontend.gui;
+package frontend.gui.windows;
 
+import frontend.gui.customcontrols.ListViewCallback;
+import frontend.gui.customcontrols.Renamable;
+import frontend.gui.controllers.MainController;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -59,7 +61,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
     this.window.initModality(Modality.APPLICATION_MODAL);
 
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("TagManagement.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("views/TagManagement.fxml"));
       loader.setController(this);
       Parent root = loader.load();
 

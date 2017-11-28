@@ -1,6 +1,5 @@
-package frontend.gui;
+package frontend.gui.customcontrols;
 
-import backend.models.Picture;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;

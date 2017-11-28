@@ -1,4 +1,4 @@
-package frontend.gui;
+package frontend.gui.windows;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,7 +49,7 @@ public class SelectionWindow<T> {
     this.window.initModality(Modality.APPLICATION_MODAL);
 
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("SelectionWindow.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("views/SelectionWindow.fxml"));
       loader.setController(this);
       Parent root = loader.load();
 

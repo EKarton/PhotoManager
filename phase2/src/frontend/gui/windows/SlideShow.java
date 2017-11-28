@@ -1,4 +1,4 @@
-package frontend.gui;
+package frontend.gui.windows;
 
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -87,7 +87,7 @@ public class SlideShow {
     this.window.initModality(Modality.APPLICATION_MODAL);
 
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("SlideShowView.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("views/SlideShowView.fxml"));
       loader.setController(this);
       Parent root = loader.load();
 

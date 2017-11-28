@@ -1,4 +1,4 @@
-package frontend.gui;
+package frontend.gui.customcontrols;
 
 public interface Renamable {
   /**

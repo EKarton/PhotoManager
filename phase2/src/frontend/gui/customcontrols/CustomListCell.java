@@ -1,4 +1,4 @@
-package frontend.gui;
+package frontend.gui.customcontrols;
 
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;

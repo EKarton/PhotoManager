@@ -242,7 +242,7 @@ public class PictureManager implements Observer {
       // Find the file that has the same tagless name.
       String absolutePathInOS = "";
       try {
-        List<File> possibleFiles = FileManager.getImageList(newPicture.getDirectoryPath());
+        List<File> possibleFiles = FileManager.getImageList(oldPicture.getDirectoryPath());
         for (File file : possibleFiles) {
           if (file.getName().contains(oldPicture.getTaglessName())) {
             absolutePathInOS = file.getAbsolutePath();

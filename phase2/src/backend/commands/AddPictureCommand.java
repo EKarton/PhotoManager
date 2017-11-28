@@ -49,6 +49,9 @@ public class AddPictureCommand implements Command {
   }
 
 
+  /**
+   * @return LogRecord a logRecord for this command with a severity level of FINE.
+   */
   @Override
   public LogRecord getLogRecord() {
     return new LogRecord(Level.FINE, "added Picture " + picture.getTaglessName());

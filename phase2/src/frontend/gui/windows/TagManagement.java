@@ -63,7 +63,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
     this.window.initModality(Modality.APPLICATION_MODAL);
 
     try {
-      FXMLLoader loader = new FXMLLoader(getClass().getResource("views/TagManagement.fxml"));
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("../views/TagManagement.fxml"));
       loader.setController(this);
       Parent root = loader.load();
 

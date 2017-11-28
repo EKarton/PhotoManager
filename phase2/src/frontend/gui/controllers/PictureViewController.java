@@ -17,7 +17,6 @@ import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import backend.commands.AddTagToPictureCommand;
 import backend.commands.AddTagsToPicCommand;
-import backend.commands.Command;
 import backend.commands.DeleteTagFromPictureCommand;
 import backend.commands.DeleteTagsFromPicCommand;
 import backend.models.Picture;
@@ -87,7 +86,7 @@ public class PictureViewController extends BorderPane implements Renamable {
    * controller.
    */
   public PictureViewController() {
-    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("PictureView.fxml"));
+    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/PictureView.fxml"));
     fxmlLoader.setRoot(this);
     fxmlLoader.setController(this);
 

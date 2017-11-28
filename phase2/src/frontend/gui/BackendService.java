@@ -104,7 +104,7 @@ public class BackendService {
    * @param newName the new name
    */
   public void rename(Picture picture, String newName) {
-    if (!newName.contains("@")) { // a name with @ is not valid
+    if (!newName.contains("@") && !newName.equals(picture.getTaglessName())) { // a name with @ is not valid
       // create a rename command
       RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
       // add a rename command

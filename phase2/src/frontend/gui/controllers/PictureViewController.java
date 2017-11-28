@@ -196,6 +196,7 @@ public class PictureViewController extends BorderPane implements Renamable {
       this.pictureView.setVisible(true);
 
       this.historicalNames.getItems().setAll(this.getHistoricalNames());
+      this.showTags();
 
     } catch (IOException e) {
       // there is no image selected
@@ -251,8 +252,9 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void showTags() {
-    if (this.picture == null)
+    if (this.picture == null) { // sanity check
       return;
+    }
 
     this.tagsDisplay.getChildren().clear();
 
@@ -269,6 +271,7 @@ public class PictureViewController extends BorderPane implements Renamable {
         this.tagsDisplay.getChildren().add(label);
       }
     }
+   this.mainController.getListView().requestFocus();  // set the focus back to the list view
   }
 
 }

@@ -42,10 +42,9 @@ public class PictureManager implements Observer {
   private boolean isRecursive = false;
 
   /**
-   * The compiled regex Pattern for filename check.(avoid multiple regex
-   * compilation for efficiency). Example: "@.jpg"
-   * is not a valid name file name cannot contain any special letter (except for tags and file
-   * extension)
+   * The compiled regex Pattern for filename check.(avoid multiple regex compilation for
+   * efficiency). Example: "@.jpg" is not a valid name file name cannot contain any special letter
+   * (except for tags and file extension)
    */
   private static final Pattern fileNameSpec = Pattern.compile("\\w+(\\s\\w+)*(\\s@\\w+)*");
 
@@ -76,6 +75,7 @@ public class PictureManager implements Observer {
 
   /**
    * Check if the file contains a valid name.
+   * 
    * @param file The file
    * @return True if the file has a valid name; else false.
    */
@@ -158,9 +158,27 @@ public class PictureManager implements Observer {
       picture.addObserver(this);
 
       for (Tag tag : picture.getTags()) {
-        if (!this.availableTags.contains(tag)) {
+        if (availableTags.contains(tag)) {
+          this.replaceTagInPicture(picture, tag);
+        } else {
           this.availableTags.add(tag);
         }
+      }
+    }
+  }
+
+  /**
+   * helper function for replacing the tag with the actual tag that is being observed. See
+   * Picture.replaceTag(Tag tag)
+   * 
+   * @param picture
+   * @param tag
+   */
+  private void replaceTagInPicture(Picture picture, Tag tag) {
+    for (Tag thisTag : this.availableTags) {
+      if (thisTag.equals(tag)) {
+        picture.replaceTag(thisTag);
+        break;
       }
     }
   }
@@ -182,8 +200,9 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * Determines whether a picture is in this instance or not.
-   * If it is in this instance, it is being tracked.
+   * Determines whether a picture is in this instance or not. If it is in this instance, it is being
+   * tracked.
+   * 
    * @param picture A picture to test
    * @return True if the picture is in this instance; else false.
    */
@@ -193,10 +212,11 @@ public class PictureManager implements Observer {
 
   /**
    * Determines whether a tag is in this instance or not.
+   * 
    * @param tag A tag to test.
    * @return True if the tag is in this collection of tags; else false.
    */
-  public boolean contains(Tag tag){
+  public boolean contains(Tag tag) {
     return this.availableTags.contains(tag);
   }
 

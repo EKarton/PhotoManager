@@ -1,4 +1,4 @@
-package frontend.gui.customcontrols;
+package frontend.gui;
 
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListCell;

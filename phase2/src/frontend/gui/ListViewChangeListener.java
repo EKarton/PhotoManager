@@ -1,7 +1,7 @@
-package frontend.gui.customcontrols;
+package frontend.gui;
 
 import backend.models.Picture;
-import frontend.gui.controllers.MainController;
+import frontend.gui.MainController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 

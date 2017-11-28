@@ -240,25 +240,40 @@ public class PictureManager implements Observer {
   private void updatePicture(Picture newPicture, Picture oldPicture) {
     if (pictures.contains(newPicture)) {
 
-      // If there was a directory change
-      if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
-        FileManager.moveFile(oldPicture.getAbsolutePath(), newPicture.getDirectoryPath());
+      // Find the file that has the same tagless name.
+      String absolutePathInOS = "";
+      try {
+        List<File> possibleFiles = FileManager.getImageList(newPicture.getDirectoryPath());
+        for (File file : possibleFiles){
+          if (file.getName().contains(oldPicture.getTaglessName())){
+            absolutePathInOS = file.getAbsolutePath();
+            break;
+          }
+        }
+
+        // If there was a directory change
+        if (!newPicture.getDirectoryPath().equals(oldPicture.getDirectoryPath())) {
+          FileManager.moveFile(absolutePathInOS, newPicture.getDirectoryPath());
+        }
+
+        // If there was a file name change
+        if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
+          String fileName = newPicture.getFullFileName();
+          if (fileName.contains("."))
+            fileName = fileName.split("\\.")[0];
+
+          FileManager.renameFile(absolutePathInOS, fileName);
+        }
+
+        // Remove it from the picture manager if it is outside the current directory
+        boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
+        // Remove it if the manager does not handle pictures non-recursively
+        if (!isUnderCurDir && !isRecursive) {
+          this.untrackPicture(newPicture);
+        }
       }
-
-      // If there was a file name change
-      if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
-        String fileName = newPicture.getFullFileName();
-        if (fileName.contains("."))
-          fileName = fileName.split("\\.")[0];
-
-        FileManager.renameFile(oldPicture.getAbsolutePath(), fileName);
-      }
-
-      // Remove it from the picture manager if it is outside the current directory
-      boolean isUnderCurDir = newPicture.getAbsolutePath().contains(this.currDir);
-      // Remove it if the manager does not handle pictures non-recursively
-      if (!isUnderCurDir && !isRecursive) {
-        this.untrackPicture(newPicture);
+      catch (IOException e){
+        System.out.println("Unable to find the original file (did you move it?)");
       }
     }
   }

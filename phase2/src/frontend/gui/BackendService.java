@@ -1,4 +1,4 @@
-package frontend.gui.services;
+package frontend.gui;
 
 import java.io.IOException;
 import backend.commands.CommandManager;

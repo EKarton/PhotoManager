@@ -1,4 +1,4 @@
-package frontend.gui.customcontrols;
+package frontend.gui;
 
 import java.io.IOException;
 import javafx.fxml.FXML;

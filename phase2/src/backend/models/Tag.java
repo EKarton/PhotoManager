@@ -16,6 +16,7 @@ public class Tag extends Observable implements Serializable, Cloneable {
 
   /**
    * Constructs a new tag with a given label.
+   * 
    * @param label The label of this tag
    */
   public Tag(String label) {

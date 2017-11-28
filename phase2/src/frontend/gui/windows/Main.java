@@ -11,9 +11,10 @@ public class Main extends Application {
 
   /** The main controller */
   private MainController mainController;
-  
+
   /**
    * Launches the javaFX application
+   * 
    * @param args
    */
   public static void main(String[] args) {
@@ -37,11 +38,11 @@ public class Main extends Application {
     primaryStage.setScene(scene);
 
     primaryStage.setResizable(false);
-    
+
     primaryStage.show();
   }
 
-  /** 
+  /**
    * Saves the program state
    */
   @Override

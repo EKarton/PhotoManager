@@ -208,19 +208,19 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void addTags() {
-    SelectionWindow<Tag> tagSelection =
-        new SelectionWindow<>(this.mainController.getStage(), "Add Tags", "Add Tags",
-            this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture));
+    SelectionWindow<Tag> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
+        "Add Tags", "Add Tags",
+        this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture));
 
     List<Tag> tags = tagSelection.show();
     if (tags.size() > 1) {
       AddTagsToPicCommand addTags = new AddTagsToPicCommand(this.picture, tags);
-       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
-       addTags.execute();
-    }else if(tags.size()==1){
-      AddTagToPictureCommand addTags =  new AddTagToPictureCommand(this.picture,tags.get(0));
-       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
-       addTags.execute();
+      this.mainController.getBackendService().getCommandManager().addCommand(addTags);
+      addTags.execute();
+    } else if (tags.size() == 1) {
+      AddTagToPictureCommand addTags = new AddTagToPictureCommand(this.picture, tags.get(0));
+      this.mainController.getBackendService().getCommandManager().addCommand(addTags);
+      addTags.execute();
     }
 
   }
@@ -236,12 +236,13 @@ public class PictureViewController extends BorderPane implements Renamable {
     List<Tag> tags = tagSelection.show();
     if (tags.size() > 1) {
       DeleteTagsFromPicCommand deleteTags = new DeleteTagsFromPicCommand(this.picture, tags);
-       this.mainController.getBackendService().getCommandManager().addCommand(deleteTags);
-       deleteTags.execute();
-    }else if(tags.size()==1){
-      DeleteTagFromPictureCommand addTags =  new DeleteTagFromPictureCommand(this.picture,tags.get(0));
-       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
-       addTags.execute();
+      this.mainController.getBackendService().getCommandManager().addCommand(deleteTags);
+      deleteTags.execute();
+    } else if (tags.size() == 1) {
+      DeleteTagFromPictureCommand addTags =
+          new DeleteTagFromPictureCommand(this.picture, tags.get(0));
+      this.mainController.getBackendService().getCommandManager().addCommand(addTags);
+      addTags.execute();
     }
   }
 

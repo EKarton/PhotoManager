@@ -7,6 +7,7 @@ import javafx.util.Callback;
 
 /**
  * Handles callback for list view to add a context menu
+ * 
  * @param <T>
  */
 public class ListViewCallback<T> implements Callback<ListView<T>, ListCell<T>> {

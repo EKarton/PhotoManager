@@ -19,18 +19,18 @@ import javafx.stage.Window;
  * @param <T>
  */
 public class SelectionWindow<T> {
-  
+
   /** The stage of this pop up window */
   private Stage window;
-  
+
   /** The items being displayed */
   @FXML
   private ListView<T> items;
-  
+
   /** The button for entering your selection */
   @FXML
   private Button enterButton;
-  
+
   /**
    * Constructs the selection window. Loads the view from the fxml file.
    * 
@@ -68,7 +68,7 @@ public class SelectionWindow<T> {
     }
 
   }
-  
+
   /**
    * Closes the window when the enter button is pressed
    */

@@ -8,6 +8,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * This class defines how each cell in the ListView is displayed. In our program they are displayed
  * as the file name without tags. This class is also used to edit the cells, showing a text field.
+ * 
  * @param <T>
  */
 public class CustomListCell<T> extends ListCell<T> {
@@ -64,8 +65,7 @@ public class CustomListCell<T> extends ListCell<T> {
   }
 
   /**
-   * Cancels the edit. Removes the text field and displays
-   * the name as before.
+   * Cancels the edit. Removes the text field and displays the name as before.
    */
   @Override
   public void cancelEdit() {

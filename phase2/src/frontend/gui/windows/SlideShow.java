@@ -158,6 +158,7 @@ public class SlideShow {
   /**
    * Obtain the next picture. If it reaches the end of the list of pictures, it will return the
    * first picture.
+   * 
    * @return The next picture in the slideshow.
    */
   private Picture getNextPicture() {
@@ -172,6 +173,7 @@ public class SlideShow {
 
   /**
    * An event handler used to play the slideshow
+   * 
    * @param actionEvent The UI component that called this method.
    */
   private void runSlideshow(ActionEvent actionEvent) {

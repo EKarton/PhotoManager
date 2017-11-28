@@ -43,6 +43,7 @@ public class CommandManager {
 
   /**
    * Constructs a new CommandManager
+   * 
    * @throws SecurityException When opening up the renamingHistory file fails.
    * @throws IOException When the file cannot be opened.
    */
@@ -55,6 +56,7 @@ public class CommandManager {
 
   /**
    * Add this command to the command Stack, and logs it.
+   * 
    * @param command A command to add to the command manager.
    */
   public void addCommand(Command command) {
@@ -64,6 +66,7 @@ public class CommandManager {
 
   /**
    * Undo the most recent command added.
+   * 
    * @throws NoInitialContextException Thrown when there are no more commands to undo.
    */
   public void undoRecentCommand() throws NoInitialContextException {
@@ -80,6 +83,7 @@ public class CommandManager {
 
   /**
    * Redo the most recent undone command.
+   * 
    * @throws NoInitialContextException Thrown when there are no more commands to redo.
    */
   public void redoRecentCommand() throws NoInitialContextException {
@@ -96,6 +100,7 @@ public class CommandManager {
 
   /**
    * Get Logging information saved onto a file named LOG_FILENAME;
+   * 
    * @return A string of log information stored in the renamingHistory file.
    */
   public String getLogs() {

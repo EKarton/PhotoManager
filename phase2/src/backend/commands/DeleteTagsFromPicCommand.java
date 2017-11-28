@@ -41,18 +41,18 @@ public class DeleteTagsFromPicCommand implements Command {
    */
   @Override
   public void undo() {
-    for(Tag tag: this.tags) {
+    for (Tag tag : this.tags) {
       picture.addTag(tag);
     }
   }
 
   /**
-   * Execute the command by removing the tags from the picture. If for some reason the tag is already
-   * not in the picture, it will do nothing.
+   * Execute the command by removing the tags from the picture. If for some reason the tag is
+   * already not in the picture, it will do nothing.
    */
   @Override
   public void execute() {
-    for(Tag tag: this.tags) {
+    for (Tag tag : this.tags) {
       picture.deleteTag(tag);
     }
   }

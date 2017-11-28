@@ -1,12 +1,13 @@
 package tests.commands;
 
+import static org.junit.Assert.assertEquals;
+import java.io.IOException;
+import javax.naming.NoInitialContextException;
+import org.junit.jupiter.api.Test;
 import backend.commands.AddPictureCommand;
 import backend.commands.CommandManager;
 import backend.models.Picture;
 import backend.models.PictureManager;
-import java.io.IOException;
-import javax.naming.NoInitialContextException;
-import org.junit.jupiter.api.Test;
 
 class CommandManagerTest {
 
@@ -27,7 +28,7 @@ class CommandManagerTest {
     addPictureCommand2.execute();
     commandManager.addCommand(addPictureCommand1);
     commandManager.addCommand(addPictureCommand2);
-    assert (manager.getPictures().size() == 2);
+    assertEquals(manager.getPictures().size(), 2);
   }
 
   @Test
@@ -43,8 +44,8 @@ class CommandManagerTest {
     commandManager.addCommand(addPictureCommand1);
     commandManager.addCommand(addPictureCommand2);
     commandManager.undoRecentCommand();
-    assert (manager.getPictures().size() == 1);
+    assertEquals(manager.getPictures().size(), 1);
     commandManager.undoRecentCommand();
-    assert (manager.getPictures().size() == 0);
+    assertEquals(manager.getPictures().size(), 0);
   }
 }

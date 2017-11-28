@@ -1,9 +1,10 @@
 package tests.commands;
 
+import static org.junit.Assert.assertFalse;
+import org.junit.jupiter.api.Test;
 import backend.commands.AddTagToPictureCommand;
 import backend.models.Picture;
 import backend.models.Tag;
-import org.junit.jupiter.api.Test;
 
 class AddTagToPictureCommandTest {
 
@@ -17,7 +18,7 @@ class AddTagToPictureCommandTest {
     AddTagToPictureCommand command = new AddTagToPictureCommand(picture, tag);
     command.execute();
     command.undo();
-    assert (picture.containsTag(tag) == false);
+    assertFalse(picture.containsTag(tag));
   }
 
   @Test

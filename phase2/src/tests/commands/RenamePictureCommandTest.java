@@ -1,8 +1,9 @@
 package tests.commands;
 
+import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 import backend.commands.RenamePictureCommand;
 import backend.models.Picture;
-import org.junit.jupiter.api.Test;
 
 class RenamePictureCommandTest {
 
@@ -15,7 +16,7 @@ class RenamePictureCommandTest {
     RenamePictureCommand command = new RenamePictureCommand(picture, "chicken");
     command.execute();
     command.undo();
-    assert (picture.getTaglessName().equals("chick"));
+    assertEquals(picture.getTaglessName(), "chick");
   }
 
   @Test
@@ -23,6 +24,6 @@ class RenamePictureCommandTest {
     Picture picture = new Picture(picturePath);
     RenamePictureCommand command = new RenamePictureCommand(picture, "chicken");
     command.execute();
-    assert (picture.getTaglessName().equals("chicken"));
+    assertEquals(picture.getTaglessName(), "chicken");
   }
 }

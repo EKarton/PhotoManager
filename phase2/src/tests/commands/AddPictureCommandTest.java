@@ -1,5 +1,6 @@
 package tests.commands;
 
+import static org.junit.Assert.assertEquals;
 import backend.commands.AddPictureCommand;
 import backend.models.Picture;
 import backend.models.PictureManager;
@@ -17,7 +18,7 @@ class AddPictureCommandTest {
     command.execute();
     command.undo();
 
-    assert (manager.getPictures().size() == 0);
+    assertEquals(manager.getPictures().size(), 0);
   }
 
   @org.junit.jupiter.api.Test
@@ -27,6 +28,6 @@ class AddPictureCommandTest {
     AddPictureCommand command = new AddPictureCommand(picture, manager);
     command.execute();
 
-    assert (manager.getPictures().size() == 1);
+    assertEquals(manager.getPictures().size(), 1);
   }
 }

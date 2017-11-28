@@ -1,10 +1,10 @@
 package tests.commands;
 
+import org.junit.jupiter.api.Test;
 import backend.commands.AddPictureCommand;
 import backend.commands.DeletePictureCommand;
 import backend.models.Picture;
 import backend.models.PictureManager;
-import org.junit.jupiter.api.Test;
 
 class DeletePictureCommandTest {
 
@@ -21,7 +21,7 @@ class DeletePictureCommandTest {
     DeletePictureCommand deletePictureCommand = new DeletePictureCommand(picture, manager);
     deletePictureCommand.execute();
     deletePictureCommand.undo();
-    assert (manager.getPictures().contains(picture));
+    assert (manager.contains(picture));
   }
 
   @Test

@@ -1,5 +1,6 @@
 package commands;
 
+import static org.junit.Assert.assertFalse;
 import org.junit.jupiter.api.Test;
 import backend.commands.AddPictureCommand;
 import backend.commands.DeletePictureCommand;
@@ -33,6 +34,6 @@ class DeletePictureCommandTest {
 
     DeletePictureCommand deletePictureCommand = new DeletePictureCommand(picture, manager);
     deletePictureCommand.execute();
-    assert (!manager.getPictures().contains(picture));
+    assertFalse(manager.getPictures().contains(picture));
   }
 }

@@ -1,3 +1,4 @@
+
 package models;
 
 import static org.junit.Assert.assertEquals;
@@ -26,16 +27,15 @@ class ConfigLoadingTest {
     setting.addPicFromManager(manager);
     setting.save();
     AppSettings newSetting = AppSettings.loadFromFile();
-    assertEquals (setting.getHistoricalPicture().size() , 1);
-    assertEquals (newSetting.getHistoricalPicture().get(0).getHistoricalTaglessNames()
-        ,(picture.getHistoricalTaglessNames()));
-    assertEquals (picture.getTaglessName(),("shimiISDUMB"));
-    assertEquals (picture.getFullFileName(),("shimiISDUMB @Chicken.jpg"));
-    assertEquals (picture.getDirectoryPath()
-        ,("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
-    assertEquals (picture.getTags().size() , 1);
-
-    assertEquals (picture.getHistoricalTaglessNames(),(hisNames));
+    assertEquals(setting.getHistoricalPicture().size(), 1);
+    assertEquals(newSetting.getHistoricalPicture().get(0).getHistoricalTaglessNames(),
+        (picture.getHistoricalTaglessNames()));
+    assertEquals(picture.getTaglessName(), ("shimiISDUMB"));
+    assertEquals(picture.getFullFileName(), ("shimiISDUMB @Chicken.jpg"));
+    assertEquals(picture.getDirectoryPath(),
+        ("C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile"));
+    assertEquals(picture.getTags().size(), 1);
+    assertEquals(picture.getHistoricalTaglessNames(), (hisNames));
 
   }
 

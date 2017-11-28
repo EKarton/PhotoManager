@@ -114,4 +114,5 @@ class PictureManagerTest {
     assertFalse(manager.contains(picture3));
   }
 
+
 }

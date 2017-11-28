@@ -9,6 +9,7 @@ import backend.models.Tag;
 
 class TagTest {
 
+
   @Test
   void getLabel() {
     Tag tag = new Tag("wasd");

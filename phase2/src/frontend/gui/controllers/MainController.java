@@ -162,7 +162,7 @@ public class MainController implements Initializable {
   public void openLog() {
     String logs = this.getBackendService().getCommandManager().getLogs();
     if (logs != "") {
-      TextDialog dialog = new TextDialog("Logs", logs);
+      TextDialog dialog = new TextDialog("Renaming Logs", logs);
       dialog.show();
     }
   }

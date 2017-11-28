@@ -44,10 +44,10 @@
 							</items>
 						</Menu>
 						<MenuItem mnemonicParsing="false" onAction="#openLog"
-							text="Open Log" />
+							text="Open Renaming Log" />
 					</items>
 				</Menu>
-				<Menu mnemonicParsing="flase" text="Manage Tags">
+				<Menu mnemonicParsing="false" text="Manage Tags">
 					<items>
 						<MenuItem mnemonicParsing="false" onAction="#manageTags"
 							text="Manage Tags" />

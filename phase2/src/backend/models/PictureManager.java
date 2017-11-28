@@ -271,7 +271,6 @@ public class PictureManager implements Observer {
           this.untrackPicture(newPicture);
         }
       } catch (IOException e) {
-        System.out.println("Unable to find the original file (did you move it?)");
       }
     }
   }

@@ -40,11 +40,11 @@
 								<MenuItem mnemonicParsing="false" onAction="#openDirectory"
 									text="Open Directory" />
 								<MenuItem mnemonicParsing="false" onAction="#openDirectryRecursively"
-									text="Open Directory Recursivley" />
+									text="Open Directory Recursively" />
 							</items>
 						</Menu>
 						<MenuItem mnemonicParsing="false" onAction="#openLog"
-							text="Open Renaming Log" />
+							text="Open Log" />
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Manage Tags">
@@ -70,7 +70,15 @@
 						<MenuItem accelerator="Shortcut+shift+Z" mnemonicParsing="false"
 							onAction="#redo" text="Redo" />
 					</items>
+				
 				</Menu>
+				<Menu mnemonicParsing="false" text="Refresh">
+					<items>
+						<MenuItem accelerator="F5" mnemonicParsing="false"
+							onAction="#refresh" text="Refresh" />
+					</items>
+				</Menu>
+				
 			</menus>
 		</MenuBar>
 	</top>
@@ -94,8 +102,6 @@
 								<AnchorPane>
 									<HBox>
 										<Button onAction="#startSlideShow" text="Start Slide Show" />
-
-										<Button maxWidth="Infinity" prefWidth="130.0" text="Refresh" onAction="#refresh"/>
 									</HBox>
 								</AnchorPane>
 							</bottom>

@@ -162,10 +162,20 @@ public class MainController implements Initializable {
   @FXML
   public void openLog() {
     String logs = this.getBackendService().getCommandManager().getLogs();
-    if (logs != "") {
-      TextDialog dialog = new TextDialog("Renaming Logs", logs);
-      dialog.show();
-    }
+
+    TextDialog dialog = new TextDialog("Renaming Logs", logs);
+    dialog.show();
+  }
+
+  /**
+   * Displays help.txt in a pop up window
+   */
+  @FXML
+  public void displayHelp() {
+    String help = this.getBackendService().getHelpLog();
+
+    TextDialog dialog = new TextDialog("Help", help);
+    dialog.show();
   }
 
   /**
@@ -224,8 +234,8 @@ public class MainController implements Initializable {
 
       selectedPicture.setDirectoryPath(newDirectory); // move the picture
       this.pictureListView.getItems().setAll(pictureManager.getPictures());
-      
-      if(!pictureManager.getPictures().contains(selectedPicture)){
+
+      if (!pictureManager.getPictures().contains(selectedPicture)) {
         this.pictureView.setVisible(false);
       }
 

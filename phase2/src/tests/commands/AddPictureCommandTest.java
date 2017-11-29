@@ -2,7 +2,6 @@
 package tests.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import backend.commands.AddPictureCommand;
 import backend.models.Picture;
 import backend.models.PictureManager;

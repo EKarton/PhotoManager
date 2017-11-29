@@ -78,6 +78,13 @@
 							onAction="#refresh" text="Refresh" />
 					</items>
 				</Menu>
+				
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false"
+							onAction="#displayHelp" text="Help" />
+					</items>
+				</Menu>
 
 			</menus>
 		</MenuBar>

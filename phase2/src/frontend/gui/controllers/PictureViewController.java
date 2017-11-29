@@ -279,7 +279,7 @@ public class PictureViewController extends BorderPane implements Renamable {
         this.tagsDisplay.getChildren().add(label);
       }
     }
-   this.mainController.getListView().requestFocus();  // set the focus back to the list view
+    this.mainController.getListView().requestFocus(); // set the focus back to the list view
   }
 
 }

@@ -3,8 +3,13 @@ dengzhou : Communicate with team members to have our own due date for specific q
 smith244 : will learn javaFX and teach the rest of the team
 smith244 : think about the file structure used to store information
 kartonoe : will think about the possible constraints the program will face.
-kartonoe : will create a Business Requirements document that will outline specifically what the program will do and achieve. 
-dengzhou : Will implement I/O 
+kartonoe : will create a Business Requirements document that will outline specifically what the program will do and achieve.
+dengzhou : Will implement I/O
+dengzhou : Will make the UML
+dengzhou : Will Implement backend functionality with Emilio
+dengzhou : Will implement logging
+dengzhou : Will expand the Command to incorporate logging functionality
+dengzhou : Testing/Debugging in the end
 smith244 : Write file management code to move, rename and delete files
 smith244 : Create some serializable classes to represent different types of logs
 smith244 : Write code to read and write to serial files

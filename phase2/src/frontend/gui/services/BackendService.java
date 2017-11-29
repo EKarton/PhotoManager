@@ -104,12 +104,10 @@ public class BackendService {
   public void rename(Picture picture, String newName) {
 
     if (picture == null || newName == null) {
-      System.out.println("wasd");
+      return;
     }
 
     if (!newName.contains("@") && !newName.equals(picture.getTaglessName())) {
-
-      System.out.println(picture);
 
       RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
       this.commandManager.addCommand(renamePictureCommand);

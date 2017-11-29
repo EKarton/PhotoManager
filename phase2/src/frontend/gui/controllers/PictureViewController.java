@@ -39,7 +39,7 @@ public class PictureViewController extends BorderPane implements Renamable {
 
   /** The stack pane holding the image view */
   @FXML
-  StackPane imageContainer;
+  private StackPane imageContainer;
 
   /** The label representing the name of the image */
   @FXML

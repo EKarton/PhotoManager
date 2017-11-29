@@ -133,7 +133,7 @@ public class PictureViewController extends BorderPane implements Renamable {
     if (showAbsoluteName) {
       this.name.setText(this.picture.getAbsolutePath());
     } else {
-      this.name.setText(this.picture.getTaglessName());
+      this.name.setText(this.picture.toString());
     }
   }
 

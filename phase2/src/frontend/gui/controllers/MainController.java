@@ -162,10 +162,7 @@ public class MainController implements Initializable {
   @FXML
   public void openLog() {
     String logs = this.getBackendService().getCommandManager().getLogs();
-    if (logs != "") {
-      TextDialog dialog = new TextDialog("Renaming Logs", logs);
-      dialog.show();
-    }
+    displayLog(logs);
   }
 
   /**
@@ -174,6 +171,15 @@ public class MainController implements Initializable {
   @FXML
   public void displayHelp() {
     String logs = this.getBackendService().getHelpLog();
+    displayLog(logs);
+  }
+
+  /**
+   * Helper method for displaying a String with a Textdialog
+   * 
+   * @param logs to be displayed
+   */
+  private void displayLog(String logs) {
     if (logs != "") {
       TextDialog dialog = new TextDialog("help", logs);
       dialog.show();

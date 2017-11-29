@@ -158,8 +158,6 @@ public class PictureViewController extends BorderPane implements Renamable {
   @FXML
   public void rename() {
     String newName = this.historicalNames.getSelectionModel().getSelectedItem();
-    System.out.println(newName);
-
     // This means that something is selected
     if (newName != null) {
       rename(newName);
@@ -280,7 +278,7 @@ public class PictureViewController extends BorderPane implements Renamable {
         this.tagsDisplay.getChildren().add(label);
       }
     }
-   this.mainController.getListView().requestFocus();  // set the focus back to the list view
+    this.mainController.getListView().requestFocus(); // set the focus back to the list view
   }
 
 }

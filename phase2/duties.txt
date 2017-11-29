@@ -32,7 +32,10 @@ Phase 2
  - Added implementation for Removing/Adding Tags to a picture
  - Added Commands that adds/deletes multiple Tags
  - Improved the refresh feature to refresh the Tags/ added hotkey binding for refresh
- - Debugged frontend - Ex. Moving files, picture display
+ - Debugged frontend -Fixed bugs like Moving files, picture display
+ - Refactored Junit tests
+ - Updated the shell script to not compile Junit tests
+ - Added a help function in the toolbar
  - Made the UML diagram for the entire Project
 
 

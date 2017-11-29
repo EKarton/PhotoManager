@@ -1,5 +1,7 @@
 package frontend.gui.services;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import backend.commands.CommandManager;
 import backend.commands.RenamePictureCommand;
@@ -19,6 +21,9 @@ public class BackendService {
 
   /** Holds the configuration data used by our program */
   private AppSettings appSettings;
+
+  /** The file name of the help file to be displayed */
+  private static final String HELP_LOG = "extraHelp";
 
   /**
    * Constructs a new BackendService. When the app settings was not found /corrupted / locked by
@@ -116,4 +121,25 @@ public class BackendService {
       renamePictureCommand.execute(); // execute the command
     }
   }
+
+  /**
+   * Display the logs inside HELP_LOG
+   */
+  public String getHelpLog() {
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(HELP_LOG));
+      StringBuilder fileContent = new StringBuilder();
+      String currLine = reader.readLine();
+      while (currLine != null) {
+        fileContent.append(currLine);
+        fileContent.append("\n");
+        currLine = reader.readLine();
+      }
+      reader.close();
+      return fileContent.toString();
+    } catch (IOException e) {
+      return "";
+    }
+  }
+
 }

@@ -169,6 +169,19 @@ public class MainController implements Initializable {
   }
 
   /**
+   * Displays help.txt in a pop up window
+   */
+  @FXML
+  public void displayHelp() {
+    String logs = this.getBackendService().getHelpLog();
+    if (logs != "") {
+      TextDialog dialog = new TextDialog("help", logs);
+      dialog.show();
+    }
+  }
+
+
+  /**
    * Open the tag manager in a pop up window
    */
   @FXML
@@ -224,8 +237,8 @@ public class MainController implements Initializable {
 
       selectedPicture.setDirectoryPath(newDirectory); // move the picture
       this.pictureListView.getItems().setAll(pictureManager.getPictures());
-      
-      if(!pictureManager.getPictures().contains(selectedPicture)){
+
+      if (!pictureManager.getPictures().contains(selectedPicture)) {
         this.pictureView.setVisible(false);
       }
 

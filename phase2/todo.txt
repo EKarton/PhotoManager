@@ -18,3 +18,5 @@ kartonoe : Created classes used to represent the Picture and the Tags
 kartonoe : Created a PictureManager (an observer) that will observe any changes in the mappings / tags / pictures, and performs IO changes to accomodate those changes.
 kartonoe : Created the Command manager and its associated Command classes used to undo / redo actions the user has done in the GUI (such as undoing a name change).
 kartonoe : Attempted to fix the bug that occured when adding/deleting/removing tags from a picture.
+smith244 : rewrite the gui code in fxml with the help of emilio
+smith244 : Write the controllers to work with the fxml and make sure to consider good mvc

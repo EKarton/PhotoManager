@@ -1,7 +1,8 @@
 
 package tests.commands;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import org.junit.jupiter.api.Test;
 import backend.commands.AddTagToPictureCommand;
 import backend.models.Picture;

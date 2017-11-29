@@ -1,7 +1,8 @@
 
 package tests.models;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import backend.models.Picture;

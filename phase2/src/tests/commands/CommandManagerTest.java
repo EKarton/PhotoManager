@@ -1,7 +1,8 @@
 
 package tests.commands;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 import javax.naming.NoInitialContextException;
 import org.junit.jupiter.api.Test;

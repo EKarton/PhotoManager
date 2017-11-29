@@ -1,5 +1,5 @@
 
-package commands;
+package tests.commands;
 
 import static org.junit.Assert.assertEquals;
 import backend.commands.AddPictureCommand;

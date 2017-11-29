@@ -1,5 +1,5 @@
 
-package models;
+package tests.models;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;

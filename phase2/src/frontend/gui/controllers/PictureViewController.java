@@ -329,4 +329,11 @@ public class PictureViewController extends BorderPane implements Renamable {
     }
   }
 
+  /**
+   * Refresh the picture view
+   */
+  public void refresh(){
+    this.setPicture(this.picture);
+  }
+
 }

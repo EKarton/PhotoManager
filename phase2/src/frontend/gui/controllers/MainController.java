@@ -286,7 +286,7 @@ public class MainController implements Initializable {
     this.getBackendService().resetBackendService(curDirectory, isRecursive);
     this.pictureListView.getItems()
         .setAll(this.getBackendService().getPictureManager().getPictures());
-    this.pictureView.showTags();
+    this.pictureView.refresh();
   }
 
   /**

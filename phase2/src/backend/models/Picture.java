@@ -78,7 +78,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
           newTag.addObserver(this);
         }
       }
-      this.historicalTags.add(this.tags);
     }
     this.historicalTagLessNames.add(this.taglessName);
   }
@@ -140,7 +139,10 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       Picture oldPic = this.clone();
       this.tags.add(tag);
 
-      this.historicalTags.add(getTags());
+      if (!this.getHistoricalTags().contains(getTagsDeepCopy())
+          && !this.getTagsDeepCopy().isEmpty()) {
+        this.historicalTags.add(getTagsDeepCopy());
+      }
 
       tag.addObserver(this);
 
@@ -163,7 +165,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       tags.remove(tag);
       tag.deleteObserver(this);
 
-      this.historicalTags.add(getTags());
+      if (!this.getHistoricalTags().contains(getTagsDeepCopy()) && !this.getTags().isEmpty()) {
+        this.historicalTags.add(getTagsDeepCopy());
+      }
 
       super.setChanged();
       super.notifyObservers(oldPic);
@@ -243,6 +247,19 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    */
   public ArrayList<Tag> getTags() {
     return new ArrayList<Tag>(this.tags);
+  }
+
+  /**
+   * Gets a actuall clone of a list of tags in this picture.
+   * 
+   * @return A copy of the list of tags in this picture.
+   */
+  public ArrayList<Tag> getTagsDeepCopy() {
+    ArrayList<Tag> tags = new ArrayList<Tag>();
+    for (Tag tag : this.getTags()) {
+      tags.add(new Tag(tag.getLabel()));
+    }
+    return tags;
   }
 
   /**

@@ -69,9 +69,14 @@ public class RevertTagStateCommand implements Command {
         if (!manager.getAvailableTags().contains(tag)) {
           manager.addTagToCollection(tag);
         }
-        picture.addTag(tag);
+        for (Tag thisTag : manager.getAvailableTags()) {
+          if (thisTag.equals(tag)) {
+            picture.addTag(thisTag);
+          }
+        }
       }
     }
+
     for (Tag tag : currTags) {
       if (!tagsToRevert.contains(tag)) {
         picture.deleteTag(tag);

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import backend.models.AppSettings;
 import backend.models.Picture;
 import backend.models.PictureManager;
+import backend.models.Tag;
 
 class ConfigLoadingTest {
 

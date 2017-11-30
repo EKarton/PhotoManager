@@ -72,7 +72,7 @@ public class PictureManager implements Observer {
 
         for (Tag tag : this.availableTags) {
           for (Tag pictureTag : picture.getTags()) {
-            if (tag.equals(pictureTag)) {
+            if (tag.equals(pictureTag) && tag != pictureTag) {
               picture.deleteTag(pictureTag);
               picture.addTag(tag);
             }

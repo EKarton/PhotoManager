@@ -324,22 +324,23 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void historicalTags() {
-    SelectionWindow<ArrayList<Tag>> tagSelection =
-        new SelectionWindow<>(this.mainController.getStage(), "Historical Tags", "Revert Tags",
-            this.picture.getHistoricalTags(), false);
+    if (!this.picture.getHistoricalTags().isEmpty()) {
+      SelectionWindow<ArrayList<Tag>> tagSelection =
+          new SelectionWindow<>(this.mainController.getStage(), "Historical Tags", "Revert Tags",
+              this.picture.getHistoricalTags(), false);
 
-    List<ArrayList<Tag>> selection = tagSelection.show();
+      List<ArrayList<Tag>> selection = tagSelection.show();
 
-    if (selection != null && selection.size() != 0) {
-      List<Tag> selectedTags = selection.get(0); // it's just a single selection
-      RevertTagStateCommand cmd = new RevertTagStateCommand(this.backEndService.getPictureManager(),
-          this.picture, selectedTags);
+      if (selection != null && selection.size() != 0) {
+        List<Tag> selectedTags = selection.get(0); // it's just a single selection
+        RevertTagStateCommand cmd = new RevertTagStateCommand(
+            this.backEndService.getPictureManager(), this.picture, selectedTags);
 
-      this.backEndService.getCommandManager().addCommand(cmd);
-      cmd.execute();
+        this.backEndService.getCommandManager().addCommand(cmd);
+        cmd.execute();
+      }
+      this.refresh();
     }
-
-    this.refresh();
   }
 
   /**

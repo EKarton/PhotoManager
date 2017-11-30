@@ -283,6 +283,8 @@ public class MainController implements Initializable {
   public void refresh() {
     String curDirectory = this.getBackendService().getPictureManager().getCurrDir();
     boolean isRecursive = this.getBackendService().getPictureManager().isRecursive();
+    this.getBackendService().getAppSettings()
+        .addPicFromManager(this.getBackendService().getPictureManager());
     this.getBackendService().resetBackendService(curDirectory, isRecursive);
     this.pictureListView.getItems()
         .setAll(this.getBackendService().getPictureManager().getPictures());

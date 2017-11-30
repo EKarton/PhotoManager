@@ -1,6 +1,7 @@
 package backend.commands;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import backend.models.Picture;
@@ -15,10 +16,10 @@ import backend.models.Tag;
 public class RevertTagStateCommand implements Command {
 
   /** the Tags to revert to */
-  private ArrayList<Tag> tagsToRevert;
+  private List<Tag> tagsToRevert;
 
   /** the current list of tags of the picture */
-  private ArrayList<Tag> currTags;
+  private List<Tag> currTags;
 
   /** the picture to rename */
   private Picture picture;
@@ -29,7 +30,7 @@ public class RevertTagStateCommand implements Command {
    * @param picture
    * @param historicalTags
    */
-  public RevertTagStateCommand(Picture picture, ArrayList<Tag> historicalTags) {
+  public RevertTagStateCommand(Picture picture, List<Tag> historicalTags) {
     this.tagsToRevert = historicalTags;
     this.currTags = picture.getTags();
     this.picture = picture;
@@ -57,7 +58,7 @@ public class RevertTagStateCommand implements Command {
    * @param tagsToRevert
    * @param currTags
    */
-  private void revertHelper(ArrayList<Tag> tagsToRevert, ArrayList<Tag> currTags) {
+  private void revertHelper(List<Tag> tagsToRevert, List<Tag> currTags) {
     for (Tag tag : tagsToRevert) {
       if (!currTags.contains(tag)) {
         picture.addTag(tag);

@@ -1,84 +1,111 @@
 package frontend.gui.controllers;
 
-import frontend.gui.services.BackendService;
+import backend.commands.AddTagToPictureCommand;
+import backend.commands.AddTagsToPicCommand;
+import backend.commands.DeleteTagFromPictureCommand;
+import backend.commands.DeleteTagsFromPicCommand;
+import backend.commands.RevertTagStateCommand;
+import backend.models.Picture;
+import backend.models.Tag;
 import frontend.gui.customcontrols.Renamable;
+import frontend.gui.services.BackendService;
 import frontend.gui.windows.SelectionWindow;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.geometry.Insets;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javax.imageio.ImageIO;
-import backend.commands.AddTagToPictureCommand;
-import backend.commands.AddTagsToPicCommand;
-import backend.commands.DeleteTagFromPictureCommand;
-import backend.commands.DeleteTagsFromPicCommand;
-import backend.models.Picture;
-import backend.models.Tag;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javax.imageio.ImageIO;
 
 // https://docs.oracle.com/javafx/2/fxml_get_started/custom_control.htm
 
-/** The controller for the picture view */
+/**
+ * The controller for the picture view
+ */
 public class PictureViewController extends BorderPane implements Renamable {
 
-  /** The stack pane holding the image view */
+  /**
+   * The stack pane holding the image view
+   */
   @FXML
   private StackPane imageContainer;
 
-  /** The label representing the name of the image */
+  /**
+   * The label representing the name of the image
+   */
   @FXML
   private Label name;
 
-  /** Label for the picture's tags */
+  /**
+   * Label for the picture's tags
+   */
   @FXML
   private Label tags;
 
-  /** The image view */
+  /**
+   * The image view
+   */
   @FXML
   private ImageView imageView;
 
-  /** The picture view */
+  /**
+   * The picture view
+   */
   @FXML
   private BorderPane pictureView;
 
-  /** The combo box for historical names */
+  /**
+   * The combo box for historical names
+   */
   @FXML
   private ComboBox<String> historicalNames;
 
-  /** The check box to show tags */
+  /**
+   * The check box to show tags
+   */
   @FXML
   private CheckBox showTags;
 
-  /** HBox that contains labels for the tags */
+  /**
+   * HBox that contains labels for the tags
+   */
   @FXML
   private HBox tagsDisplay;
 
-  /** The picture currently being displayed */
+  /**
+   * The picture currently being displayed
+   */
   private Picture picture;
 
-  /** The backend service being used by the program */
+  /**
+   * The backend service being used by the program
+   */
   private BackendService backEndService;
 
-  /** The main controller being used by the program */
+  /**
+   * The main controller being used by the program
+   */
   private MainController mainController;
 
-  /** True if we are showing the absolute path */
+  /**
+   * True if we are showing the absolute path
+   */
   private boolean showAbsoluteName;
 
   /**
@@ -101,7 +128,7 @@ public class PictureViewController extends BorderPane implements Renamable {
 
   /**
    * Set the backend service
-   * 
+   *
    * @param backendService the backend service
    */
   public void setBackendService(BackendService backendService) {
@@ -110,7 +137,7 @@ public class PictureViewController extends BorderPane implements Renamable {
 
   /**
    * Set the main controller
-   * 
+   *
    * @param mainController the main controller
    */
   public void setMainController(MainController mainController) {
@@ -139,7 +166,7 @@ public class PictureViewController extends BorderPane implements Renamable {
 
   /**
    * Get the past names of the picture being displayed
-   * 
+   *
    * @return a list of (strings) the past names of the image being displayed
    */
   private List<String> getHistoricalNames() {
@@ -171,7 +198,7 @@ public class PictureViewController extends BorderPane implements Renamable {
 
   /**
    * Rename the picture being displayed with <code>newName</code>
-   * 
+   *
    * @param newName the new name
    */
   @Override
@@ -184,7 +211,7 @@ public class PictureViewController extends BorderPane implements Renamable {
 
   /**
    * Set the picture being displayed
-   * 
+   *
    * @param newPicture the new picture to display
    */
   public void setPicture(Picture newPicture) {
@@ -219,7 +246,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   public void addTags() {
     SelectionWindow<Tag> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
         "Add Tags", "Add Tags",
-        this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture));
+        this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture), true);
 
     List<Tag> tags = tagSelection.show();
     if (tags.size() > 1) {
@@ -240,7 +267,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   @FXML
   public void removeTags() {
     SelectionWindow<Tag> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
-        "Delete Tags", "Delete Tags", this.picture.getTags());
+        "Delete Tags", "Delete Tags", this.picture.getTags(), true);
 
     List<Tag> tags = tagSelection.show();
     if (tags.size() > 1) {
@@ -280,6 +307,18 @@ public class PictureViewController extends BorderPane implements Renamable {
       }
     }
     this.mainController.getListView().requestFocus(); // set the focus back to the list view
+  }
+
+  /**
+   * Display the historical tags and let the user revert
+   */
+  @FXML
+  public void historicalTags() {
+    SelectionWindow<ArrayList<Tag>> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
+        "Historical Tags", "Revert Tags", this.picture.getHistoricalTags(), false);
+
+    List<Tag> selectedTags = tagSelection.show().get(0);  // it's just a single selection
+    RevertTagStateCommand cmd = new RevertTagStateCommand(this.picture, selectedTags);
   }
 
 }

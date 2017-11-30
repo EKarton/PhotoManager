@@ -2,16 +2,11 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.control.Button?>
-
 
 <fx:root fx:id="pictureView" type="BorderPane" visible="false"
 	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
@@ -84,6 +79,8 @@
 					<Insets top="5" />
 				</padding>
 			</HBox>
+
+			<Button text="Historical Tags" onAction="#historicalTags"/>
 
 		</HBox>
 	</bottom>

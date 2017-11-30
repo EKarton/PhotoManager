@@ -31,6 +31,9 @@ public class SelectionWindow<T> {
   @FXML
   private Button enterButton;
 
+  /** True if you can select multiple items from the list */
+  private boolean multiSelect;
+
   /**
    * Constructs the selection window. Loads the view from the fxml file.
    * 
@@ -38,8 +41,11 @@ public class SelectionWindow<T> {
    * @param title the title of this window
    * @param enter the text to put in the enter button
    * @param items the items to display
+   * @param multiSelect true if can select multiple items, false other wise
    */
-  public SelectionWindow(Window owner, String title, String enter, List<T> items) {
+  public SelectionWindow(Window owner, String title, String enter, List<T> items, boolean multiSelect) {
+    this.multiSelect= multiSelect;
+
     this.window = new Stage();
 
     this.window.setTitle(title);
@@ -57,7 +63,10 @@ public class SelectionWindow<T> {
 
       enterButton.setText(enter);
 
-      this.items.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+      if(this.multiSelect){
+        this.items.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+      }
+
       this.items.getItems().setAll(items);
 
       Scene scene = new Scene(root);
@@ -86,5 +95,6 @@ public class SelectionWindow<T> {
     this.window.showAndWait();
 
     return this.items.getSelectionModel().getSelectedItems();
+
   }
 }

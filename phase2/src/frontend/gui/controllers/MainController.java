@@ -237,7 +237,6 @@ public class MainController implements Initializable {
         this.pictureView.setVisible(false);
       }
       else{
-        System.out.println("Test");
         this.pictureView.refresh();
       }
 

@@ -204,6 +204,11 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @Override
   public void rename(String newName) {
+    // no change was made, so don't log it
+    if(newName.equals("") || newName == this.picture.getTaglessName()){
+      return;
+    }
+
     this.backEndService.rename(picture, newName);
     this.mainController.getListView().getItems()
         .setAll(this.backEndService.getPictureManager().getPictures());

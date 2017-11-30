@@ -39,8 +39,8 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    * A list of all the tags that the Picture has had or currently holding
    */
   private ArrayList<ArrayList<Tag>> historicalTags;
-  
-  
+
+
   /**
    * A List of all historical tag-less names
    */
@@ -139,7 +139,10 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     if (lengthOfNewFileName < 255 && !tags.contains(tag)) {
       Picture oldPic = this.clone();
       this.tags.add(tag);
-      this.historicalTags.add(tags);
+
+      if (!this.historicalTags.contains(tags)) {
+        this.historicalTags.add(tags);
+      }
 
       tag.addObserver(this);
 
@@ -161,8 +164,11 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       Picture oldPic = this.clone();
       tags.remove(tag);
       tag.deleteObserver(this);
-      
-      this.historicalTags.add(tags);
+
+      if (!this.historicalTags.contains(tags)) {
+        this.historicalTags.add(tags);
+      }
+
       super.setChanged();
       super.notifyObservers(oldPic);
     }

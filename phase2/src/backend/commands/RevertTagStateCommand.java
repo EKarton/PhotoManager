@@ -61,7 +61,9 @@ public class RevertTagStateCommand implements Command {
   }
 
   /**
-   * helper function for reverting
+   * helper function for reverting, note: if a tag was renamed, reverting to a state where that tag
+   * was at its previous name will add the tag with previous name as a new tag to the collection
+   *
    */
   private void revertHelper(List<Tag> tagsToRevert, List<Tag> currTags) {
     for (Tag tag : tagsToRevert) {
@@ -86,7 +88,7 @@ public class RevertTagStateCommand implements Command {
 
 
   /**
-   *
+   * Info level: FINE
    */
   @Override
   public LogRecord getLogRecord() {

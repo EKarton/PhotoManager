@@ -217,6 +217,7 @@ public class MainController implements Initializable {
   public void undo() {
     try {
       this.getBackendService().getCommandManager().undoRecentCommand();
+      this.pictureView.refresh();
     } catch (NoInitialContextException e) {
     }
   }
@@ -228,6 +229,7 @@ public class MainController implements Initializable {
   public void redo() {
     try {
       this.getBackendService().getCommandManager().redoRecentCommand();
+      this.pictureView.refresh();
     } catch (NoInitialContextException e) {
     }
   }

@@ -21,7 +21,7 @@ public class DeleteTagsFromPicCommand implements Command {
   /**
    * The tags to delete.
    */
-  private List<Tag> tags;
+  private List<Tag> tagsToDelete;
 
   /**
    * Creates a DeleteTagFromPictureCommand specifying tags to delete from a picture. Note: the tag
@@ -32,7 +32,7 @@ public class DeleteTagsFromPicCommand implements Command {
    */
   public DeleteTagsFromPicCommand(Picture picture, List<Tag> tags) {
     this.picture = picture;
-    this.tags = tags;
+    this.tagsToDelete = tags;
   }
 
   /**
@@ -41,9 +41,7 @@ public class DeleteTagsFromPicCommand implements Command {
    */
   @Override
   public void undo() {
-    for (Tag tag : this.tags) {
-      picture.addTag(tag);
-    }
+    picture.addMultipleTags(tagsToDelete);
   }
 
   /**
@@ -52,9 +50,7 @@ public class DeleteTagsFromPicCommand implements Command {
    */
   @Override
   public void execute() {
-    for (Tag tag : this.tags) {
-      picture.deleteTag(tag);
-    }
+    picture.deleteMultipleTags(tagsToDelete);
   }
 
   /**
@@ -62,6 +58,7 @@ public class DeleteTagsFromPicCommand implements Command {
    */
   @Override
   public LogRecord getLogRecord() {
-    return new LogRecord(Level.FINE, "Removed " + tags + " from " + picture.getTaglessName());
+    return new LogRecord(Level.FINE,
+        "Removed " + tagsToDelete + " from " + picture.getTaglessName());
   }
 }

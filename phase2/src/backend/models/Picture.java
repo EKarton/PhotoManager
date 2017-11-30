@@ -3,6 +3,7 @@ package backend.models;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -154,6 +155,30 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   }
 
   /**
+   * adds a list of tags to this picture , with the same reasoning behind addTag()
+   * 
+   * @param tags
+   */
+  public void addMultipleTags(List<Tag> tags) {
+    for (Tag tag : tags) {
+      int lengthOfNewFileName = this.getFullFileName().length() + tag.getLabel().length() + 1;
+      if (lengthOfNewFileName < 255 && !this.tags.contains(tag)) {
+        Picture oldPic = this.clone();
+        this.tags.add(tag);
+
+        tag.addObserver(this);
+
+        super.setChanged();
+        super.notifyObservers(oldPic);
+      }
+    }
+    if (!this.getHistoricalTags().contains(getTagsDeepCopy())
+        && !this.getTagsDeepCopy().isEmpty()) {
+      this.historicalTags.add(getTagsDeepCopy());
+    }
+  }
+
+  /**
    * Deletes a tag from this picture and will stop observing that tag. If the tag does not exist in
    * this instance, it will do nothing. It will notifies all observers that a Tag has been deleted
    * from this picture. It will send a copy of the picture before the tag has been deleted to the
@@ -174,6 +199,28 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       super.setChanged();
       super.notifyObservers(oldPic);
     }
+  }
+
+  /**
+   * delete the given list of tags from this picture, if they exist on this picture
+   * 
+   * @param tags tags to delete
+   */
+  public void deleteMultipleTags(List<Tag> tags) {
+    for (Tag tag : tags) {
+      if (this.tags.contains(tag)) {
+        Picture oldPic = this.clone();
+        this.tags.remove(tag);
+        tag.deleteObserver(this);
+
+        super.setChanged();
+        super.notifyObservers(oldPic);
+      }
+    }
+    if (!this.getHistoricalTags().contains(getTagsDeepCopy()) && !this.getTags().isEmpty()) {
+      this.historicalTags.add(getTagsDeepCopy());
+    }
+
   }
 
   /**

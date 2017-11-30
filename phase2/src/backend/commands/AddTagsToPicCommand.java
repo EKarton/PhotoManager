@@ -38,9 +38,7 @@ public class AddTagsToPicCommand implements Command {
    */
   @Override
   public void undo() {
-    for (Tag tag : this.tagsToAdd) {
-      picture.deleteTag(tag);
-    }
+    picture.deleteMultipleTags(tagsToAdd);
   }
 
   /**
@@ -49,9 +47,7 @@ public class AddTagsToPicCommand implements Command {
    */
   @Override
   public void execute() {
-    for (Tag tag : this.tagsToAdd) {
-      picture.addTag(tag);
-    }
+    picture.addMultipleTags(tagsToAdd);
   }
 
   /**

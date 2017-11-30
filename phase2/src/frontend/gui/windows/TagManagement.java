@@ -134,6 +134,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
           .addPicFromManager(this.mainController.getBackendService().getPictureManager());
     }
     updateTagList();
+    this.mainController.getPictureViewController().refresh();
   }
 
   /**
@@ -168,6 +169,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
       mainController.getBackendService().getCommandManager().addCommand(renameTag);
       renameTag.execute();
       updateTagList();
+      this.mainController.getPictureViewController().refresh();
     }
   }
 

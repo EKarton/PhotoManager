@@ -53,7 +53,6 @@ public class CommandManager {
     logFileHandler = new FileHandler(LOG_FILENAME, true);
     logFileHandler.setFormatter(new LogFormatter());
     logger.addHandler(logFileHandler);
-    LogManager.getLogManager().reset();  // prevents log messages
   }
 
   /**

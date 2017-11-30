@@ -264,6 +264,8 @@ public class PictureViewController extends BorderPane implements Renamable {
       addTags.execute();
     }
 
+    this.refresh();
+
   }
 
   /**
@@ -285,6 +287,8 @@ public class PictureViewController extends BorderPane implements Renamable {
       this.mainController.getBackendService().getCommandManager().addCommand(addTags);
       addTags.execute();
     }
+
+    this.refresh();
   }
 
   /**
@@ -331,6 +335,8 @@ public class PictureViewController extends BorderPane implements Renamable {
       this.backEndService.getCommandManager().addCommand(cmd);
       cmd.execute();
     }
+
+    this.refresh();
   }
 
   /**

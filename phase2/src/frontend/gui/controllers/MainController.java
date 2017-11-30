@@ -275,21 +275,6 @@ public class MainController implements Initializable {
   }
 
   /**
-   * Refreshes the list view in the case that the user edits a file outside of the program
-   */
-  @FXML
-  public void refresh() {
-    String curDirectory = this.getBackendService().getPictureManager().getCurrDir();
-    boolean isRecursive = this.getBackendService().getPictureManager().isRecursive();
-    this.getBackendService().getAppSettings()
-        .addPicFromManager(this.getBackendService().getPictureManager());
-    this.getBackendService().resetBackendService(curDirectory, isRecursive);
-    this.pictureListView.getItems()
-        .setAll(this.getBackendService().getPictureManager().getPictures());
-    this.pictureView.refresh();
-  }
-
-  /**
    * Opens the OS's file viewer to the current directory
    * 
    * Reference: https://stackoverflow.com/a/12340147

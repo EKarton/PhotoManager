@@ -319,6 +319,9 @@ public class PictureViewController extends BorderPane implements Renamable {
 
     List<Tag> selectedTags = tagSelection.show().get(0);  // it's just a single selection
     RevertTagStateCommand cmd = new RevertTagStateCommand(this.picture, selectedTags);
+
+    this.backEndService.getCommandManager().addCommand(cmd);
+    cmd.execute();
   }
 
 }

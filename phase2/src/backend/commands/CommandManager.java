@@ -8,6 +8,7 @@ import java.util.Stack;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.Logger;
 import javax.naming.NoInitialContextException;
 
@@ -52,6 +53,7 @@ public class CommandManager {
     logFileHandler = new FileHandler(LOG_FILENAME, true);
     logFileHandler.setFormatter(new LogFormatter());
     logger.addHandler(logFileHandler);
+    LogManager.getLogManager().reset();  // prevents log messages
   }
 
   /**

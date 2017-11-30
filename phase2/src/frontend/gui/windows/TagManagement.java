@@ -203,7 +203,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   public void onFilterTagsList(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();
     String curText = this.searchBox.getText() + filter;
-    if (!filter.equals("") && !filter.equals("\b")) {
+    if (filter.length() == 1  && Character.isLetterOrDigit(filter.charAt(0))) {
       ArrayList<Tag> filteredTags = new ArrayList<>();
       for (Tag tag : this.mainController.getBackendService().getPictureManager()
           .getAvailableTags()) {
@@ -213,7 +213,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
       }
 
       this.tagListView.getItems().setAll(filteredTags);
-    } else if (filter.equals("\b") || curText.equals("")) {
+    } else {
       this.tagListView.getItems()
           .setAll(this.mainController.getBackendService().getPictureManager().getAvailableTags());
     }

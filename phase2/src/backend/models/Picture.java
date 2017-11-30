@@ -283,7 +283,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    */
   @Override
   public String toString() {
-    return this.getTaglessName() + this.fileExt;
+    return this.getTaglessName();
   }
 
   /**

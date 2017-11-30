@@ -71,12 +71,7 @@ public class AppSettings implements Serializable {
         this.historicalPictures.add(picture);
       }
     }
-
-    for (Tag tag : manager.getAvailableTags()) {
-      if (!this.availableTags.contains(tag)) {
-        this.availableTags.add(tag);
-      }
-    }
+    this.availableTags = manager.getAvailableTags();
   }
 
   /**

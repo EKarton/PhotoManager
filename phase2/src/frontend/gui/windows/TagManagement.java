@@ -130,6 +130,8 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
 
     for (Tag tag : selectedTags) {
       this.mainController.getBackendService().getPictureManager().deleteTag(tag);
+      this.mainController.getBackendService().getAppSettings()
+          .addPicFromManager(this.mainController.getBackendService().getPictureManager());
     }
     updateTagList();
   }

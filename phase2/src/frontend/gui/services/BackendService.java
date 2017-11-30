@@ -113,7 +113,7 @@ public class BackendService {
       return;
     }
 
-    if (!newName.contains("@") && !newName.equals(picture.getTaglessName())) {
+    if (!newName.contains("@") && !newName.contains(".") && !newName.equals("") && !newName.equals(picture.getTaglessName())) {
 
       RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
       this.commandManager.addCommand(renamePictureCommand);

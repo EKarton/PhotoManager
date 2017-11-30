@@ -13,6 +13,7 @@ import frontend.gui.windows.SelectionWindow;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.embed.swing.SwingFXUtils;
@@ -317,11 +318,15 @@ public class PictureViewController extends BorderPane implements Renamable {
     SelectionWindow<ArrayList<Tag>> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
         "Historical Tags", "Revert Tags", this.picture.getHistoricalTags(), false);
 
-    List<Tag> selectedTags = tagSelection.show().get(0);  // it's just a single selection
-    RevertTagStateCommand cmd = new RevertTagStateCommand(this.picture, selectedTags);
+    List<ArrayList<Tag>> selection = tagSelection.show();
 
-    this.backEndService.getCommandManager().addCommand(cmd);
-    cmd.execute();
+    if(selection != null && selection.size() != 0) {
+      List<Tag> selectedTags = selection.get(0);  // it's just a single selection
+      RevertTagStateCommand cmd = new RevertTagStateCommand(this.picture, selectedTags);
+
+      this.backEndService.getCommandManager().addCommand(cmd);
+      cmd.execute();
+    }
   }
 
 }

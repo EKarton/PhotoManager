@@ -1,12 +1,13 @@
 package tests.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.junit.jupiter.api.Test;
 import backend.commands.AddTagToPictureCommand;
 import backend.models.Picture;
 import backend.models.Tag;
+import org.junit.jupiter.api.Test;
 
 class DeleteTagFromPictureCommandTest {
+
   private final String picturePath =
       "C:\\Users\\Emilio K\\Desktop\\FileManagerTestCases\\deleteFile\\chick @Chicken.jpg";
 

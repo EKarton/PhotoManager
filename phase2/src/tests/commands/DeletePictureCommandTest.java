@@ -1,11 +1,11 @@
 package tests.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.junit.jupiter.api.Test;
 import backend.commands.AddPictureCommand;
 import backend.commands.DeletePictureCommand;
 import backend.models.Picture;
 import backend.models.PictureManager;
+import org.junit.jupiter.api.Test;
 
 class DeletePictureCommandTest {
 

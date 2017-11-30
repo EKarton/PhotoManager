@@ -1,13 +1,13 @@
 package backend.commands;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.Tag;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * A command used to delete a tag from a picture.
- * 
+ *
  * Severity Level: Fine
  */
 public class DeleteTagFromPictureCommand implements Command {
@@ -25,7 +25,7 @@ public class DeleteTagFromPictureCommand implements Command {
   /**
    * Creates a DeleteTagFromPictureCommand specifying a tag to delete from a picture. Note: the tag
    * should be already in the picture.
-   * 
+   *
    * @param picture A picture containing the tag
    * @param tag The tag to delete.
    */

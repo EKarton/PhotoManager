@@ -19,7 +19,7 @@ public interface Command {
 
   /**
    * Returns a log record for this command
-   * 
+   *
    * @return A log record for this command
    */
   LogRecord getLogRecord();

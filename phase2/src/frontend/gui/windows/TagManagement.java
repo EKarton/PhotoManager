@@ -1,5 +1,7 @@
 package frontend.gui.windows;
 
+import backend.commands.RenameTagCommand;
+import backend.models.Tag;
 import frontend.gui.controllers.MainController;
 import frontend.gui.customcontrols.ListViewCallback;
 import frontend.gui.customcontrols.Renamable;
@@ -7,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import backend.commands.RenameTagCommand;
-import backend.models.Tag;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -28,27 +28,38 @@ import javafx.stage.Stage;
  * Tag manager pop up window
  */
 public class TagManagement implements ChangeListener<Tag>, Renamable {
-  /** The stage of the pop up window */
+
+  /**
+   * The stage of the pop up window
+   */
   private Stage window;
 
-  /** The main controller of the program */
+  /**
+   * The main controller of the program
+   */
   private MainController mainController;
 
-  /** The list of tags */
+  /**
+   * The list of tags
+   */
   @FXML
   private ListView<Tag> tagListView;
 
-  /** Search box to search for tags */
+  /**
+   * Search box to search for tags
+   */
   @FXML
   private TextField searchBox;
 
-  /** Button for renaming tags */
+  /**
+   * Button for renaming tags
+   */
   @FXML
   private Button renameTagButton;
 
   /**
    * Constructs the tag manager window
-   * 
+   *
    * @param title the title of the window
    * @param mainController the main controller
    */
@@ -116,7 +127,8 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
 
     if (result.isPresent()) {
       Tag tag = new Tag(result.get());
-      if(!tag.getLabel().equals("") && !tag.getLabel().contains(".") && !tag.getLabel().contains("@")){
+      if (!tag.getLabel().equals("") && !tag.getLabel().contains(".")
+          && !tag.getLabel().contains("@")) {
         this.mainController.getBackendService().getPictureManager().addTagToCollection(tag);
         updateTagList();
       }
@@ -162,10 +174,10 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   /**
    * Renames tags through the listview
    */
-  
+
   @Override
   public void rename(String newName) {
-    if(newName.equals("") || newName.contains(".") || newName.contains("@")) {
+    if (newName.equals("") || newName.contains(".") || newName.contains("@")) {
       return;
     }
 
@@ -184,7 +196,9 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
     this.mainController.getPictureViewController().refresh();
   }
 
-  /** Filters the tags displayed based on the search bar */
+  /**
+   * Filters the tags displayed based on the search bar
+   */
   @FXML
   public void onFilterTagsList(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();
@@ -193,8 +207,9 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
       ArrayList<Tag> filteredTags = new ArrayList<>();
       for (Tag tag : this.mainController.getBackendService().getPictureManager()
           .getAvailableTags()) {
-        if (tag.getLabel().toLowerCase().contains(curText))
+        if (tag.getLabel().toLowerCase().contains(curText)) {
           filteredTags.add(tag);
+        }
       }
 
       this.tagListView.getItems().setAll(filteredTags);

@@ -9,19 +9,25 @@ import javafx.scene.control.TextArea;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/** A dialog window that displays text */
+/**
+ * A dialog window that displays text
+ */
 public class TextDialog {
 
-  /** This pop up window's stage */
+  /**
+   * This pop up window's stage
+   */
   private Stage window;
 
-  /** The text area displaying the content of the dialog box */
+  /**
+   * The text area displaying the content of the dialog box
+   */
   @FXML
   private TextArea content;
 
   /**
    * Constructs the text dialog. Loads the view from the fxml file.
-   * 
+   *
    * @param title the title of the dialog box
    * @param content the content of the dialog box, i.e. the text being displayed
    */
@@ -58,7 +64,7 @@ public class TextDialog {
 
   /**
    * Sets the content
-   * 
+   *
    * @param text the content
    */
   public void set(String text) {

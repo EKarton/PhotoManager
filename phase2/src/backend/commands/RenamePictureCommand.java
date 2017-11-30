@@ -1,12 +1,12 @@
 package backend.commands;
 
+import backend.models.Picture;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import backend.models.Picture;
 
 /**
  * A Command class used to specify a rename to a picture.
- * 
+ *
  * Severity Level:INFO
  */
 public class RenamePictureCommand implements Command {
@@ -28,7 +28,7 @@ public class RenamePictureCommand implements Command {
 
   /**
    * Creates a RenamePictureCommand which can rename a picture with a new name
-   * 
+   *
    * @param picture A picture to rename
    * @param newName The new name for this picture.
    */

@@ -1,14 +1,14 @@
 package backend.commands;
 
+import backend.models.Picture;
+import backend.models.Tag;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import backend.models.Picture;
-import backend.models.Tag;
 
 /**
  * A command used to delete multiple tags from a picture.
- * 
+ *
  * Severity Level: Fine
  */
 public class DeleteTagsFromPicCommand implements Command {
@@ -26,7 +26,7 @@ public class DeleteTagsFromPicCommand implements Command {
   /**
    * Creates a DeleteTagFromPictureCommand specifying tags to delete from a picture. Note: the tag
    * should be already in the picture.
-   * 
+   *
    * @param picture A picture containing the tag
    * @param tags The tags to delete.
    */

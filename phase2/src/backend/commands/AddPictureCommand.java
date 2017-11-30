@@ -1,9 +1,9 @@
 package backend.commands;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.PictureManager;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * A class used to specify an addition of a picture to a manager. Has a severity level of FINE
@@ -22,7 +22,7 @@ public class AddPictureCommand implements Command {
 
   /**
    * Creates an AddPictureCommand instance
-   * 
+   *
    * @param picture A picture to add
    * @param manager A manager used to store the pictures.
    */

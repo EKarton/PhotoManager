@@ -1,10 +1,10 @@
 package backend.commands;
 
+import backend.models.Picture;
+import backend.models.Tag;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import backend.models.Picture;
-import backend.models.Tag;
 
 /**
  * A command class used to add multiple tags to a picture. Has a severity level of FINE.
@@ -23,7 +23,7 @@ public class AddTagsToPicCommand implements Command {
 
   /**
    * Creates an instance of AddTagToPictureCommand.
-   * 
+   *
    * @param picture A picture
    * @param tags tags to be added to the picture
    */

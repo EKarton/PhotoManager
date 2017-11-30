@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import frontend.gui.controllers.PictureViewController?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -13,110 +11,107 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.collections.FXCollections?>
-<?import frontend.gui.controllers.PictureViewController?>
-
 <BorderPane fx:id="root" prefHeight="720" prefWidth="1080"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="frontend.gui.controllers.MainController">
+  xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+  fx:controller="frontend.gui.controllers.MainController">
 
-	<fx:define>
-		<ContextMenu fx:id="listCellContextMenu">
-			<items>
-				<MenuItem text="Move" onAction="#move" />
-				<MenuItem text="Open in OS File Viewer" onAction="#openInOSFileViewer" />
-			</items>
-		</ContextMenu>
-	</fx:define>
+  <fx:define>
+    <ContextMenu fx:id="listCellContextMenu">
+      <items>
+        <MenuItem text="Move" onAction="#move"/>
+        <MenuItem text="Open in OS File Viewer" onAction="#openInOSFileViewer"/>
+      </items>
+    </ContextMenu>
+  </fx:define>
 
-	<!-- Create the menu bar -->
-	<top>
-		<MenuBar>
-			<menus>
-				<Menu mnemonicParsing="false" text="Open">
-					<items>
-						<Menu mnemonicParsing="false" text="Open Directory">
-							<items>
-								<MenuItem mnemonicParsing="false" onAction="#openDirectory"
-									text="Open Directory" />
-								<MenuItem mnemonicParsing="false" onAction="#openDirectryRecursively"
-									text="Open Directory Recursively" />
-							</items>
-						</Menu>
-						<MenuItem mnemonicParsing="false" onAction="#openLog"
-							text="Open Log" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Manage Tags">
-					<items>
-						<MenuItem mnemonicParsing="false" onAction="#manageTags"
-							text="Manage Tags" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Save">
-					<items>
-						<MenuItem accelerator="Shortcut+S" mnemonicParsing="false"
-							onAction="#save" text="Save" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Undo">
-					<items>
-						<MenuItem accelerator="Shortcut+Z" mnemonicParsing="false"
-							onAction="#undo" text="Undo" />
-					</items>
-				</Menu>
-				<Menu mnemonicParsing="false" text="Redo">
-					<items>
-						<MenuItem accelerator="Shortcut+shift+Z" mnemonicParsing="false"
-							onAction="#redo" text="Redo" />
-					</items>
+  <!-- Create the menu bar -->
+  <top>
+    <MenuBar>
+      <menus>
+        <Menu mnemonicParsing="false" text="Open">
+          <items>
+            <Menu mnemonicParsing="false" text="Open Directory">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#openDirectory"
+                  text="Open Directory"/>
+                <MenuItem mnemonicParsing="false" onAction="#openDirectryRecursively"
+                  text="Open Directory Recursively"/>
+              </items>
+            </Menu>
+            <MenuItem mnemonicParsing="false" onAction="#openLog"
+              text="Open Log"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Manage Tags">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#manageTags"
+              text="Manage Tags"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Save">
+          <items>
+            <MenuItem accelerator="Shortcut+S" mnemonicParsing="false"
+              onAction="#save" text="Save"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Undo">
+          <items>
+            <MenuItem accelerator="Shortcut+Z" mnemonicParsing="false"
+              onAction="#undo" text="Undo"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Redo">
+          <items>
+            <MenuItem accelerator="Shortcut+shift+Z" mnemonicParsing="false"
+              onAction="#redo" text="Redo"/>
+          </items>
 
-				</Menu>
+        </Menu>
 
-				<Menu mnemonicParsing="false" text="Help">
-					<items>
-						<MenuItem mnemonicParsing="false"
-							onAction="#displayHelp" text="Help" />
-					</items>
-				</Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false"
+              onAction="#displayHelp" text="Help"/>
+          </items>
+        </Menu>
 
-			</menus>
-		</MenuBar>
-	</top>
-	<center>
-		<SplitPane dividerPositions="0.21706864564007422"
-			BorderPane.alignment="CENTER">
-			<items>
-				<AnchorPane maxWidth="250" minWidth="250">
-					<children>
-						<BorderPane AnchorPane.bottomAnchor="0.0"
-							AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-							AnchorPane.topAnchor="0.0">
-							<top>
-								<TextField fx:id="searchBar" onKeyTyped="#search"
-									BorderPane.alignment="CENTER" />
-							</top>
-							<center>
-								<ListView fx:id="pictureListView" editable="true" />
-							</center>
-							<bottom>
-								<AnchorPane>
-									<Button onAction="#startSlideShow" text="Start Slide Show"
-										AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-								</AnchorPane>
-							</bottom>
-						</BorderPane>
-					</children>
-				</AnchorPane>
-				<AnchorPane>
-					<PictureViewController
-						AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-						AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefWidth="${root.width}"
-						prefHeight="${root.height}" fx:id="pictureView">
-					</PictureViewController>
-				</AnchorPane>
-			</items>
-		</SplitPane>
-	</center>
+      </menus>
+    </MenuBar>
+  </top>
+  <center>
+    <SplitPane dividerPositions="0.21706864564007422"
+      BorderPane.alignment="CENTER">
+      <items>
+        <AnchorPane maxWidth="250" minWidth="250">
+          <children>
+            <BorderPane AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
+              <top>
+                <TextField fx:id="searchBar" onKeyTyped="#search"
+                  BorderPane.alignment="CENTER"/>
+              </top>
+              <center>
+                <ListView fx:id="pictureListView" editable="true"/>
+              </center>
+              <bottom>
+                <AnchorPane>
+                  <Button onAction="#startSlideShow" text="Start Slide Show"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+                </AnchorPane>
+              </bottom>
+            </BorderPane>
+          </children>
+        </AnchorPane>
+        <AnchorPane>
+          <PictureViewController
+            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+            AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" prefWidth="${root.width}"
+            prefHeight="${root.height}" fx:id="pictureView">
+          </PictureViewController>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+  </center>
 
 </BorderPane>

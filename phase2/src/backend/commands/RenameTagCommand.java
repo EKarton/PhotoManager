@@ -1,14 +1,13 @@
 package backend.commands;
 
+import backend.models.Tag;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import backend.models.Tag;
 
 /**
  * Command for renaming a Tag
- * 
- * Severity Level: INFO
  *
+ * Severity Level: INFO
  */
 public class RenameTagCommand implements Command {
 
@@ -29,9 +28,6 @@ public class RenameTagCommand implements Command {
 
   /**
    * Construtor that takes in the tag to be renamed and a new name for this tag
-   * 
-   * @param tagToBeRenamed
-   * @param newName
    */
   public RenameTagCommand(Tag tagToBeRenamed, String newName) {
     this.thisTag = tagToBeRenamed;

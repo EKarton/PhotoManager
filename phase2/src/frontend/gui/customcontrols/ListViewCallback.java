@@ -7,8 +7,6 @@ import javafx.util.Callback;
 
 /**
  * Handles callback for list view to add a context menu
- * 
- * @param <T>
  */
 public class ListViewCallback<T> implements Callback<ListView<T>, ListCell<T>> {
 
@@ -17,12 +15,14 @@ public class ListViewCallback<T> implements Callback<ListView<T>, ListCell<T>> {
    */
   private ContextMenu contextMenu;
 
-  /** The object that will be renamed if this cell is renamed */
+  /**
+   * The object that will be renamed if this cell is renamed
+   */
   private Renamable renamable;
 
   /**
    * Constructs a ListViewCallback
-   * 
+   *
    * @param contextMenu the context menu
    */
   public ListViewCallback(ContextMenu contextMenu, Renamable renamable) {

@@ -1,13 +1,13 @@
 package backend.commands;
 
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.PictureManager;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * A Command class used to delete a picture from the PictureManager.
- * 
+ *
  * severity level: FINE
  */
 public class DeletePictureCommand implements Command {
@@ -25,7 +25,7 @@ public class DeletePictureCommand implements Command {
   /**
    * Creates an instance of DeletePictureCommand, specifying a picture to delete from a manager.
    * Note that picture should already exist in the manager.
-   * 
+   *
    * @param picture A picture to remove from the manager
    * @param manager A manager
    */

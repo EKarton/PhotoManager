@@ -1,55 +1,70 @@
 package frontend.gui.controllers;
 
 
-import frontend.gui.windows.SlideShow;
-import frontend.gui.windows.TagManagement;
-import frontend.gui.customcontrols.TextDialog;
+import backend.models.Picture;
+import backend.models.PictureManager;
 import frontend.gui.customcontrols.ListViewCallback;
 import frontend.gui.customcontrols.ListViewChangeListener;
+import frontend.gui.customcontrols.TextDialog;
 import frontend.gui.services.BackendService;
+import frontend.gui.windows.SlideShow;
+import frontend.gui.windows.TagManagement;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.scene.input.KeyEvent;
-import javax.naming.NoInitialContextException;
-import backend.models.Picture;
-import backend.models.PictureManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javax.naming.NoInitialContextException;
 
 public class MainController implements Initializable {
-  /** The backend service being used by the program */
+
+  /**
+   * The backend service being used by the program
+   */
   private BackendService backendService;
 
-  /** The stage of the javafx program */
+  /**
+   * The stage of the javafx program
+   */
   private Stage stage;
 
-  /** The root of the javafx scene */
+  /**
+   * The root of the javafx scene
+   */
   @FXML
   private BorderPane root;
 
-  /** The search bar on top of the ListView */
+  /**
+   * The search bar on top of the ListView
+   */
   @FXML
   private TextField searchBar;
 
-  /** The ListView of pictures */
+  /**
+   * The ListView of pictures
+   */
   @FXML
   private ListView<Picture> pictureListView;
 
-  /** The context menu for the ListView */
+  /**
+   * The context menu for the ListView
+   */
   @FXML
   private ContextMenu listCellContextMenu;
 
-  /** The controller for the picture view */
+  /**
+   * The controller for the picture view
+   */
   @FXML
   private PictureViewController pictureView;
 
@@ -66,7 +81,7 @@ public class MainController implements Initializable {
 
   /**
    * Set the stage
-   * 
+   *
    * @param stage the stage of the javafx application
    */
   public void setStage(Stage stage) {
@@ -75,7 +90,7 @@ public class MainController implements Initializable {
 
   /**
    * Get the stage
-   * 
+   *
    * @return The stage
    */
   public Stage getStage() {
@@ -96,7 +111,7 @@ public class MainController implements Initializable {
 
   /**
    * Get the picture view's controller
-   * 
+   *
    * @return The picture view's controller
    */
   public PictureViewController getPictureViewController() {
@@ -105,7 +120,7 @@ public class MainController implements Initializable {
 
   /**
    * Open a directory chooser
-   * 
+   *
    * @return the chosen directory
    */
   private File openDirectoryChooser() {
@@ -116,7 +131,7 @@ public class MainController implements Initializable {
 
   /**
    * Open and display directory
-   * 
+   *
    * @param recursive open directory recursively if true
    */
   private void openDirectory(boolean recursive) {
@@ -149,7 +164,7 @@ public class MainController implements Initializable {
 
   /**
    * Get the list view that display's the image names
-   * 
+   *
    * @return the list view
    */
   public ListView<Picture> getListView() {
@@ -235,8 +250,7 @@ public class MainController implements Initializable {
 
       if (!pictureManager.getPictures().contains(selectedPicture)) {
         this.pictureView.setVisible(false);
-      }
-      else{
+      } else {
         this.pictureView.refresh();
       }
 
@@ -253,8 +267,9 @@ public class MainController implements Initializable {
     if (!filter.equals("") && !filter.equals("\b")) {
       ArrayList<Picture> filteredPictures = new ArrayList<>();
       for (Picture picture : this.getBackendService().getPictureManager().getPictures()) {
-        if (picture.getTaglessName().toLowerCase().contains(curText))
+        if (picture.getTaglessName().toLowerCase().contains(curText)) {
           filteredPictures.add(picture);
+        }
       }
 
       this.pictureListView.getItems().setAll(filteredPictures);
@@ -279,7 +294,7 @@ public class MainController implements Initializable {
 
   /**
    * Opens the OS's file viewer to the current directory
-   * 
+   *
    * Reference: https://stackoverflow.com/a/12340147
    */
   @FXML
@@ -297,7 +312,7 @@ public class MainController implements Initializable {
 
   /**
    * Get the backend service
-   * 
+   *
    * @return the backend service
    */
   public BackendService getBackendService() {

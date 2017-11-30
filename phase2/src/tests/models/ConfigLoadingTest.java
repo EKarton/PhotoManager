@@ -1,14 +1,12 @@
-
 package tests.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.io.IOException;
-import java.util.ArrayList;
-import org.junit.jupiter.api.Test;
 import backend.models.AppSettings;
 import backend.models.Picture;
 import backend.models.PictureManager;
-import backend.models.Tag;
+import java.io.IOException;
+import java.util.ArrayList;
+import org.junit.jupiter.api.Test;
 
 class ConfigLoadingTest {
 

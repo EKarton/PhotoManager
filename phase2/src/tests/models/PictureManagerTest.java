@@ -2,14 +2,11 @@ package tests.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import backend.files.FileManager;
 import backend.models.Picture;
 import backend.models.PictureManager;
 import backend.models.Tag;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 class PictureManagerTest {
 

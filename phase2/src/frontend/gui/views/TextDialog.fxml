@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.GridPane?>
-
+<?import javafx.scene.layout.VBox?>
 <VBox prefHeight="250" prefWidth="500" xmlns="http://javafx.com/javafx/8"
-	xmlns:fx="http://javafx.com/fxml/1">
+  xmlns:fx="http://javafx.com/fxml/1">
 
-	<TextArea fx:id="content" VBox.vgrow="ALWAYS" editable="false"
-		wrapText="true" />
+  <TextArea fx:id="content" VBox.vgrow="ALWAYS" editable="false"
+    wrapText="true"/>
 
 </VBox>
 

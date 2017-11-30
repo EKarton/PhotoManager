@@ -60,10 +60,11 @@ public class PictureManager implements Observer {
     this.isRecursive = recursive;
 
     List<File> files;
-    if (recursive)
+    if (recursive) {
       files = FileManager.getImageListRec(directoryPath);
-    else
+    } else {
       files = FileManager.getImageList(directoryPath);
+    }
 
     for (File file : files) {
       if (this.nameCheck(file)) {
@@ -84,7 +85,7 @@ public class PictureManager implements Observer {
 
   /**
    * Check if the file contains a valid name.
-   * 
+   *
    * @param file The file
    * @return True if the file has a valid name; else false.
    */
@@ -100,7 +101,8 @@ public class PictureManager implements Observer {
   /**
    * Creates a PictureManager instance with no pictures to keep track of.
    */
-  public PictureManager() {}
+  public PictureManager() {
+  }
 
   /**
    * Return a copy of the list of pictures that this class has.
@@ -113,15 +115,16 @@ public class PictureManager implements Observer {
 
   /**
    * Returns a list of pictures stored in this class that have that tag.
-   * 
+   *
    * @param tag The tag to search for
    * @return A list of pictures that this tag belongs to.
    */
   public ArrayList<Picture> getPicturesWithTag(Tag tag) {
     ArrayList<Picture> picturesWithTags = new ArrayList<>();
     for (Picture picture : pictures) {
-      if (picture.containsTag(tag))
+      if (picture.containsTag(tag)) {
         picturesWithTags.add(picture);
+      }
     }
     return picturesWithTags;
   }
@@ -144,7 +147,7 @@ public class PictureManager implements Observer {
   /**
    * Add a new tag to the availableTags. If the tag already exist in the available tags, it will do
    * nothing.
-   * 
+   *
    * @param tag A new tag to add to the collection
    */
   public void addTagToCollection(Tag tag) {
@@ -158,7 +161,7 @@ public class PictureManager implements Observer {
    * picture as well as add any tags from the picture not in the collection to the collection. If
    * the picture already exist, it will not add it. To see if a picture exist, refer to the
    * Picture.equals() to see if two pictures are equal.
-   * 
+   *
    * @param picture A picture to add
    */
   public void addPicture(Picture picture) {
@@ -177,7 +180,7 @@ public class PictureManager implements Observer {
   /**
    * Untracks a picture from this class and the picture no longer becomes observed from this class.
    * If the picture does not exist, it will do nothing
-   * 
+   *
    * @param picture A picture in this class to untrack from.
    */
   public void untrackPicture(Picture picture) {
@@ -193,7 +196,7 @@ public class PictureManager implements Observer {
   /**
    * Determines whether a picture is in this instance or not. If it is in this instance, it is being
    * tracked.
-   * 
+   *
    * @param picture A picture to test
    * @return True if the picture is in this instance; else false.
    */
@@ -203,7 +206,7 @@ public class PictureManager implements Observer {
 
   /**
    * Determines whether a tag is in this instance or not.
-   * 
+   *
    * @param tag A tag to test.
    * @return True if the tag is in this collection of tags; else false.
    */
@@ -232,7 +235,7 @@ public class PictureManager implements Observer {
   /**
    * A helper function for the update(), where changes to a picture will reflect the changes in the
    * OS. Note: if newPicture does not exist in this class, it will do nothing.
-   * 
+   *
    * @param newPicture The picture with the new properties
    * @param oldPicture A copy of newPicture, but with its properties from an earlier state.
    */
@@ -259,8 +262,9 @@ public class PictureManager implements Observer {
         // If there was a file name change
         if (!newPicture.getFullFileName().equals(oldPicture.getFullFileName())) {
           String fileName = newPicture.getFullFileName();
-          if (fileName.contains("."))
+          if (fileName.contains(".")) {
             fileName = fileName.split("\\.")[0];
+          }
 
           FileManager.renameFile(absolutePathInOS, fileName);
         }
@@ -278,7 +282,7 @@ public class PictureManager implements Observer {
 
   /**
    * Returns a list of all of the available tags stored in this class.
-   * 
+   *
    * @return A list of all available tags in this class.
    */
   public ArrayList<Tag> getAvailableTags() {
@@ -286,7 +290,6 @@ public class PictureManager implements Observer {
   }
 
   /**
-   * 
    * @return A list of Tags that are available but not in this picture.
    */
   public List<Tag> getAvailableTags(Picture picture) {
@@ -301,7 +304,7 @@ public class PictureManager implements Observer {
 
   /**
    * Returns the current directory of this PictureManager.
-   * 
+   *
    * @return The current directory of this PictureManager.
    */
   public String getCurrDir() {

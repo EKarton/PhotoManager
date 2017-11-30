@@ -8,23 +8,27 @@ import javafx.scene.input.KeyEvent;
 /**
  * This class defines how each cell in the ListView is displayed. In our program they are displayed
  * as the file name without tags. This class is also used to edit the cells, showing a text field.
- * 
- * @param <T>
  */
 public class CustomListCell<T> extends ListCell<T> {
 
-  /** The text field used for editing the cell */
+  /**
+   * The text field used for editing the cell
+   */
   private TextField textField;
 
-  /** The old name in the cell before an edit */
+  /**
+   * The old name in the cell before an edit
+   */
   private String oldName;
 
-  /** The object that will be renamed if this cell is renamed */
+  /**
+   * The object that will be renamed if this cell is renamed
+   */
   private Renamable renamable;
 
   /**
    * Constructs a FileListCell
-   * 
+   *
    * @param mainController the main controller
    * @param renamable the object that will be renamed if this cell is renamed
    */
@@ -76,7 +80,7 @@ public class CustomListCell<T> extends ListCell<T> {
 
   /**
    * Handler for text field. TextField data is used when enter key is pressed
-   * 
+   *
    * @param keyEvent the key event
    */
   private void handleTextFieldInput(KeyEvent keyEvent) {

@@ -1,14 +1,13 @@
-
 package tests.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.io.IOException;
-import javax.naming.NoInitialContextException;
-import org.junit.jupiter.api.Test;
 import backend.commands.AddPictureCommand;
 import backend.commands.CommandManager;
 import backend.models.Picture;
 import backend.models.PictureManager;
+import java.io.IOException;
+import javax.naming.NoInitialContextException;
+import org.junit.jupiter.api.Test;
 
 class CommandManagerTest {
 

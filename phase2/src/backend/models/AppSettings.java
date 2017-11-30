@@ -17,9 +17,8 @@ import java.util.List;
 
 /**
  * A class used for Configuration writing/reading.
- * 
- * it contains information of All Pictures
  *
+ * it contains information of All Pictures
  */
 public class AppSettings implements Serializable {
 
@@ -40,7 +39,7 @@ public class AppSettings implements Serializable {
 
   /**
    * Adds all Pictures and tags to the PictureManager
-   * 
+   *
    * @param manager a PictureManager
    */
   public void addPicToManager(PictureManager manager) {
@@ -62,7 +61,7 @@ public class AppSettings implements Serializable {
 
   /**
    * Adds all the pictures and tags in the given PictureManager to this class.
-   * 
+   *
    * @param manager The picture manager to grab the tags and pictures from
    */
   public void addPicFromManager(PictureManager manager) {
@@ -76,7 +75,7 @@ public class AppSettings implements Serializable {
 
   /**
    * Save configuration to given fileName
-   * 
+   *
    * @param fileName the name of the file to save to
    * @throws IOException When it is not a valid file name
    */
@@ -91,7 +90,7 @@ public class AppSettings implements Serializable {
 
   /**
    * Save the file to the default file name: Config
-   * 
+   *
    * @throws IOException when the config file does not exist.
    */
   public void save() throws IOException {
@@ -100,11 +99,9 @@ public class AppSettings implements Serializable {
 
   /**
    * Load the serialized AppSetting file from given fileName
-   * 
+   *
    * @param fileName the file name
    * @return the deserialized AppSetting Object
-   * @throws IOException
-   * @throws ClassNotFoundException
    */
   public static AppSettings loadFromFile(String fileName)
       throws IOException, ClassNotFoundException {
@@ -120,10 +117,8 @@ public class AppSettings implements Serializable {
 
   /**
    * Load the Serialized AppSetting from the default file Name: Config
-   * 
+   *
    * @return the deserialized AppSetting Object
-   * @throws IOException
-   * @throws ClassNotFoundException
    */
   public static AppSettings loadFromFile() throws IOException, ClassNotFoundException {
     return loadFromFile(defualtFileName);
@@ -131,7 +126,7 @@ public class AppSettings implements Serializable {
 
   /**
    * Get a copy of the list of historical pictures stored in this instance
-   * 
+   *
    * @return Copy of the list of historical pictures stored in this instance.
    */
   public List<Picture> getHistoricalPicture() {
@@ -140,7 +135,7 @@ public class AppSettings implements Serializable {
 
   /**
    * Return a copy of the list of available tags stored in this instance.
-   * 
+   *
    * @return A copy of the list of available tags stored in this instance.
    */
   public List<Tag> getAvailableTags() {

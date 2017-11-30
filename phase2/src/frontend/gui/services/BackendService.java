@@ -1,28 +1,37 @@
 package frontend.gui.services;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import backend.commands.CommandManager;
 import backend.commands.RenamePictureCommand;
 import backend.models.AppSettings;
 import backend.models.Picture;
 import backend.models.PictureManager;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * This class is used by the main controller to make calls to the backend (model)
  */
 public class BackendService {
-  /** The CommandManager used by our program */
+
+  /**
+   * The CommandManager used by our program
+   */
   private CommandManager commandManager;
 
-  /** The PictureManager used by our program to manager all of the user's photos */
+  /**
+   * The PictureManager used by our program to manager all of the user's photos
+   */
   private PictureManager pictureManager;
 
-  /** Holds the configuration data used by our program */
+  /**
+   * Holds the configuration data used by our program
+   */
   private AppSettings appSettings;
 
-  /** The file name of the help file to be displayed */
+  /**
+   * The file name of the help file to be displayed
+   */
   private static final String HELP_LOG = "extraHelp";
 
   /**
@@ -113,7 +122,8 @@ public class BackendService {
       return;
     }
 
-    if (!newName.contains("@") && !newName.contains(".") && !newName.equals("") && !newName.equals(picture.getTaglessName())) {
+    if (!newName.contains("@") && !newName.contains(".") && !newName.equals("")
+        && !newName.equals(picture.getTaglessName())) {
 
       RenamePictureCommand renamePictureCommand = new RenamePictureCommand(picture, newName);
       this.commandManager.addCommand(renamePictureCommand);

@@ -1,12 +1,11 @@
 package frontend.gui.windows;
 
+import backend.models.Picture;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import javax.imageio.ImageIO;
-import backend.models.Picture;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
@@ -23,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import javax.imageio.ImageIO;
 
 /**
  * A class used to present the pictures in a Slideshow. It will be in another window and will
@@ -158,7 +158,7 @@ public class SlideShow {
   /**
    * Obtain the next picture. If it reaches the end of the list of pictures, it will return the
    * first picture.
-   * 
+   *
    * @return The next picture in the slideshow.
    */
   private Picture getNextPicture() {
@@ -173,7 +173,7 @@ public class SlideShow {
 
   /**
    * An event handler used to play the slideshow
-   * 
+   *
    * @param actionEvent The UI component that called this method.
    */
   private void runSlideshow(ActionEvent actionEvent) {

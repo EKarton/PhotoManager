@@ -5,15 +5,19 @@ import frontend.gui.controllers.MainController;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-/** Listens for selection changes in the ListView */
+/**
+ * Listens for selection changes in the ListView
+ */
 public class ListViewChangeListener implements ChangeListener<Picture> {
 
-  /** The main controller, the controller of the main view where this ListView is displayed */
+  /**
+   * The main controller, the controller of the main view where this ListView is displayed
+   */
   private MainController mainController;
 
   /**
    * Constructs the ListViewChangeListener
-   * 
+   *
    * @param mainController the main controller
    */
   public ListViewChangeListener(MainController mainController) {

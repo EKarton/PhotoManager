@@ -9,13 +9,13 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-  /** The main controller */
+  /**
+   * The main controller
+   */
   private MainController mainController;
 
   /**
    * Launches the javaFX application
-   * 
-   * @param args
    */
   public static void main(String[] args) {
     launch(args);

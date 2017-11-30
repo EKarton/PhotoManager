@@ -15,36 +15,43 @@ import javafx.stage.Window;
 
 /**
  * A window for displaying a list view of items and letting the user select from it
- *
- * @param <T>
  */
 public class SelectionWindow<T> {
 
-  /** The stage of this pop up window */
+  /**
+   * The stage of this pop up window
+   */
   private Stage window;
 
-  /** The items being displayed */
+  /**
+   * The items being displayed
+   */
   @FXML
   private ListView<T> items;
 
-  /** The button for entering your selection */
+  /**
+   * The button for entering your selection
+   */
   @FXML
   private Button enterButton;
 
-  /** True if you can select multiple items from the list */
+  /**
+   * True if you can select multiple items from the list
+   */
   private boolean multiSelect;
 
   /**
    * Constructs the selection window. Loads the view from the fxml file.
-   * 
+   *
    * @param owner the window that created this pop up
    * @param title the title of this window
    * @param enter the text to put in the enter button
    * @param items the items to display
    * @param multiSelect true if can select multiple items, false other wise
    */
-  public SelectionWindow(Window owner, String title, String enter, List<T> items, boolean multiSelect) {
-    this.multiSelect= multiSelect;
+  public SelectionWindow(Window owner, String title, String enter, List<T> items,
+      boolean multiSelect) {
+    this.multiSelect = multiSelect;
 
     this.window = new Stage();
 
@@ -63,7 +70,7 @@ public class SelectionWindow<T> {
 
       enterButton.setText(enter);
 
-      if(this.multiSelect){
+      if (this.multiSelect) {
         this.items.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       }
 
@@ -88,7 +95,7 @@ public class SelectionWindow<T> {
 
   /**
    * Show the pop up window and wait for the selection and then return it
-   * 
+   *
    * @return the selected items
    */
   public List<T> show() {

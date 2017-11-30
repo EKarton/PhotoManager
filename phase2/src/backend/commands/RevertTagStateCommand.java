@@ -1,38 +1,41 @@
 package backend.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import backend.models.Picture;
 import backend.models.PictureManager;
 import backend.models.Tag;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 /**
  * Command for reverting a picture to a previous Tag state
- * 
- * Severity Level: INFO
  *
+ * Severity Level: INFO
  */
 public class RevertTagStateCommand implements Command {
 
-  /** the Tags to revert to */
+  /**
+   * the Tags to revert to
+   */
   private List<Tag> tagsToRevert;
 
-  /** the current list of tags of the picture */
+  /**
+   * the current list of tags of the picture
+   */
   private List<Tag> currTags;
 
-  /** the picture to rename */
+  /**
+   * the picture to rename
+   */
   private Picture picture;
 
-  /** the pictureManager to update information on */
+  /**
+   * the pictureManager to update information on
+   */
   private PictureManager manager;
 
   /**
    * Revert a picture back to a previous tag state
-   * 
-   * @param picture
-   * @param historicalTags
    */
   public RevertTagStateCommand(PictureManager manager, Picture picture, List<Tag> historicalTags) {
     this.tagsToRevert = historicalTags;
@@ -59,9 +62,6 @@ public class RevertTagStateCommand implements Command {
 
   /**
    * helper function for reverting
-   * 
-   * @param tagsToRevert
-   * @param currTags
    */
   private void revertHelper(List<Tag> tagsToRevert, List<Tag> currTags) {
     for (Tag tag : tagsToRevert) {
@@ -86,7 +86,7 @@ public class RevertTagStateCommand implements Command {
 
 
   /**
-   * 
+   *
    */
   @Override
   public LogRecord getLogRecord() {

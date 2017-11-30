@@ -116,8 +116,10 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
 
     if (result.isPresent()) {
       Tag tag = new Tag(result.get());
-      this.mainController.getBackendService().getPictureManager().addTagToCollection(tag);
-      updateTagList();
+      if(!tag.getLabel().equals("") && !tag.getLabel().contains(".") && !tag.getLabel().contains("@")){
+        this.mainController.getBackendService().getPictureManager().addTagToCollection(tag);
+        updateTagList();
+      }
     }
   }
 
@@ -158,10 +160,15 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   }
 
   /**
-   * Renames through the listview
+   * Renames tags through the listview
    */
+  
   @Override
   public void rename(String newName) {
+    if(newName.equals("") || newName.contains(".") || newName.contains("@")) {
+      return;
+    }
+
     Tag tag = this.tagListView.getSelectionModel().getSelectedItem();
     for (Tag duplicaTag : this.mainController.getBackendService().getPictureManager()
         .getAvailableTags()) {

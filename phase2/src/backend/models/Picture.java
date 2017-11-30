@@ -38,8 +38,9 @@ public class Picture extends Observable implements Serializable, Observer, Clone
   /**
    * A list of all the tags that the Picture has had or currently holding
    */
-  private ArrayList<Tag> historicalTags;
-
+  private ArrayList<ArrayList<Tag>> historicalTags;
+  
+  
   /**
    * A List of all historical tag-less names
    */
@@ -54,7 +55,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    */
   public Picture(String absolutePath) {
     this.tags = new ArrayList<Tag>();
-    this.historicalTags = new ArrayList<Tag>();
+    this.historicalTags = new ArrayList<ArrayList<Tag>>();
     this.historicalTagLessNames = new ArrayList<String>();
 
     File file = new File(absolutePath);
@@ -74,10 +75,10 @@ public class Picture extends Observable implements Serializable, Observer, Clone
         Tag newTag = new Tag(nameParts[i].trim());
         if (!tags.contains(newTag)) {
           this.tags.add(newTag);
-          this.historicalTags.add(newTag);
           newTag.addObserver(this);
         }
       }
+      this.historicalTags.add(this.tags);
     }
     this.historicalTagLessNames.add(this.taglessName);
   }
@@ -138,7 +139,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     if (lengthOfNewFileName < 255 && !tags.contains(tag)) {
       Picture oldPic = this.clone();
       this.tags.add(tag);
-      this.historicalTags.add(tag);
+      this.historicalTags.add(tags);
 
       tag.addObserver(this);
 
@@ -160,6 +161,8 @@ public class Picture extends Observable implements Serializable, Observer, Clone
       Picture oldPic = this.clone();
       tags.remove(tag);
       tag.deleteObserver(this);
+      
+      this.historicalTags.add(tags);
       super.setChanged();
       super.notifyObservers(oldPic);
     }
@@ -245,8 +248,8 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    * 
    * @return A copy of a list of all historical tags
    */
-  public ArrayList<Tag> getHistoricalTags() {
-    return new ArrayList<Tag>(this.historicalTags);
+  public ArrayList<ArrayList<Tag>> getHistoricalTags() {
+    return new ArrayList<ArrayList<Tag>>(this.historicalTags);
   }
 
   /**

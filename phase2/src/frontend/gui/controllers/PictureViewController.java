@@ -217,6 +217,10 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   public void setPicture(Picture newPicture) {
 
+    if(newPicture == null){
+      return;
+    }
+
     this.picture = newPicture;
 
     this.setName();

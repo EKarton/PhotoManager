@@ -219,8 +219,6 @@ public class MainController implements Initializable {
 
   /**
    * This is the move handler for the move option in the context menu
-   * 
-   * @param e the action event
    */
   @FXML
   public void move() {
@@ -295,8 +293,6 @@ public class MainController implements Initializable {
    * Opens the OS's file viewer to the current directory
    * 
    * Reference: https://stackoverflow.com/a/12340147
-   *
-   * @param e the action event
    */
   @FXML
   public void openInOSFileViewer() {

@@ -47,11 +47,12 @@ public class BackendService {
   /**
    * Resets the backend service by supplying the PictureManager with a new set of pictures in a
    * specific location in the OS.
-   * 
+   *
    * @param directory The directory to get pictures from
    * @param isRecursive True if you want to collect pictures recursively, otherwise false
    */
   public void resetBackendService(String directory, boolean isRecursive) {
+    this.save();
     try {
       this.pictureManager = new PictureManager(directory, isRecursive);
       this.appSettings.addPicToManager(pictureManager);
@@ -62,7 +63,7 @@ public class BackendService {
 
   /**
    * Returns the current command manager.
-   * 
+   *
    * @return The current command manager.
    */
   public CommandManager getCommandManager() {
@@ -71,7 +72,7 @@ public class BackendService {
 
   /**
    * Returns the current picture manager
-   * 
+   *
    * @return The current picture manager.
    */
   public PictureManager getPictureManager() {
@@ -80,7 +81,7 @@ public class BackendService {
 
   /**
    * Returns the current app settings for this app.
-   * 
+   *
    * @return The current app settings
    */
   public AppSettings getAppSettings() {
@@ -102,7 +103,7 @@ public class BackendService {
 
   /**
    * Renames a picture
-   * 
+   *
    * @param picture the picture to be renamed
    * @param newName the new name
    */

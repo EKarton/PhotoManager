@@ -36,6 +36,7 @@ Phase 2
  - Refactored Junit tests
  - Updated the shell script to not compile Junit tests
  - Added a help function in the toolbar
+ - Added functionality for reverting back to previous set of tags
  - Made the UML diagram for the entire Project
 
 

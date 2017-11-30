@@ -1,18 +1,18 @@
 For Unix shell users: We made a shell script to compile/run the program,
 
 Go to the directory of the project
-Ex:  /././group_0493/phase1
+Ex:  /././group_0493/phase2
 Then run the following command
 sh compile.sh
 
 
-Note, the following are ome operations we do not permit:
+Note, the following are operations we do not permit:
 
 1. If a picture's name is illegal, for example 1. "@abc" (nothing before @), "@" (a single @)
 2. An empty Tag cannot be added.
 3. A tag with space cannot be added.
 4. A tag with "@" cannot be added.
 
-Features and how to use them
+Features and how to use them:
 
 See the help log on top of the toolbar

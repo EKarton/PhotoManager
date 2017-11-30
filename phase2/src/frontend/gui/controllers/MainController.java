@@ -236,6 +236,10 @@ public class MainController implements Initializable {
       if (!pictureManager.getPictures().contains(selectedPicture)) {
         this.pictureView.setVisible(false);
       }
+      else{
+        System.out.println("Test");
+        this.pictureView.refresh();
+      }
 
     }
   }

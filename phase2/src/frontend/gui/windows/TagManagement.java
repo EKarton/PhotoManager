@@ -146,16 +146,12 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
     // http://o7planning.org/en/11537/javafx-textinputdialog-tutorial
     List<Tag> selectedTags = this.tagListView.getSelectionModel().getSelectedItems();
     if (selectedTags.size() == 1) {
-      Tag tagToRename = selectedTags.get(0);
       TextInputDialog newNameDialog = new TextInputDialog();
       newNameDialog.setHeaderText("Enter the new name of the tag:");
       newNameDialog.setContentText("New name of tag:");
       Optional<String> result = newNameDialog.showAndWait();
       if (result.isPresent()) {
-        RenameTagCommand renameTag = new RenameTagCommand(tagToRename, result.get());
-        mainController.getBackendService().getCommandManager().addCommand(renameTag);
-        renameTag.execute();
-        updateTagList();
+        this.rename(result.get());
       }
     }
   }
@@ -166,14 +162,13 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   @Override
   public void rename(String newName) {
     Tag tag = this.tagListView.getSelectionModel().getSelectedItem();
-    tag.setLabel(newName);
-
-    RenameTagCommand renameTag =
-        new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);
-    mainController.getBackendService().getCommandManager().addCommand(renameTag);
-    renameTag.execute();
-
-    updateTagList();
+    if (!tag.getLabel().equals(newName)) {
+      RenameTagCommand renameTag =
+          new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);
+      mainController.getBackendService().getCommandManager().addCommand(renameTag);
+      renameTag.execute();
+      updateTagList();
+    }
   }
 
   /** Filters the tags displayed based on the search bar */

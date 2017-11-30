@@ -217,7 +217,7 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   public void setPicture(Picture newPicture) {
 
-    if(newPicture == null){
+    if (newPicture == null) {
       return;
     }
 
@@ -251,7 +251,8 @@ public class PictureViewController extends BorderPane implements Renamable {
   public void addTags() {
     SelectionWindow<Tag> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
         "Add Tags", "Add Tags",
-        this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture), true);
+        this.mainController.getBackendService().getPictureManager().getAvailableTags(this.picture),
+        true);
 
     List<Tag> tags = tagSelection.show();
     if (tags.size() > 1) {
@@ -323,14 +324,16 @@ public class PictureViewController extends BorderPane implements Renamable {
    */
   @FXML
   public void historicalTags() {
-    SelectionWindow<ArrayList<Tag>> tagSelection = new SelectionWindow<>(this.mainController.getStage(),
-        "Historical Tags", "Revert Tags", this.picture.getHistoricalTags(), false);
+    SelectionWindow<ArrayList<Tag>> tagSelection =
+        new SelectionWindow<>(this.mainController.getStage(), "Historical Tags", "Revert Tags",
+            this.picture.getHistoricalTags(), false);
 
     List<ArrayList<Tag>> selection = tagSelection.show();
 
-    if(selection != null && selection.size() != 0) {
-      List<Tag> selectedTags = selection.get(0);  // it's just a single selection
-      RevertTagStateCommand cmd = new RevertTagStateCommand(this.picture, selectedTags);
+    if (selection != null && selection.size() != 0) {
+      List<Tag> selectedTags = selection.get(0); // it's just a single selection
+      RevertTagStateCommand cmd = new RevertTagStateCommand(this.backEndService.getPictureManager(),
+          this.picture, selectedTags);
 
       this.backEndService.getCommandManager().addCommand(cmd);
       cmd.execute();
@@ -342,7 +345,7 @@ public class PictureViewController extends BorderPane implements Renamable {
   /**
    * Refresh the picture view
    */
-  public void refresh(){
+  public void refresh() {
     this.setPicture(this.picture);
   }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import backend.models.Picture;
+import backend.models.PictureManager;
 import backend.models.Tag;
 
 /**
@@ -24,16 +25,20 @@ public class RevertTagStateCommand implements Command {
   /** the picture to rename */
   private Picture picture;
 
+  /** the pictureManager to update information on */
+  private PictureManager manager;
+
   /**
    * Revert a picture back to a previous tag state
    * 
    * @param picture
    * @param historicalTags
    */
-  public RevertTagStateCommand(Picture picture, List<Tag> historicalTags) {
+  public RevertTagStateCommand(PictureManager manager, Picture picture, List<Tag> historicalTags) {
     this.tagsToRevert = historicalTags;
     this.currTags = picture.getTags();
     this.picture = picture;
+    this.manager = manager;
   }
 
   /**
@@ -61,6 +66,9 @@ public class RevertTagStateCommand implements Command {
   private void revertHelper(List<Tag> tagsToRevert, List<Tag> currTags) {
     for (Tag tag : tagsToRevert) {
       if (!currTags.contains(tag)) {
+        if (!manager.getAvailableTags().contains(tag)) {
+          manager.addTagToCollection(tag);
+        }
         picture.addTag(tag);
       }
     }

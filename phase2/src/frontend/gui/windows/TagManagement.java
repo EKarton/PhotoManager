@@ -163,14 +163,18 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   @Override
   public void rename(String newName) {
     Tag tag = this.tagListView.getSelectionModel().getSelectedItem();
-    if (!tag.getLabel().equals(newName)) {
-      RenameTagCommand renameTag =
-          new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);
-      mainController.getBackendService().getCommandManager().addCommand(renameTag);
-      renameTag.execute();
-      updateTagList();
-      this.mainController.getPictureViewController().refresh();
+    for (Tag duplicaTag : this.mainController.getBackendService().getPictureManager()
+        .getAvailableTags()) {
+      if (duplicaTag.getLabel().equals(newName)) {
+        return;
+      }
     }
+    RenameTagCommand renameTag =
+        new RenameTagCommand(this.tagListView.getSelectionModel().getSelectedItem(), newName);
+    mainController.getBackendService().getCommandManager().addCommand(renameTag);
+    renameTag.execute();
+    updateTagList();
+    this.mainController.getPictureViewController().refresh();
   }
 
   /** Filters the tags displayed based on the search bar */

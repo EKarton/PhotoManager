@@ -17,6 +17,7 @@ Phase 2
 - I based the gui code on phase 1 code and code written by Emilio
 - Imporved documentation for frontend code
 - Fixed some minimal bugs in the backend such as logic errors
+- Thoroughly tested the final product
 
 Zhouyuan Deng (dengzhou)
 

@@ -71,14 +71,7 @@ public class PictureManager implements Observer {
         Picture picture = new Picture(file.getAbsolutePath());
         this.addPicture(picture);
 
-        for (Tag tag : this.availableTags) {
-          for (Tag pictureTag : picture.getTags()) {
-            if (tag.equals(pictureTag) && tag != pictureTag) {
-              picture.deleteTag(pictureTag);
-              picture.addTag(tag);
-            }
-          }
-        }
+        this.refreshTags(picture);
       }
     }
   }
@@ -99,10 +92,26 @@ public class PictureManager implements Observer {
   }
 
   /**
+   * refresh the tags that this picture holds
+   * 
+   * @param picture
+   */
+  public void refreshTags(Picture picture) {
+    for (Tag pictureTag : picture.getTags()) {
+      for (Tag tag : this.availableTags) {
+        if (tag.equals(pictureTag)) {
+          picture.deleteTagWithoutHisotry(pictureTag);
+          picture.addTagWithoutHistory(tag);
+          break;
+        }
+      }
+    }
+  }
+
+  /**
    * Creates a PictureManager instance with no pictures to keep track of.
    */
-  public PictureManager() {
-  }
+  public PictureManager() {}
 
   /**
    * Return a copy of the list of pictures that this class has.

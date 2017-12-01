@@ -48,6 +48,8 @@ public class AppSettings implements Serializable {
         if (picture1.equals(picture)) {
           manager.untrackPicture(picture1);
           manager.addPicture(picture);
+          manager.refreshTags(picture);
+          break;
         }
       }
     }
@@ -66,6 +68,13 @@ public class AppSettings implements Serializable {
    */
   public void addPicFromManager(PictureManager manager) {
     for (Picture picture : manager.getPictures()) {
+      for (Picture thisPicture : this.historicalPictures) {
+        if (picture.equals(thisPicture)) {
+          this.historicalPictures.remove(thisPicture);
+          this.historicalPictures.add(picture);
+          break;
+        }
+      }
       if (!this.historicalPictures.contains(picture)) {
         this.historicalPictures.add(picture);
       }

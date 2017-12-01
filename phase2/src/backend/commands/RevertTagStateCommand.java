@@ -73,7 +73,7 @@ public class RevertTagStateCommand implements Command {
         }
         for (Tag thisTag : manager.getAvailableTags()) {
           if (thisTag.equals(tag)) {
-            picture.addTag(thisTag);
+            picture.addTagWithoutHistory(thisTag);
           }
         }
       }
@@ -81,7 +81,7 @@ public class RevertTagStateCommand implements Command {
 
     for (Tag tag : currTags) {
       if (!tagsToRevert.contains(tag)) {
-        picture.deleteTag(tag);
+        picture.deleteTagWithoutHisotry(tag);
       }
     }
   }

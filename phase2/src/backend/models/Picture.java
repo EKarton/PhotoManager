@@ -80,7 +80,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
         }
       }
     }
-    this.historicalTags.add(getTagsDeepCopy());
     this.historicalTagLessNames.add(this.taglessName);
   }
 
@@ -135,15 +134,19 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    * tag's .equals(). It will notify all the observers that a tag has been added to this picture.
    * All observers will get a copy of the old picture's state before the new tag has been added.
    *
-   * note: Without saving the tags as historycal tags
-   * 
    * @param tag The tag to add to this instance
    */
-  public void addTagWithoutHistory(Tag tag) {
+  public void addTag(Tag tag) {
     int lengthOfNewFileName = this.getFullFileName().length() + tag.getLabel().length() + 1;
     if (lengthOfNewFileName < 255 && !tags.contains(tag)) {
       Picture oldPic = this.clone();
       this.tags.add(tag);
+
+      if (!this.getHistoricalTags().contains(getTagsDeepCopy())
+          && !this.getTagsDeepCopy().isEmpty()) {
+        this.historicalTags.add(getTagsDeepCopy());
+      }
+
       tag.addObserver(this);
 
       super.setChanged();
@@ -151,55 +154,25 @@ public class Picture extends Observable implements Serializable, Observer, Clone
     }
   }
 
-
-  /**
-   * Adds a new tag to this instance and this instance will observe that tag. If the tag already
-   * exist in this instance, it will not add it. It checks if the tag exists in this instance by the
-   * tag's .equals(). It will notify all the observers that a tag has been added to this picture.
-   * All observers will get a copy of the old picture's state before the new tag has been added.
-   *
-   * @param tag The tag to add to this instance
-   */
-  public void addTag(Tag tag) {
-    this.addTagWithoutHistory(tag);
-    if (!this.getHistoricalTags().contains(getTagsDeepCopy())
-        && !this.getTagsDeepCopy().isEmpty()) {
-      this.historicalTags.add(getTagsDeepCopy());
-    }
-
-  }
-
   /**
    * adds a list of tags to this picture , with the same reasoning behind addTag()
    */
   public void addMultipleTags(List<Tag> tags) {
     for (Tag tag : tags) {
-      this.addTagWithoutHistory(tag);
+      int lengthOfNewFileName = this.getFullFileName().length() + tag.getLabel().length() + 1;
+      if (lengthOfNewFileName < 255 && !this.tags.contains(tag)) {
+        Picture oldPic = this.clone();
+        this.tags.add(tag);
+
+        tag.addObserver(this);
+
+        super.setChanged();
+        super.notifyObservers(oldPic);
+      }
     }
     if (!this.getHistoricalTags().contains(getTagsDeepCopy())
         && !this.getTagsDeepCopy().isEmpty()) {
       this.historicalTags.add(getTagsDeepCopy());
-    }
-  }
-
-  /**
-   * Deletes a tag from this picture and will stop observing that tag. If the tag does not exist in
-   * this instance, it will do nothing. It will notifies all observers that a Tag has been deleted
-   * from this picture. It will send a copy of the picture before the tag has been deleted to the
-   * observers.
-   * 
-   * Without saving the tags as historycal tags
-   *
-   * @param tag The tag to delete
-   */
-  public void deleteTagWithoutHisotry(Tag tag) {
-    if (tags.contains(tag)) {
-      Picture oldPic = this.clone();
-      tags.remove(tag);
-      tag.deleteObserver(this);
-
-      super.setChanged();
-      super.notifyObservers(oldPic);
     }
   }
 
@@ -212,13 +185,19 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    * @param tag The tag to delete
    */
   public void deleteTag(Tag tag) {
-    this.deleteTagWithoutHisotry(tag);
+    if (tags.contains(tag)) {
+      Picture oldPic = this.clone();
+      tags.remove(tag);
+      tag.deleteObserver(this);
 
-    if (!this.getHistoricalTags().contains(getTagsDeepCopy()) && !this.getTags().isEmpty()) {
-      this.historicalTags.add(getTagsDeepCopy());
+      if (!this.getHistoricalTags().contains(getTagsDeepCopy()) && !this.getTags().isEmpty()) {
+        this.historicalTags.add(getTagsDeepCopy());
+      }
+
+      super.setChanged();
+      super.notifyObservers(oldPic);
     }
   }
-
 
   /**
    * delete the given list of tags from this picture, if they exist on this picture
@@ -227,11 +206,19 @@ public class Picture extends Observable implements Serializable, Observer, Clone
    */
   public void deleteMultipleTags(List<Tag> tags) {
     for (Tag tag : tags) {
-      this.deleteTagWithoutHisotry(tag);
+      if (this.tags.contains(tag)) {
+        Picture oldPic = this.clone();
+        this.tags.remove(tag);
+        tag.deleteObserver(this);
+
+        super.setChanged();
+        super.notifyObservers(oldPic);
+      }
     }
     if (!this.getHistoricalTags().contains(getTagsDeepCopy()) && !this.getTags().isEmpty()) {
       this.historicalTags.add(getTagsDeepCopy());
     }
+
   }
 
   /**

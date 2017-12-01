@@ -1,6 +1,7 @@
 package tests.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import backend.commands.RenamePictureCommand;
 import backend.models.Picture;
 import org.junit.jupiter.api.Test;

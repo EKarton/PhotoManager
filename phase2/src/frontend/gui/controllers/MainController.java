@@ -266,7 +266,7 @@ public class MainController implements Initializable {
   public void search(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();
     String curText = this.searchBar.getText() + filter;
-    if (filter.length() == 1  && Character.isLetterOrDigit(filter.charAt(0))) {
+    if (filter.length() == 1 && Character.isLetterOrDigit(filter.charAt(0))) {
       ArrayList<Picture> filteredPictures = new ArrayList<>();
       for (Picture picture : this.getBackendService().getPictureManager().getPictures()) {
         if (picture.getTaglessName().toLowerCase().contains(curText)) {

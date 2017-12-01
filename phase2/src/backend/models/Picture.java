@@ -156,8 +156,6 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * adds a list of tags to this picture , with the same reasoning behind addTag()
-   * 
-   * @param tags
    */
   public void addMultipleTags(List<Tag> tags) {
     for (Tag tag : tags) {
@@ -203,7 +201,7 @@ public class Picture extends Observable implements Serializable, Observer, Clone
 
   /**
    * delete the given list of tags from this picture, if they exist on this picture
-   * 
+   *
    * @param tags tags to delete
    */
   public void deleteMultipleTags(List<Tag> tags) {

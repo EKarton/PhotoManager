@@ -2,6 +2,7 @@ package tests.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import backend.models.Picture;
 import backend.models.PictureManager;
 import backend.models.Tag;

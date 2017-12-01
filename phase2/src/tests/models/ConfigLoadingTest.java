@@ -1,6 +1,7 @@
 package tests.models;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import backend.models.AppSettings;
 import backend.models.Picture;
 import backend.models.PictureManager;

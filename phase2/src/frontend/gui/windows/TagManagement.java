@@ -203,7 +203,7 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
   public void onFilterTagsList(KeyEvent keyEvent) {
     String filter = keyEvent.getCharacter().toLowerCase();
     String curText = this.searchBox.getText() + filter;
-    if (filter.length() == 1  && Character.isLetterOrDigit(filter.charAt(0))) {
+    if (filter.length() == 1 && Character.isLetterOrDigit(filter.charAt(0))) {
       ArrayList<Tag> filteredTags = new ArrayList<>();
       for (Tag tag : this.mainController.getBackendService().getPictureManager()
           .getAvailableTags()) {
@@ -228,9 +228,8 @@ public class TagManagement implements ChangeListener<Tag>, Renamable {
 
   /**
    * This method needs to be provided by an implementation of {@code ChangeListener}. It is called
-   * if the value of an {@link ObservableValue} changes.
-   * <p>
-   * In general is is considered bad practice to modify the observed value in this method.
+   * if the value of an {@link ObservableValue} changes. <p> In general is is considered bad
+   * practice to modify the observed value in this method.
    *
    * @param observable The {@code ObservableValue} which value changed
    * @param oldValue The old value

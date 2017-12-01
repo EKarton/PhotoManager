@@ -1,6 +1,7 @@
 package tests.commands;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import backend.commands.AddPictureCommand;
 import backend.commands.DeletePictureCommand;
 import backend.models.Picture;

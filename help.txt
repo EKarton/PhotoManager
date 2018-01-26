@@ -1,0 +1,16 @@
+For Unix shell users: We made a shell script to compile/run the program,
+
+Run the following command to compile the project from command line
+sh compile.sh
+
+
+Note, the following are operations we do not permit:
+
+1. If a picture's name is illegal, for example 1. "@abc" (nothing before @), "@" (a single @)
+2. An empty Tag cannot be added.
+3. A tag with space cannot be added.
+4. A tag with "@" cannot be added.
+
+Features and how to use them:
+
+See the help log on top of the toolbar
